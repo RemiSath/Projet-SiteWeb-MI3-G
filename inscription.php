@@ -1,23 +1,3 @@
-<?php
-    if(isset(($_POST["submit"]))){
-        if(!empty($_POST["nom"]) and !empty($_POST["prenom"]) and !empty($_POST["email"]) and !empty($_POST["motdepasse"]) and !empty($_POST["adresse"]) and !empty($_POST["telephone"]) and !empty($_POST["infos"])){
-            $nom = htmlspecialchars($_POST ["nom"]);
-            $prenom = htmlspecialchars($_POST ["prenom"]);
-            $email = htmlspecialchars($_POST ["email"]);
-            $motdepasse = password_hash($_POST ["motdepasse"]);
-            $adresse = htmlspecialchars($_POST ["adresse"]);
-            $telephone = sha1($_POST ["telephone"]);
-            $infos = htmlspecialchars($_POST ["infos"]);
-            if(strlen($_POST["motdepasse"]<7)){
-                $message = "Mot de passe trop court.";
-            }
-            elseif(!password_verify($_POST["motdepasse"])){
-                $message = "Mot de passe incorrect.";
-            }
-        }
-    }
-?>
-
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -78,47 +58,35 @@
 
     <div class="container3">
         <h1>Inscription</h1>
-        <form action="profil.php" method="POST">
+        <form action="inscription-infos.php" method="POST">
             <div class="form-group">
                 <label class="label1" for="nom">Nom</label>
                 <input type="text" id="nom" name="nom" required placeholder="Votre nom">
             </div>
-
             <div class="form-group">
                 <label class="label1" for="prenom">Prénom</label>
                 <input type="text" id="prenom" name="prenom" required placeholder="Votre prénom">
             </div>
-
             <div class="form-group">
                 <label class="label1" for="email">E-mail</label>
                 <input type="email" id="email" name="email" required placeholder="exemple@domaine.com">
             </div>
-
             <div class="form-group">
                 <label class="label1" for="motdepasse">Mot de passe</label>
                 <input type="text" id="motdepasse" name="motdepasse" required placeholder="XXXXXXXXXXXXX">
-                <?php
-                    if(isset($message)){
-                        echo $message;
-                    }
-                ?>
             </div>
-
             <div class="form-group">
                 <label class="label1" for="adresse">Adresse de livraison</label>
                 <input type="text" id="adresse" name="adresse" required placeholder="N° et Rue, Ville, Code Postal">
             </div>
-
             <div class="form-group">
                 <label class="label1" for="telephone">Numéro de téléphone</label>
                 <input type="tel" id="telephone" name="telephone" required placeholder="06 00 00 00 00">
             </div>
-
             <div class="form-group">
                 <label class="label1" for="infos">Informations complémentaires</label>
                 <textarea id="infos" name="infos" placeholder="Allergies, Etc..."></textarea>
             </div>
-
             <button type="submit" name="submit">S'inscrire</button>
         </form>
 

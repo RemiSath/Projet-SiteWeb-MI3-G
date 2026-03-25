@@ -1,25 +1,21 @@
 <?php
-    $nom = $_POST ["nom"];
-    $prenom = $_POST ["prenom"];
-    $email = $_POST ["email"];
-    $motdepasse = $_POST ["motdepasse"];
-    $adresse = $_POST ["adresse"];
-    $telephone = $_POST ["telephone"];
-    $infos = $_POST ["infos"];
-    if(!empty($nom)){
-        $message = $nom;
-    }
-    if(!empty($prenom)){
-        $message2 = $prenom;
-    }
-    if(!empty($email)){
-        $message3 = $email;
-    }
-    if(!empty($telephone)){
-        $message4 = $telephone;
-    }
-    if(!empty($adresse)){
-        $message5 = $adresse;
+    session_start();
+    function lectureFichier(){
+        if(!empty($nom)){
+            $message = $nom;
+        }
+        if(!empty($prenom)){
+            $message2 = $prenom;
+        }
+        if(!empty($email)){
+            $message3 = $email;
+        }
+        if(!empty($telephone)){
+            $message4 = $telephone;
+        }
+        if(!empty($adresse)){
+            $message5 = $adresse;
+        }
     }
 ?>
 
@@ -94,51 +90,26 @@
                 <div class="info-ligne">
                     <span class="info-label">Nom</span>
                     <div class="info-valeur">
-                        <?php
-                            if(isset($message)){
-                                echo $message;
-                            }
-                        ?>
                     </div>
                 </div>
                 <div class="info-ligne">
                     <span class="info-label">Prénom</span>
                     <div class="info-valeur">
-                        <?php
-                            if(isset($message2)){
-                                echo $message2;
-                            }
-                        ?>
                     </div>
                 </div>
                 <div class="info-ligne">
                     <span class="info-label">E-mail</span>
                     <div class="info-valeur">
-                        <?php
-                            if(isset($message3)){
-                                echo $message3;
-                            }
-                        ?>
                     </div>
                 </div>
                 <div class="info-ligne">
                     <span class="info-label">Téléphone</span>
                     <div class="info-valeur">
-                        <?php
-                            if(isset($message4)){
-                                echo $message4;
-                            }
-                        ?>
                     </div>
                 </div>
                 <div class="info-ligne">
                     <span class="info-label">Adresse</span>
                     <div class="info-valeur">
-                        <?php
-                            if(isset($message5)){
-                                echo($messge5);
-                            }
-                        ?>
                     </div>
                 </div>
                 <button class="btn-modifier">

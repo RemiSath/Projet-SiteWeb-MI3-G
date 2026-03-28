@@ -22,7 +22,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Annie+Use+Your+Telescope&display=swap" rel="stylesheet">
 
     <header class="navbar">
-        <a href="page-d'accueil.html" class="accueil">IMPOSTEUR</a>
+        <a href="page-d'accueil.php" class="accueil">IMPOSTEUR</a>
         <div class="navliens">
             <div class="menu">
                 <a>Réservation</a>
@@ -37,7 +37,7 @@
             <div class="menu">
                 <a>Compte</a>
                 <div class="infos">
-                    <a href="profil.html">Voir Profil</a>
+                    <a href="profil.php">Voir Profil</a>
                     <a href="connexion.html">Connexion</a>
                     <a href="inscription.php">Inscription</a>
                 </div>

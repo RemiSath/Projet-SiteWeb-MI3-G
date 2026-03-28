@@ -1,22 +1,43 @@
-<?php
-    session_start();
-    function lectureFichier(){
-        if(!empty($nom)){
-            $message = $nom;
-        }
-        if(!empty($prenom)){
-            $message2 = $prenom;
-        }
-        if(!empty($email)){
-            $message3 = $email;
-        }
-        if(!empty($telephone)){
-            $message4 = $telephone;
-        }
-        if(!empty($adresse)){
-            $message5 = $adresse;
+﻿<?php
+function lectureFichier(){
+    $fichier = "compte.json";
+
+    $nom = "";
+    $prenom = "";
+    $email = "";
+    $motdepasse = "";
+    $telephone = "";
+    $adresse = "";
+    $infos = "";
+
+    if (file_exists($fichier)) {
+        $json = file_get_contents($fichier);
+        $array = json_decode($json, true) ?? [];
+
+        if (!empty($array)) {
+            $user = end($array);
+            $nom = $user["nom"] ?? "";
+            $prenom = $user["prenom"] ?? "";
+            $email = $user["email"] ?? "";
+            $motdepasse = $user["motdepasse"] ?? "";
+            $telephone = $user["telephone"] ?? "";
+            $adresse = $user["adresse"] ?? "";
+            $infos = $user["infos"] ?? "";
         }
     }
+
+    return [
+        "nom" => $nom,
+        "prenom" => $prenom,
+        "email" => $email,
+        "motdepasse" => $motdepasse,
+        "telephone" => $telephone,
+        "adresse" => $adresse,
+        "infos" => $infos
+    ];
+}
+
+$data = lectureFichier();
 ?>
 
 <!DOCTYPE html>
@@ -44,7 +65,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Annie+Use+Your+Telescope&display=swap" rel="stylesheet">
 
     <header class="navbar">
-        <a href="page-d'accueil.html" class="accueil">IMPOSTEUR</a>
+        <a href="page-d'accueil.php" class="accueil">IMPOSTEUR</a>
         <div class="navliens">
             <div class="menu">
                 <a>Réservation</a>
@@ -61,7 +82,7 @@
                 <div class="infos">
                     <a href="profil.html">Voir Profil</a>
                     <a href="connexion.html">Connexion</a>
-                    <a href="inscription.html">Inscription</a>
+                    <a href="inscription.php">Inscription</a>
                 </div>
             </div>
             <div class="menu">
@@ -84,33 +105,42 @@
         </div>
 
         <div class="dashboard">
-            <!-- Informations personnelles -->
             <div class="carte">
                 <h2>Mes Informations</h2>
                 <div class="info-ligne">
                     <span class="info-label">Nom</span>
-                    <div class="info-valeur">
-                    </div>
+                    <?php echo htmlspecialchars($data["nom"]); ?>
+                    <div class="info-valeur"></div>
                 </div>
                 <div class="info-ligne">
                     <span class="info-label">Prénom</span>
-                    <div class="info-valeur">
-                    </div>
+                    <?php echo htmlspecialchars($data["prenom"]); ?>
+                    <div class="info-valeur"></div>
                 </div>
                 <div class="info-ligne">
                     <span class="info-label">E-mail</span>
-                    <div class="info-valeur">
-                    </div>
+                    <?php echo htmlspecialchars($data["email"]); ?>
+                    <div class="info-valeur"></div>
+                </div>
+                <div class="info-ligne">
+                    <span class="info-label">Mot de passe</span>
+                    <?php echo htmlspecialchars($data["motdepasse"]); ?>
+                    <div class="info-valeur"></div>
                 </div>
                 <div class="info-ligne">
                     <span class="info-label">Téléphone</span>
-                    <div class="info-valeur">
-                    </div>
+                    <?php echo htmlspecialchars($data["telephone"]); ?>
+                    <div class="info-valeur"></div>
                 </div>
                 <div class="info-ligne">
                     <span class="info-label">Adresse</span>
-                    <div class="info-valeur">
-                    </div>
+                    <?php echo htmlspecialchars($data["adresse"]); ?>
+                    <div class="info-valeur"></div>
+                </div>
+                <div class="info-ligne">
+                    <span class="info-label">Informations complémentaires</span>
+                    <?php echo htmlspecialchars($data["infos"]); ?>
+                    <div class="info-valeur"></div>
                 </div>
                 <button class="btn-modifier">
                     <img src="Images/stylo.png" alt="Modifier" class="crayon-icon">
@@ -118,21 +148,15 @@
                 </button>
             </div>
 
-            <!-- Anciennes commandes -->
             <div class="carte">
                 <h2>Anciennes Commandes</h2>
-                <ul class="liste-commandes">
-                    <p style="text-align: center; color: #555; font-style: italic;">Vos commandes apparaîtront ici</p>
-                </ul>
             </div>
 
-            <!-- Fidélité -->
             <div class="carte fidelite">
                 <h2>Compte Fidélité</h2>
                 <p class="fidelite-texte">Points accumulés lors de vos commandes :</p>
                 <div class="fidelite-score">320</div>
                 <p class="fidelite-texte">pts</p>
-                <p style="font-size: 12px; color: #888;">Encore 80 points pour obtenir un plat gratuit !</p>
             </div>
         </div>
     </div>
@@ -145,3 +169,4 @@
 </body>
 
 </html>
+```

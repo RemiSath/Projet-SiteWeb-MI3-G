@@ -38,14 +38,15 @@
                 <a>Compte</a>
                 <div class="infos">
                     <a href="profil.php">Voir Profil</a>
-                    <a href="connexion.html">Connexion</a>
+                    <a href="connexion.php">Connexion</a>
                     <a href="inscription.php">Inscription</a>
+                    <a href="deconnexion.php">Deconnexion</a>
                 </div>
             </div>
             <div class="menu">
                 <a>Services</a>
                 <div class="infos">
-                    <a href="commandes.html">Commandes</a>
+                    <a href="commandes.php">Commandes</a>
                     <a href="livraison.html">Livraison</a>
                 </div>
             </div>

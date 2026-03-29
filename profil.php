@@ -1,43 +1,40 @@
-﻿<?php
-function lectureFichier(){
-    $fichier = "compte.json";
+<?php
+    function lectureFichier(){
+        $fichier = "compte.json";
+        $nom = "";
+        $prenom = "";
+        $email = "";
+        $motdepasse = "";
+        $telephone = "";
+        $adresse = "";
+        $infos = "";
 
-    $nom = "";
-    $prenom = "";
-    $email = "";
-    $motdepasse = "";
-    $telephone = "";
-    $adresse = "";
-    $infos = "";
-
-    if (file_exists($fichier)) {
-        $json = file_get_contents($fichier);
-        $array = json_decode($json, true) ?? [];
-
-        if (!empty($array)) {
-            $user = end($array);
-            $nom = $user["nom"] ?? "";
-            $prenom = $user["prenom"] ?? "";
-            $email = $user["email"] ?? "";
-            $motdepasse = $user["motdepasse"] ?? "";
-            $telephone = $user["telephone"] ?? "";
-            $adresse = $user["adresse"] ?? "";
-            $infos = $user["infos"] ?? "";
+        if(file_exists($fichier)){
+            $json = file_get_contents($fichier);
+            $array = json_decode($json, true) ?? [];
+            if(!empty($array)){
+                $utilisateur = end($array);
+                $nom = $utilisateur["nom"] ?? "";
+                $prenom = $utilisateur["prenom"] ?? "";
+                $email = $utilisateur["email"] ?? "";
+                $motdepasse = $utilisateur["motdepasse"] ?? "";
+                $telephone = $utilisateur["telephone"] ?? "";
+                $adresse = $utilisateur["adresse"] ?? "";
+                $infos = $utilisateur["infos"] ?? "";
+            }
         }
+
+        return[
+            "nom" => $nom,
+            "prenom" => $prenom,
+            "email" => $email,
+            "motdepasse" => $motdepasse,
+            "telephone" => $telephone,
+            "adresse" => $adresse,
+            "infos" => $infos
+        ];
     }
-
-    return [
-        "nom" => $nom,
-        "prenom" => $prenom,
-        "email" => $email,
-        "motdepasse" => $motdepasse,
-        "telephone" => $telephone,
-        "adresse" => $adresse,
-        "infos" => $infos
-    ];
-}
-
-$data = lectureFichier();
+    $data = lectureFichier();
 ?>
 
 <!DOCTYPE html>
@@ -80,15 +77,16 @@ $data = lectureFichier();
             <div class="menu">
                 <a>Compte</a>
                 <div class="infos">
-                    <a href="profil.html">Voir Profil</a>
-                    <a href="connexion.html">Connexion</a>
+                    <a href="profil.php">Voir Profil</a>
+                    <a href="connexion.php">Connexion</a>
                     <a href="inscription.php">Inscription</a>
+                    <a href="deconnexion.php">Deconnexion</a>
                 </div>
             </div>
             <div class="menu">
                 <a>Services</a>
                 <div class="infos">
-                    <a href="commandes.html">Commandes</a>
+                    <a href="commandes.php">Commandes</a>
                     <a href="livraison.html">Livraison</a>
                 </div>
             </div>
@@ -109,37 +107,50 @@ $data = lectureFichier();
                 <h2>Mes Informations</h2>
                 <div class="info-ligne">
                     <span class="info-label">Nom</span>
-                    <?php echo htmlspecialchars($data["nom"]); ?>
+                    <?php 
+                        echo htmlspecialchars($data["nom"]); 
+                    ?>
                     <div class="info-valeur"></div>
                 </div>
                 <div class="info-ligne">
                     <span class="info-label">Prénom</span>
-                    <?php echo htmlspecialchars($data["prenom"]); ?>
+                    <?php 
+                        echo htmlspecialchars($data["prenom"]); 
+                    ?>
                     <div class="info-valeur"></div>
                 </div>
                 <div class="info-ligne">
                     <span class="info-label">E-mail</span>
-                    <?php echo htmlspecialchars($data["email"]); ?>
+                    <?php 
+                    echo htmlspecialchars($data["email"]); ?>
                     <div class="info-valeur"></div>
                 </div>
                 <div class="info-ligne">
                     <span class="info-label">Mot de passe</span>
-                    <?php echo htmlspecialchars($data["motdepasse"]); ?>
+                    <?php 
+                        echo "********"; 
+                    ?>
                     <div class="info-valeur"></div>
                 </div>
                 <div class="info-ligne">
                     <span class="info-label">Téléphone</span>
-                    <?php echo htmlspecialchars($data["telephone"]); ?>
+                    <?php 
+                        echo htmlspecialchars($data["telephone"]); 
+                    ?>
                     <div class="info-valeur"></div>
                 </div>
                 <div class="info-ligne">
                     <span class="info-label">Adresse</span>
-                    <?php echo htmlspecialchars($data["adresse"]); ?>
+                    <?php 
+                        echo htmlspecialchars($data["adresse"]); 
+                    ?>
                     <div class="info-valeur"></div>
                 </div>
                 <div class="info-ligne">
                     <span class="info-label">Informations complémentaires</span>
-                    <?php echo htmlspecialchars($data["infos"]); ?>
+                    <?php 
+                        echo htmlspecialchars($data["infos"]); 
+                    ?>
                     <div class="info-valeur"></div>
                 </div>
                 <button class="btn-modifier">

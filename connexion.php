@@ -22,7 +22,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Annie+Use+Your+Telescope&display=swap" rel="stylesheet">
 
     <header class="navbar">
-        <a href="page-d'accueil.html" class="accueil">IMPOSTEUR</a>
+        <a href="page-d'accueil.php" class="accueil">IMPOSTEUR</a>
         <div class="navliens">
             <div class="menu">
                 <a>Réservation</a>
@@ -37,15 +37,16 @@
             <div class="menu">
                 <a>Compte</a>
                 <div class="infos">
-                    <a href="profil.html">Voir Profil</a>
-                    <a href="connexion.html">Connexion</a>
-                    <a href="inscription.html">Inscription</a>
+                    <a href="profil.php">Voir Profil</a>
+                    <a href="connexion.php">Connexion</a>
+                    <a href="inscription.php">Inscription</a>
+                    <a href="deconnexion.php">Deconnexion</a>
                 </div>
             </div>
             <div class="menu">
                 <a>Services</a>
                 <div class="infos">
-                    <a href="commandes.html">Commandes</a>
+                    <a href="commandes.php">Commandes</a>
                     <a href="livraison.html">Livraison</a>
                 </div>
             </div>
@@ -58,7 +59,7 @@
 
     <div class="container3">
         <h7>Connexion</h7>
-        <form action="#" method="POST">
+        <form action="lecture.php" method="POST">
             <div class="form-group">
                 <label class="label1" for="email">E-mail</label>
                 <input type="email" id="email" name="email" required placeholder="exemple@domaine.com">
@@ -69,7 +70,7 @@
                 <input type="password" id="password" name="password" required placeholder="Votre mot de passe">
             </div>
 
-            <button2 type="submit">Se connecter</button2>
+            <button type="submit">Se connecter</button>
         </form>
 
         <div class="liens-secondaires">

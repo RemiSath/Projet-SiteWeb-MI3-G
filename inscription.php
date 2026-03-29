@@ -37,15 +37,16 @@
             <div class="menu">
                 <a>Compte</a>
                 <div class="infos">
-                    <a href="profil.html">Voir Profil</a>
-                    <a href="connexion.html">Connexion</a>
-                    <a href="inscription.html">Inscription</a>
+                    <a href="profil.php">Voir Profil</a>
+                    <a href="connexion.php">Connexion</a>
+                    <a href="inscription.php">Inscription</a>
+                    <a href="deconnexion.php">Deconnexion</a>
                 </div>
             </div>
             <div class="menu">
                 <a>Services</a>
                 <div class="infos">
-                    <a href="commandes.html">Commandes</a>
+                    <a href="commandes.php">Commandes</a>
                     <a href="livraison.html">Livraison</a>
                 </div>
             </div>
@@ -73,7 +74,7 @@
             </div>
             <div class="form-group">
                 <label class="label1" for="motdepasse">Mot de passe</label>
-                <input type="text" id="motdepasse" name="motdepasse" required placeholder="XXXXXXXXXXXXX">
+                <input type="password" id="motdepasse" name="motdepasse" required placeholder="XXXXXXXXXXX">
             </div>
             <div class="form-group">
                 <label class="label1" for="adresse">Adresse de livraison</label>

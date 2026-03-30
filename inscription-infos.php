@@ -17,8 +17,7 @@
 
         foreach($array as $utilisateur){
             if($utilisateur["email"] === $email){
-                $emailExiste = true;
-                echo "adresse mail déjà utilisée";
+                $_SESSION["erreur"] = "Cet email est déjà utilisé.";
                 header("Location: inscription.php");
                 exit;
             }

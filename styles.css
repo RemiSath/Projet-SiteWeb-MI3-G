@@ -1511,4 +1511,11 @@ button2:hover {
     text-decoration: underline;
 }
 
+.erreur, .erreur2 {
+    color: red;
+    background-color: #ffe6e6;
+    padding: 10px;
+    border-radius: 5px;
+}
+
 /* Page de connexion/inscription FIN */

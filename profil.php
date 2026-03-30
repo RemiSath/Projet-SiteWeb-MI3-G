@@ -1,6 +1,11 @@
 <?php
     session_start();
-    
+
+    if(!isset($_SESSION["email"])){
+        header("Location: connexion.php");
+        exit;
+    }
+
     function lectureFichier(){
         $fichier = "compte.json";
         $nom = "";
@@ -36,7 +41,16 @@
             "infos" => $infos
         ];
     }
-    $data = lectureFichier();
+    
+    $data = array(
+    "nom" => $_SESSION["nom"] ?? "",
+    "prenom" => $_SESSION["prenom"] ?? "",
+    "email" => $_SESSION["email"] ?? "",
+    "telephone" => $_SESSION["telephone"] ?? "",
+    "adresse" => $_SESSION["adresse"] ?? "",
+    "infos" => $_SESSION["infos"] ?? ""
+    );
+
 ?>
 
 <!DOCTYPE html>

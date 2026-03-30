@@ -35,6 +35,10 @@
         }
     }
 
+    if($utilisateurTrouve){
+        $_SESSION["erreur2"] = "Email ou mot de passe incorrect.";
+    }
+
     header("Location: connexion.php");
     exit;
 ?>

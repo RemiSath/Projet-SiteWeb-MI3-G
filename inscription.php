@@ -1,3 +1,7 @@
+<?php
+    session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -71,6 +75,12 @@
             <div class="form-group">
                 <label class="label1" for="email">E-mail</label>
                 <input type="email" id="email" name="email" required placeholder="exemple@domaine.com">
+                <?php
+                    if(isset($_SESSION["erreur"])) {
+                        echo "<div class='erreur'>" . $_SESSION["erreur"] . "</div>";
+                        unset($_SESSION["erreur"]);
+                    }
+                ?>
             </div>
             <div class="form-group">
                 <label class="label1" for="motdepasse">Mot de passe</label>

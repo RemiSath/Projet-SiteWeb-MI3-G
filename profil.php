@@ -1,4 +1,6 @@
 <?php
+    session_start();
+    
     function lectureFichier(){
         $fichier = "compte.json";
         $nom = "";

@@ -18,7 +18,9 @@
         foreach($array as $utilisateur){
             if($utilisateur["email"] === $email){
                 $emailExiste = true;
-                break;
+                echo "adresse mail déjà utilisée";
+                header("Location: inscription.php");
+                exit;
             }
         }
 
@@ -33,7 +35,7 @@
             "email" => $email,
             "motdepasse" => password_hash($_POST["motdepasse"], PASSWORD_DEFAULT),
             "adresse" => $_POST["adresse"],
-            "telephone" => $_POST["telephone"],
+            "telephone" => trim($_POST["telephone"]),
             "infos" => $_POST["infos"],
         );
 

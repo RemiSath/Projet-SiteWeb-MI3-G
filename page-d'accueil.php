@@ -28,7 +28,7 @@
                 <a>Réservation</a>
                 <div class="infos">
                     <a href="reserver.html">Réserver une table</a>
-                    <a href="commander.html">Commander</a>
+                    <a href="commander.php">Commander</a>
                 </div>
             </div>
             <div class="menu">
@@ -74,7 +74,7 @@
 
     <div class="contenu">
         <div class="villes">
-            <a href="Paris.html" class="a1 a10">Paris</a>
+            <a href="Paris.php" class="a1 a10">Paris</a>
             <a href="Argenteuil.html" class="a1 a11">Argenteuil</a>
             <a href="Cergy.html" class="a1 a12">Cergy</a>
         </div>

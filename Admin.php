@@ -1,5 +1,29 @@
+<?php
+    session_start();
+
+    if(!isset($_SESSION["email"])){
+        header("Location: connexion.php");
+        exit;
+    }
+
+    if(!isset($_SESSION["statut"]) || $_SESSION["statut"] !== "admin"){
+        header("Location: page-d'accueil.php");
+        exit;
+    }
+
+    $fichier = "compte.json";
+
+    if(file_exists($fichier)){
+        $json = file_get_contents($fichier);
+        $utilisateurs = json_decode($json, true) ?? [];
+    } 
+    else {
+        $utilisateurs = [];
+    }
+?>
+
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 
 <head>
     <meta charset="UTF-8">
@@ -54,7 +78,7 @@
                 </div>
             </div>
             <div class="menu">
-                <a href="Admin.html">Admin</a>
+                <a href="Admin.php">Admin</a>
             </div>
             <input type="text" id="searchInput2" placeholder="Rechercher nos produits ..." autocomplete="off">
         </div>
@@ -65,18 +89,29 @@
     </div>
 
     <header id="topBar">
-        <input type="text" id="searchInput" placeholder="Rechercher un client..." autocomplete="off">
-        <div id="results">
-            <div class="utilisateur">
-                <div class="card">Rémi</div>
-                <div class="card">Alexis</div>
-                <div class="card">Tom</div>
-                <div class="card">Gaby</div>
-                <div class="card">Mathias</div>
-                <div class="card">Achille</div>
-                <div class="card">Alex</div>
+        <form action="lecture.php" method="post">
+            <input type="text" id="searchInput" placeholder="Rechercher un client..." autocomplete="off">
+            <div id="results">
+                <div class="utilisateur">
+                <?php 
+                    foreach($utilisateurs as $utilisateur):
+                        if($utilisateur['email'] === $_SESSION['email'] || $utilisateur['statut'] === 'admin'){
+                            continue;
+                        }
+                ?>
+                <div class="card">
+                    <a href="admin-pouvoirs.php?id=<?= $utilisateur['id'] ?>">
+                    <?php
+                        echo htmlspecialchars($utilisateur['prenom']);
+                    ?>
+                    </a>
+                </div>
+                <?php 
+                    endforeach;
+                ?>
+                </div>
             </div>
-        </div>
+        </form>
     </header>
 
     <footer class="footer">

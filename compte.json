@@ -1,22 +1,26 @@
 [
     {
-        "id": "69cad2601c6b0",
+        "id": "69cffd64b375a",
         "nom": "SATHTHIRIYAN",
         "prenom": "R\u00e9mi",
         "email": "remisaththiriyan@gmail.com",
-        "motdepasse": "$2y$12$nNqbWBz1PMT6xeNIlHbiGel4T0i56yipwN0yPpHbHVmDjGEdm96Wu",
+        "motdepasse": "$2y$12$Af2EOJRIB.IcRXDEqh6SeOtqAquNVAriUwvFPvbvkoiuQEE3imDSK",
         "adresse": "24 rue de malcouture argenteuil 95100",
         "telephone": "0761414423",
-        "infos": ""
+        "infos": "aaaaaaaaaaaaaaaaaaaaaaaaa",
+        "statut": "Client",
+        "bloque": false
     },
     {
-        "id": "69cae389783d6",
+        "id": "69cffdc8f1076",
         "nom": "CountrySinge",
-        "prenom": "caca",
+        "prenom": "r2e2e2",
         "email": "elmodo007saththiriyan@gmail.com",
-        "motdepasse": "$2y$12$hVkRAwp2efpeeHACMKJoqOYBKLOThxAJIWJ0BfB6w7h85Ftloh\/bK",
-        "adresse": "24 rue de Malcouture, Argenteuil, 95100",
-        "telephone": "07 61 41 44 23",
-        "infos": "rien"
+        "motdepasse": "$2y$12$A8mvVCAfbV32qYblMUTbVOW\/MbhC11ICTEGv77Shu76F42voHbaoy",
+        "adresse": "24 rue de malcouture argenteuil 95100",
+        "telephone": "0761414423",
+        "infos": "aaaaaaaaaaaaaaaa",
+        "statut": "admin",
+        "bloque": false
     }
 ]

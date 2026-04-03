@@ -360,6 +360,8 @@ a {
     text-align: center;
     transition: 0.3s;
     position: relative;
+    justify-content: center;
+    align-items: center;
 }
 
 #topBar input {
@@ -368,6 +370,13 @@ a {
     font-size: 18px;
     border-radius: 30px;
     border: 1px solid #ccc;
+}
+
+#topBar form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 /* Petite barre */
@@ -395,6 +404,11 @@ a {
     overflow: hidden;
 }
 
+.infos-utilisateur {
+    flex: 1;
+    min-width: 0;
+}
+
 .utilisateur {
     display: flex;
     gap: 20px;
@@ -402,9 +416,25 @@ a {
     margin-top: 30px;
     flex-wrap: wrap;
     font-size: 200%;
-    background: white;
+    background: transparent;
     padding: 20px;
     border-radius: 15px;
+}
+
+.info-ligne2 {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px 0;
+    gap: 20px;
+}
+
+.info-valeur2 {
+    font-size: 110%;
+    max-width: 70%;
+    word-break: break-word;
+    text-align: left;
 }
 
 .card {
@@ -413,6 +443,8 @@ a {
     border: 2px solid black;
     border-radius: 15px;
     text-align: center;
+    text-decoration: none;
+    list-style-type: none;
 }
 
 .card:hover {
@@ -420,21 +452,65 @@ a {
     cursor: pointer;
 }
 
+.carte2 {
+    background: white;
+    display: flex;
+    align-items: flex-start;
+    border-radius: 15px;
+    padding: 20px;
+    border: 3px solid black;
+    gap: 30px;
+}
+
+.carte2 h2 {
+    color: black;
+    margin-top: 0;
+    border-bottom: 2px solid black;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.actions-admin {
+    width: 280px;       /* taille fixe */
+    flex-shrink: 0;     /* 🔥 empêche d’être écrasé */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.btn-modifier2 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    min-width: 160px;
+    max-width: 220px;
+    padding: 10px 15px;
+    margin: 10px auto 0 auto;
+    background-color: black;
+    color: white;
+    border: 3px solid white;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
 /* Page Admin FIN */
 
 /* Page de notation DEBUT */
 .sitedescription4 {
-    padding: 50px 30px;
+    padding: 100px 30px;
     color: black;
     text-align: left;
     font-size: 200%;
-    border-bottom: 1px solid black;
 }
 
 .sitedescription4 .textedescription4 {
     font-size: 100%;
     margin-top: 20px;
 }
+
 /* Avis */
 .container-notation{
     display:flex;
@@ -1038,6 +1114,7 @@ input:focus, textarea:focus {
 
 .header-profil {
     text-align: center;
+    margin-top: 20px;
     margin-bottom: 40px;
     width: 100%;
 }
@@ -1519,3 +1596,4 @@ button2:hover {
 }
 
 /* Page de connexion/inscription FIN */
+

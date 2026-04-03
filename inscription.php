@@ -55,7 +55,7 @@
                 </div>
             </div>
             <div class="menu">
-                <a href="Admin.html">Admin</a>
+                <a href="Admin.php">Admin</a>
             </div>
             <input type="text" id="searchInput2" placeholder="Rechercher nos produits ..." autocomplete="off">
         </div>
@@ -76,7 +76,7 @@
                 <label class="label1" for="email">E-mail</label>
                 <input type="email" id="email" name="email" required placeholder="exemple@domaine.com">
                 <?php
-                    if(isset($_SESSION["erreur"])) {
+                    if(isset($_SESSION["erreur"])){
                         echo "<div class='erreur'>" . $_SESSION["erreur"] . "</div>";
                         unset($_SESSION["erreur"]);
                     }

@@ -12,7 +12,7 @@
             $array = array();
         }
 
-        $email = $_POST["email"];
+        $email = $_POST["email"] ?? null;
         $emailExiste = false;
 
         foreach($array as $utilisateur){
@@ -36,6 +36,8 @@
             "adresse" => $_POST["adresse"],
             "telephone" => trim($_POST["telephone"]),
             "infos" => $_POST["infos"],
+            "statut" => "Client",
+            "bloque" => false,
         );
 
         file_put_contents($fichier, json_encode($array, JSON_PRETTY_PRINT));
@@ -43,10 +45,11 @@
         $_SESSION["nom"] = $_POST["nom"];
         $_SESSION["prenom"] = $_POST["prenom"];
         $_SESSION["email"] = $email;
-        $_SESSION["motdepasse"] = $_POST["motdepasse"];
         $_SESSION["telephone"] = $_POST["telephone"];
         $_SESSION["adresse"] = $_POST["adresse"];
         $_SESSION["infos"] = $_POST["infos"];
+        $_SESSION["statut"] = "Client";
+        $_SESSION["bloque"] = false;
     }
 
     ecritureFichier();

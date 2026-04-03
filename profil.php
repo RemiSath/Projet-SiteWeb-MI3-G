@@ -6,7 +6,7 @@
         exit;
     }
 
-    function lectureFichier(){
+    function profil(){
         $fichier = "compte.json";
         $nom = "";
         $prenom = "";
@@ -107,7 +107,7 @@
                 </div>
             </div>
             <div class="menu">
-                <a href="Admin.html">Admin</a>
+                <a href="Admin.php">Admin</a>
             </div>
             <input type="text" id="searchInput2" placeholder="Rechercher nos produits ..." autocomplete="off">
         </div>
@@ -196,4 +196,3 @@
 </body>
 
 </html>
-```

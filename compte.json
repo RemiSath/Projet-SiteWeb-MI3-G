@@ -8,7 +8,7 @@
         "adresse": "24 rue de malcouture argenteuil 95100",
         "telephone": "0761414423",
         "infos": "aaaaaaaaaaaaaaaaaaaaaaaaa",
-        "statut": "Client",
+        "statut": "Restaurateur",
         "bloque": false
     },
     {
@@ -20,7 +20,19 @@
         "adresse": "24 rue de malcouture argenteuil 95100",
         "telephone": "0761414423",
         "infos": "aaaaaaaaaaaaaaaa",
-        "statut": "admin",
+        "statut": "Admin",
+        "bloque": false
+    },
+    {
+        "id": "69d0d99d811b1",
+        "nom": "SATHTHIRIYAN",
+        "prenom": "R\u00e9mi",
+        "email": "ouahletraitre@gmail.com",
+        "motdepasse": "$2y$12$yQAaXcpAZAxkUaLVjZTOIO1jIlREi9HpSyb.WTW\/BXsv4.VyhEs\/W",
+        "adresse": "24 rue de malcouture argenteuil 95100",
+        "telephone": "0761414423",
+        "infos": "",
+        "statut": "Client",
         "bloque": false
     }
 ]

@@ -35,7 +35,7 @@
                 </div>
             </div>
             <div class="menu">
-                <a href="Notation.html">Notation</a>
+                <a href="Notation.php">Notation</a>
             </div>
             <div class="menu">
                 <a>Compte</a>
@@ -68,9 +68,14 @@
                 <form>
                     <div class="row">
                         <input type="number" placeholder="Livraison" min="0" max="5" required>
+                        <p>0 à 5</p>
                     </div>
                     <div class="row">
                         <input type="number" placeholder="Qualité des produits" min="0" max="5" required>
+                        <p>0 à 5</p>
+                    </div>
+                    <div class="row">
+                        <textarea placeholder="Commentaires" required></textarea>
                     </div>
                     <button type="submit">Envoyer</button>
                 </form>

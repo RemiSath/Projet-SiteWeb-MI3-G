@@ -15,6 +15,7 @@
         $telephone = "";
         $adresse = "";
         $infos = "";
+        $statut = "";
 
         if(file_exists($fichier)){
             $json = file_get_contents($fichier);
@@ -28,6 +29,7 @@
                 $telephone = $utilisateur["telephone"] ?? "";
                 $adresse = $utilisateur["adresse"] ?? "";
                 $infos = $utilisateur["infos"] ?? "";
+                $statut = $utilisateur["statut"] ?? "";
             }
         }
 
@@ -38,7 +40,8 @@
             "motdepasse" => $motdepasse,
             "telephone" => $telephone,
             "adresse" => $adresse,
-            "infos" => $infos
+            "infos" => $infos,
+            "statut" => $statut
         ];
     }
     
@@ -48,7 +51,8 @@
     "email" => $_SESSION["email"] ?? "",
     "telephone" => $_SESSION["telephone"] ?? "",
     "adresse" => $_SESSION["adresse"] ?? "",
-    "infos" => $_SESSION["infos"] ?? ""
+    "infos" => $_SESSION["infos"] ?? "",
+    "statut" => $_SESSION["statut"] ?? ""
     );
 
 ?>
@@ -88,7 +92,7 @@
                 </div>
             </div>
             <div class="menu">
-                <a href="Notation.html">Notation</a>
+                <a href="Notation.php">Notation</a>
             </div>
             <div class="menu">
                 <a>Compte</a>
@@ -121,6 +125,13 @@
         <div class="dashboard">
             <div class="carte">
                 <h2>Mes Informations</h2>
+                <div class="info-ligne">
+                    <span class="info-label">Statut</span>
+                    <?php 
+                        echo htmlspecialchars($data["statut"]); 
+                    ?>
+                    <div class="info-valeur"></div>
+                </div>
                 <div class="info-ligne">
                     <span class="info-label">Nom</span>
                     <?php 

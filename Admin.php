@@ -2,11 +2,13 @@
     session_start();
 
     if(!isset($_SESSION["email"])){
+        $_SESSION["erreur2"] = "Accès réservé aux administrateurs.";
         header("Location: connexion.php");
         exit;
     }
 
-    if(!isset($_SESSION["statut"]) || $_SESSION["statut"] !== "admin"){
+    if(!isset($_SESSION["statut"]) || $_SESSION["statut"] !== "Admin"){
+        $_SESSION["erreur"] = "Accès réservé aux administrateurs.";
         header("Location: page-d'accueil.php");
         exit;
     }
@@ -20,6 +22,9 @@
     else {
         $utilisateurs = [];
     }
+    
+    $recherche = $_GET['recherche'] ?? '';
+
 ?>
 
 <!DOCTYPE html>
@@ -59,7 +64,7 @@
                 </div>
             </div>
             <div class="menu">
-                <a href="Notation.html">Notation</a>
+                <a href="Notation.php">Notation</a>
             </div>
             <div class="menu">
                 <a>Compte</a>
@@ -89,20 +94,25 @@
     </div>
 
     <header id="topBar">
+        <form method="GET">
+            <input type="text" name="recherche" id="searchInput" placeholder="Rechercher un client..." value="<?php echo htmlspecialchars($_GET['recherche'] ?? '') ?>">
+        </form>
         <form action="lecture.php" method="post">
-            <input type="text" id="searchInput" placeholder="Rechercher un client..." autocomplete="off">
             <div id="results">
                 <div class="utilisateur">
                 <?php 
                     foreach($utilisateurs as $utilisateur):
-                        if($utilisateur['email'] === $_SESSION['email'] || $utilisateur['statut'] === 'admin'){
+                        if($utilisateur["email"] === $_SESSION["email"] || $utilisateur["statut"] === "Admin"){
+                            continue;
+                        }
+                        if($recherche !== "" && stripos($utilisateur["prenom"], $recherche) === false){
                             continue;
                         }
                 ?>
                 <div class="card">
-                    <a href="admin-pouvoirs.php?id=<?= $utilisateur['id'] ?>">
+                    <a href="admin-pouvoirs.php?id=<?= $utilisateur["id"] ?>">
                     <?php
-                        echo htmlspecialchars($utilisateur['prenom']);
+                        echo htmlspecialchars($utilisateur["prenom"]);
                     ?>
                     </a>
                 </div>

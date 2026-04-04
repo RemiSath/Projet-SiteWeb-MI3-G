@@ -559,6 +559,16 @@ a {
     width: 250px;
 }
 
+.reservation2 textarea {
+    font-size: 16px;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    resize: vertical;
+    height: 100px;
+}
+
 form {
     display: flex;
     flex-direction: column;
@@ -1588,7 +1598,7 @@ button2:hover {
     text-decoration: underline;
 }
 
-.erreur, .erreur2 {
+.erreur, .erreur2, .erreur3 {
     color: red;
     background-color: #ffe6e6;
     padding: 10px;

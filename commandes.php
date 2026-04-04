@@ -1,7 +1,8 @@
 <?php
 session_start();
 
-if (!isset($_SESSION["role"]) || $_SESSION["role"] !== "restaurateur") {
+if (!isset($_SESSION["statut"]) || $_SESSION["statut"] !== "Restaurateur") {
+    $_SESSION["erreur2"] = "Uniquement pour les restaurateurs.";
     header("Location: connexion.php");
     exit();
 }
@@ -97,7 +98,7 @@ usort($commandes, function ($a, $b) {
                 </div>
             </div>
             <div class="menu">
-                <a href="Notation.html">Notation</a>
+                <a href="Notation.php">Notation</a>
             </div>
             <div class="menu">
                 <a>Compte</a>

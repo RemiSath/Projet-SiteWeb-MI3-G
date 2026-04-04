@@ -43,7 +43,7 @@ foreach ($panier as $item) {
             </div>
         </div>
         <div class="menu">
-            <a href="Notation.html">Notation</a>
+            <a href="Notation.php">Notation</a>
         </div>
         <div class="menu">
             <a>Compte</a>

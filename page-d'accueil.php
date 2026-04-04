@@ -1,3 +1,7 @@
+<?php
+    session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -32,7 +36,7 @@
                 </div>
             </div>
             <div class="menu">
-                <a href="Notation.html">Notation</a>
+                <a href="Notation.php">Notation</a>
             </div>
             <div class="menu">
                 <a>Compte</a>
@@ -56,6 +60,12 @@
             <input type="text" id="searchInput2" placeholder="Rechercher nos produits ..." autocomplete="off">
         </div>
     </header>
+    <?php
+        if(isset($_SESSION["erreur"])) {
+            echo "<div class='erreur'>" . $_SESSION["erreur"] . "</div>";
+            unset($_SESSION["erreur"]);
+            }
+    ?>
 
     <div class="sitedescription">
         <h1>Bienvenue chez l'<span class="nomsite">IMPOSTEUR</span></h1>

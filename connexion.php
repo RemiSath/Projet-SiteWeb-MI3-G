@@ -32,7 +32,7 @@
                 <a>Réservation</a>
                 <div class="infos">
                     <a href="reserver.html">Réserver une table</a>
-                    <a href="commander.html">Commander</a>
+                    <a href="commander.php">Commander</a>
                 </div>
             </div>
             <div class="menu">

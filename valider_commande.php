@@ -17,7 +17,19 @@ $email = trim($_POST["email"] ?? "");
 $interphone = trim($_POST["interphone"] ?? "");
 $etage = trim($_POST["floor"] ?? "");
 $commentaires = trim($_POST["comments"] ?? "");
+
+$planification = $_POST["planification"] ?? "immediate";
+$date_souhaitee = $_POST["date_souhaitee"] ?? "";
+$heure_souhaitee = $_POST["heure_souhaitee"] ?? "";
+
+$date_planifiee = null;
+if ($planification === "plus_tard" && $date_souhaitee !== "" && $heure_souhaitee !== "") {
+    $date_planifiee = $date_souhaitee . " " . $heure_souhaitee;
+}
+
+$mode_commande = "livraison";
 $adresse_complete = $adresse . ", " . $code_postal . " " . $ville;
+
 $fichier = "data/commandes.json";
 
 if (file_exists($fichier)) {
@@ -36,19 +48,23 @@ if (!empty($commandes)) {
     $id = max($ids) + 1;
 }
 
+$statut = ($planification === "plus_tard") ? "en_attente" : "a_preparer";
+
 $commande = [
     "id" => $id,
     "client" => $nom,
     "date" => date("Y-m-d H:i:s"),
-    "statut" => "a_preparer",
-
+    "mode_commande" => $mode_commande,
+    "planification" => $planification,
+    "date_souhaitee" => $date_planifiee,
+    "paiement" => "en_attente",
+    "statut" => $statut,
     "adresse" => $adresse_complete,
     "telephone" => $telephone,
     "email" => $email,
     "interphone" => $interphone,
     "etage" => $etage,
     "commentaires" => $commentaires,
-
     "plats" => array_values($panier)
 ];
 
@@ -62,6 +78,6 @@ file_put_contents(
 
 unset($_SESSION["panier"]);
 
-header("Location: commandes.php?success=1");
+header("Location: profil.php");
 exit();
 ?>

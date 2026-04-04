@@ -3,6 +3,14 @@ session_start();
 
 $panier = $_SESSION["panier"] ?? [];
 $total = 0;
+$isConnected = isset($_SESSION["email"]);
+
+$nom = $_SESSION["nom"] ?? "";
+$prenom = $_SESSION["prenom"] ?? "";
+$email = $_SESSION["email"] ?? "";
+$telephone = $_SESSION["telephone"] ?? "";
+$adresse = $_SESSION["adresse"] ?? "";
+$infos = $_SESSION["infos"] ?? "";
 
 foreach ($panier as $item) {
     $total += $item["prix"] * $item["quantite"];
@@ -132,7 +140,33 @@ foreach ($panier as $item) {
     </div>
 
     <form method="post" action="valider_commande.php">
-        <h5>Adresse</h5>
+    <h5>Adresse</h5>
+
+    <?php if ($isConnected) { ?>
+        <label>Nom complet</label>
+        <input type="text" value="<?php echo htmlspecialchars($prenom . ' ' . $nom); ?>" readonly>
+
+        <label>Adresse</label>
+        <input type="text" value="<?php echo htmlspecialchars($adresse); ?>" readonly>
+
+        <label>Code postal</label>
+        <input type="text" name="postal_code" required>
+
+        <label>Ville</label>
+        <input type="text" name="city" required>
+
+        <label>Téléphone</label>
+        <input type="tel" value="<?php echo htmlspecialchars($telephone); ?>" readonly>
+
+        <label>Email</label>
+        <input type="email" value="<?php echo htmlspecialchars($email); ?>" readonly>
+
+        <input type="hidden" name="name" value="<?php echo htmlspecialchars($prenom . ' ' . $nom); ?>">
+        <input type="hidden" name="address" value="<?php echo htmlspecialchars($adresse); ?>">
+        <input type="hidden" name="phone" value="<?php echo htmlspecialchars($telephone); ?>">
+        <input type="hidden" name="email" value="<?php echo htmlspecialchars($email); ?>">
+
+    <?php } else { ?>
         <label>Nom complet</label>
         <input type="text" name="name" required>
 
@@ -145,22 +179,45 @@ foreach ($panier as $item) {
         <label>Ville</label>
         <input type="text" name="city" required>
 
-        <h5>Informations pour le livreur</h5>
-        <label>Code interphone</label>
-        <input type="text" name="interphone">
-
-        <label>Étage</label>
-        <input type="text" name="floor">
-
-        <label>Commentaires</label>
-        <textarea name="comments" rows="3"></textarea>
-
-        <h5>Contact</h5>
         <label>Téléphone</label>
         <input type="tel" name="phone" required>
 
         <label>Email</label>
         <input type="email" name="email" required>
+
+        <h5>Créer un compte</h5>
+        <label>Mot de passe</label>
+        <input type="password" name="motdepasse" required>
+    <?php } ?>
+
+    <h5>Informations pour le livreur</h5>
+    <label>Code interphone</label>
+    <input type="text" name="interphone">
+
+    <label>Étage</label>
+    <input type="text" name="floor">
+
+    <label>Commentaires</label>
+    <textarea name="comments" rows="3"></textarea>
+
+    <h5>Type de commande</h5>
+
+    <div class="planification-container">
+        <div class="option">
+            <input type="radio" id="immediate" name="planification" value="immediate" checked>
+            <label for="immediate">Préparation immédiate</label>
+        </div>
+        <div class="option">
+            <input type="radio" id="plus_tard" name="planification" value="plus_tard">
+            <label for="plus_tard">Commander pour plus tard</label>
+        </div>
+        <div class="planification-fields">
+            <label>Date souhaitée</label>
+            <input type="date" name="date_souhaitee">
+            <label>Heure souhaitée</label>
+            <input type="time" name="heure_souhaitee">
+        </div>
+    </div>
 
         <button type="submit" class="submit-btn">
             Continuer vers le paiement

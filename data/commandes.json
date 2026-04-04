@@ -1,0 +1,45 @@
+[
+    {
+        "id": 1,
+        "client": "test",
+        "date": "2026-04-03 21:29:19",
+        "statut": "a_preparer",
+        "adresse": "test, t t",
+        "telephone": "t",
+        "email": "t@gmail.com",
+        "interphone": "t",
+        "etage": "t",
+        "commentaires": "t",
+        "plats": [
+            {
+                "nom": "Citron",
+                "prix": 6.5,
+                "quantite": 7
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "client": "alexis",
+        "date": "2026-04-04 12:44:29",
+        "statut": "a_preparer",
+        "adresse": "test, test test",
+        "telephone": "test",
+        "email": "a@gmail.com",
+        "interphone": "test",
+        "etage": "test",
+        "commentaires": "",
+        "plats": [
+            {
+                "nom": "Citron",
+                "prix": 6.5,
+                "quantite": 1
+            },
+            {
+                "nom": "Pomme",
+                "prix": 7,
+                "quantite": 1
+            }
+        ]
+    }
+]

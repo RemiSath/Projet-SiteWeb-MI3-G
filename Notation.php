@@ -1,3 +1,7 @@
+<?php
+    session_start();
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -65,17 +69,23 @@
         <p class="textedescription4">Votre avis compte pour nous !</p>
         <div class="container-notation">
             <div class="reservation2">
-                <form>
+                <form action="envoyer-notation.php" method="POST">
+                    <?php
+                        if(isset($_SESSION["message"])){
+                            echo "<div class='message'>" . $_SESSION["message"] . "</div>";
+                            unset($_SESSION["message"]);
+                        }
+                    ?>
                     <div class="row">
-                        <input type="number" placeholder="Livraison" min="0" max="5" required>
+                        <input type="number" name="livraison" required placeholder="Livraison" min="0" max="5" required>
                         <p>0 à 5</p>
                     </div>
                     <div class="row">
-                        <input type="number" placeholder="Qualité des produits" min="0" max="5" required>
+                        <input type="number" name="qualite" required placeholder="Qualité des produits" min="0" max="5" required>
                         <p>0 à 5</p>
                     </div>
                     <div class="row">
-                        <textarea placeholder="Commentaires" required></textarea>
+                        <textarea name="commentaires" placeholder="Commentaires"></textarea>
                     </div>
                     <button type="submit">Envoyer</button>
                 </form>

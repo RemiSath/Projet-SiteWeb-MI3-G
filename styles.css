@@ -506,6 +506,12 @@ a {
     font-size: 200%;
 }
 
+.message {
+    color: green;
+    padding: 10px;
+    border-radius: 5px;
+}
+
 .sitedescription4 .textedescription4 {
     font-size: 100%;
     margin-top: 20px;

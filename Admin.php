@@ -13,7 +13,11 @@
         exit;
     }
 
-    $fichier = "compte.json";
+    $fichier = __DIR__ . "/data/compte.json";
+
+    if (!is_dir(__DIR__ . "/data")) {
+        mkdir(__DIR__ . "/data", 0777, true);
+    }
 
     if(file_exists($fichier)){
         $json = file_get_contents($fichier);

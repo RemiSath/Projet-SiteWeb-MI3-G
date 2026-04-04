@@ -1,7 +1,11 @@
 <?php
     session_start();
 
-    $fichier = "compte.json";
+    $fichier = __DIR__ . "/data/compte.json";
+
+    if (!is_dir(__DIR__ . "/data")) {
+        mkdir(__DIR__ . "/data", 0777, true);
+    }
 
     if(!file_exists($fichier)){
         header("Location: inscription.php");
@@ -32,16 +36,20 @@
 
                 $_SESSION["nom"] = $utilisateur["nom"];
                 $_SESSION["prenom"] = $utilisateur["prenom"];
-                $_SESSION["email"] = $utilisateur["email"];
+                $_SESSION["email"] = strtolower(trim($utilisateur["email"]));
                 $_SESSION["telephone"] = $utilisateur["telephone"];
                 $_SESSION["adresse"] = $utilisateur["adresse"];
                 $_SESSION["infos"] = $utilisateur["infos"];
                 $_SESSION["statut"] = $utilisateur["statut"];
                 $_SESSION["bloque"] = $utilisateur["bloque"] ?? false;
 
-                if($utilisateur["statut"] === "admin"){
+                if($utilisateur["statut"] === "Admin"){
                     header("Location: Admin.php");
-                } else {
+                }
+                elseif($utilisateur["statut"] === "Restaurateur"){
+                    header("Location: commandes.php");
+                }
+                else{
                     header("Location: profil.php");
                 }
                 exit;

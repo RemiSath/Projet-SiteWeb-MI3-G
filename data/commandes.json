@@ -1,33 +1,41 @@
 [
     {
         "id": 1,
-        "client": "test",
-        "date": "2026-04-03 21:29:19",
+        "client": "Rém22121",
+        "date": "2026-04-04",
+        "mode_commande": "livraison",
+        "planification": "immediate",
+        "date_souhaitee": null,
+        "paiement": "en_attente",
         "statut": "a_preparer",
-        "adresse": "test, t t",
-        "telephone": "t",
-        "email": "t@gmail.com",
-        "interphone": "t",
-        "etage": "t",
-        "commentaires": "t",
+        "adresse": "244aa rue de malcouture argenteuil 95100, 95100    eazea Argenteuilazeaeae",
+        "telephone": "0761414423",
+        "email": "azazfesssazaaaaeaezaezahthiriyan@gmail.com",
+        "interphone": "",
+        "etage": "",
+        "commentaires": "",
         "plats": [
             {
                 "nom": "Citron",
                 "prix": 6.5,
-                "quantite": 7
+                "quantite": 3
             }
         ]
     },
     {
         "id": 2,
-        "client": "alexis",
-        "date": "2026-04-04 12:44:29",
+        "client": "Rém22121",
+        "date": "2026-04-04",
+        "mode_commande": "livraison",
+        "planification": "immediate",
+        "date_souhaitee": null,
+        "paiement": "en_attente",
         "statut": "a_preparer",
-        "adresse": "test, test test",
-        "telephone": "test",
-        "email": "a@gmail.com",
-        "interphone": "test",
-        "etage": "test",
+        "adresse": "244aa rue de malcouture argenteuil 95100, 95100    eazea Argenteuilazeaeae",
+        "telephone": "0761414423",
+        "email": "aaaaazazfesssazaaaaeaezaezahthiriyan@gmail.com",
+        "interphone": "",
+        "etage": "",
         "commentaires": "",
         "plats": [
             {
@@ -38,6 +46,80 @@
             {
                 "nom": "Pomme",
                 "prix": 7,
+                "quantite": 1
+            }
+        ]
+    },
+    {
+        "id": 3,
+        "client": "Rém22121",
+        "date": "2026-04-04",
+        "mode_commande": "livraison",
+        "planification": "immediate",
+        "date_souhaitee": null,
+        "paiement": "en_attente",
+        "statut": "a_preparer",
+        "adresse": "244aa rue de malcouture argenteuil 95100, 95100    eazea Argenteuilazeaeae",
+        "telephone": "0761414423",
+        "email": "123@gmail.com",
+        "interphone": "",
+        "etage": "",
+        "commentaires": "",
+        "plats": [
+            {
+                "nom": "Citron",
+                "prix": 6.5,
+                "quantite": 1
+            }
+        ]
+    },
+    {
+        "id": 4,
+        "client": "Rémi SATHTHIRIYAN",
+        "date": "2026-04-04",
+        "mode_commande": "livraison",
+        "planification": "immediate",
+        "date_souhaitee": null,
+        "paiement": "en_attente",
+        "statut": "a_preparer",
+        "adresse": "24 rue de malcouture argenteuil 95100, 95100 Argenteuil",
+        "telephone": "0761414423",
+        "email": "remisaththiriyan@gmail.com",
+        "interphone": "",
+        "etage": "",
+        "commentaires": "",
+        "plats": [
+            {
+                "nom": "Pomme",
+                "prix": 7,
+                "quantite": 2
+            }
+        ]
+    },
+    {
+        "id": 5,
+        "client": "Rémi SATHTHIRIYAN",
+        "date": "2026-04-07 10:00",
+        "mode_commande": "livraison",
+        "planification": "plus_tard",
+        "date_souhaitee": "2026-04-07 10:00",
+        "paiement": "en_attente",
+        "statut": "en_attente",
+        "adresse": "24 rue de malcouture argenteuil 95100, 95100 Argenteuil, 95100 Argenteuil",
+        "telephone": "0761414423",
+        "email": "remisaththiriyan@gmail.com",
+        "interphone": "",
+        "etage": "",
+        "commentaires": "",
+        "plats": [
+            {
+                "nom": "Citron",
+                "prix": 6.5,
+                "quantite": 1
+            },
+            {
+                "nom": "Fraise",
+                "prix": 6.8,
                 "quantite": 1
             }
         ]

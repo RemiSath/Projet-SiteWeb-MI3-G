@@ -1,0 +1,38 @@
+[
+    {
+        "id": "69d172c7de060",
+        "nom": "Admin",
+        "prenom": "Admin",
+        "email": "admin@gmail.com",
+        "motdepasse": "$2y$12$FjkuFHnE8inWYc0XN3ZUgOisPOwql.FH6\/Eo90nQrNBWwKJWJn.5a",
+        "adresse": "0 rue d'admin",
+        "telephone": "06 67 57 47 37",
+        "infos": "",
+        "statut": "Admin",
+        "bloque": false
+    },
+    {
+        "id": "69d1739789ec0",
+        "nom": "Restaurateur",
+        "prenom": "Restaurateur",
+        "email": "restaurateur@gmail.com",
+        "motdepasse": "$2y$12$FjPQ8iNtVweLPpu3yDVQKun5zVoMTT1SStZ2wphOC9bjjuegWRIwu",
+        "adresse": "0 rue d'u restaurateur",
+        "telephone": "07 67 57 47 37",
+        "infos": "",
+        "statut": "Restaurateur",
+        "bloque": false
+    },
+    {
+        "id": "69d173d225e79",
+        "nom": "SATHTHIRIYAN",
+        "prenom": "R\u00e9mi",
+        "email": "remisaththiriyan@gmail.com",
+        "motdepasse": "$2y$12$2dzMt\/TCuy6FAIyGXwpzuOVmooj3C3MOD\/1WnbUU1nGoRvhVvVzZa",
+        "adresse": "24 rue de malcouture argenteuil 95100, 95100 Argenteuil",
+        "telephone": "0761414423",
+        "infos": "",
+        "statut": "Client",
+        "bloque": false
+    }
+]

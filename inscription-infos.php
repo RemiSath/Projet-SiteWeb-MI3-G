@@ -2,20 +2,24 @@
     session_start();
 
     function ecritureFichier(){
-        $fichier = "compte.json";
+        $fichier = __DIR__ . "/data/compte.json";
+
+        if (!is_dir(__DIR__ . "/data")) {
+            mkdir(__DIR__ . "/data", 0777, true);
+        }
 
         if(file_exists($fichier)){
             $json = file_get_contents($fichier);
-            $array = json_decode($json, true) ?? [];
+            $utilisateurs = json_decode($json, true) ?? [];
         }
         else{
-            $array = array();
+            $utilisateurs = array();
         }
 
         $email = $_POST["email"] ?? null;
         $emailExiste = false;
 
-        foreach($array as $utilisateur){
+        foreach($utilisateurs as $utilisateur){
             if($utilisateur["email"] === $email){
                 $_SESSION["erreur"] = "Cet email est déjà utilisé.";
                 header("Location: inscription.php");
@@ -27,7 +31,7 @@
             return;
         }
 
-        $array[] = array(
+        $utilisateurs[] = array(
             "id" => uniqid(),
             "nom" => $_POST["nom"],
             "prenom" => $_POST["prenom"],
@@ -40,11 +44,11 @@
             "bloque" => false,
         );
 
-        file_put_contents($fichier, json_encode($array, JSON_PRETTY_PRINT));
+        file_put_contents($fichier, json_encode($utilisateurs, JSON_PRETTY_PRINT));
 
         $_SESSION["nom"] = $_POST["nom"];
         $_SESSION["prenom"] = $_POST["prenom"];
-        $_SESSION["email"] = $email;
+        $_SESSION["email"] = strtolower(trim($email));
         $_SESSION["telephone"] = $_POST["telephone"];
         $_SESSION["adresse"] = $_POST["adresse"];
         $_SESSION["infos"] = $_POST["infos"];

@@ -1114,6 +1114,15 @@ input:focus, textarea:focus {
     color: white;
 }
 
+.planification-fields {
+    display: none;
+    margin-top: 10px;
+}
+
+.planification-container:has(#plus_tard:checked) .planification-fields {
+    display: block;
+}
+
 /* Page commander FIN */
 
 /* Page profil DEBUT */
@@ -1612,4 +1621,3 @@ button2:hover {
 }
 
 /* Page de connexion/inscription FIN */
-

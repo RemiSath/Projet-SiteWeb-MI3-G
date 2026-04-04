@@ -34,5 +34,29 @@
         "infos": "",
         "statut": "Client",
         "bloque": false
+    },
+    {
+        "id": "69d0eb90a804a",
+        "nom": "SATHTHIRIYAN",
+        "prenom": "fesses",
+        "email": "ouaaaaaahletraitre@gmail.com",
+        "motdepasse": "$2y$12$HoYmq1C9J5SlkyLIa09XIu\/sbAT1jX3VdVrhoMmxQkIrLVCiumRqK",
+        "adresse": "24 rue de malcouture argenteuil 95100",
+        "telephone": "0761414423",
+        "infos": "",
+        "statut": "Client",
+        "bloque": false
+    },
+    {
+        "id": "69d0eb999dc60",
+        "nom": "SATHTHIRIYAN",
+        "prenom": "gaby",
+        "email": "ouaaazeaeaezaeaaaahletraitre@gmail.com",
+        "motdepasse": "$2y$12$X4dK4HqcMDrOx5haKj.Vt.vS7IHUaA8Du9ursMJieI6DM2VTRHTuy",
+        "adresse": "24 rue de malcouture argenteuil 95100",
+        "telephone": "0761414423",
+        "infos": "",
+        "statut": "Client",
+        "bloque": false
     }
 ]

@@ -142,6 +142,22 @@
                 <div class="infos-user">
                     <h2>Ses Informations</h2>
                     <div class="info-ligne2">
+                        <span class="info-label">Statut Client</span>
+                        <div class="info-valeur2">
+                            <?php 
+                                echo htmlspecialchars($utilisateur["statut"]);
+                            ?>
+                        </div>
+                    </div>
+                    <div class="info-ligne2">
+                        <span class="info-label">Compte</span>
+                        <div class="info-valeur2">
+                            <?php 
+                                echo ($utilisateur["bloque"]) ? "Bloqué" : "Actif";
+                            ?>
+                        </div>
+                    </div>
+                    <div class="info-ligne2">
                         <span class="info-label">Nom</span>
                         <div class="info-valeur2">
                             <?php 
@@ -186,22 +202,6 @@
                         <div class="info-valeur2">
                             <?php 
                                 echo htmlspecialchars($utilisateur["infos"]);
-                            ?>
-                        </div>
-                    </div>
-                    <div class="info-ligne2">
-                        <span class="info-label">Statut Client</span>
-                        <div class="info-valeur2">
-                            <?php 
-                                echo htmlspecialchars($utilisateur["statut"]);
-                            ?>
-                        </div>
-                    </div>
-                    <div class="info-ligne2">
-                        <span class="info-label">Compte</span>
-                        <div class="info-valeur2">
-                            <?php 
-                                echo ($utilisateur["bloque"]) ? "Bloqué" : "Actif";
                             ?>
                         </div>
                     </div>

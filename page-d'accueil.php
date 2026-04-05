@@ -31,7 +31,7 @@
             <div class="menu">
                 <a>Réservation</a>
                 <div class="infos">
-                    <a href="reserver.html">Réserver une table</a>
+                    <a href="reserver.php">Réserver une table</a>
                     <a href="commander.php">Commander</a>
                 </div>
             </div>
@@ -64,7 +64,11 @@
         if(isset($_SESSION["erreur"])){ // Affiche le message d'erreur
             echo "<div class='erreur'>" . $_SESSION["erreur"] . "</div>";
             unset($_SESSION["erreur"]);
-            }
+        }
+        if(isset($_SESSION["message2"])){ // Affiche le message de succès
+            echo "<div class='message2'>" . $_SESSION["message2"] . "</div>";
+            unset($_SESSION["message2"]);
+        }
     ?>
 
     <div class="sitedescription">

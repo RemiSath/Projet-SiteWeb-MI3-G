@@ -23,8 +23,8 @@ function active($current, $value) {
     return $current === $value ? 'active' : '';
 }
 
-function produitCorrespond($nom, $type, $saveur, $allergene) {
-    $nom = mb_strtolower($nom, 'UTF-8');
+function produitCorrespond($nom, $type, $saveur, $allergene){
+    $nom = strtolower($nom);
 
     $typesFruit = ['citron', 'pomme', 'poire', 'mangue', 'mandarine', 'fraise', 'noix de coco', 'pêche', 'graine de mangoustan'];
     $typesClassique = ['noisette', 'oeuf au plat', 'cacahuète'];

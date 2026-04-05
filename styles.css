@@ -910,6 +910,13 @@ form {
     font-size: 14px;
 }
 
+.message2 {
+    color: green;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: rgb(183, 255, 183);
+}
+
 .reservation {
     flex: 1;
     background: #ffffff;

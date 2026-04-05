@@ -64,22 +64,26 @@
         <div class="reservation">
             <p class="subtitle">FAIRE UNE RÉSERVATION</p>
             <h2>Réserver une table</h2>
-            <form>
+            <form action="reservation-infos.php" method="POST">
                 <div class="row">
-                    <input type="number" placeholder="Adultes" min="1" required>
-                    <input type="number" placeholder="Enfants" min="0" required>
+                    <input type="text" name="nom" placeholder="Nom" required>
+                    <input type="text" name="prenom" placeholder="Prénom" required>
                 </div>
                 <div class="row">
-                    <input type="date" required>
-                    <input type="time" required>
+                    <input type="number" name="adultes" placeholder="Adultes" min="1" required>
+                    <input type="number" name="enfants" placeholder="Enfants" min="0" required>
                 </div>
-                <select required>
+                <div class="row">
+                    <input type="date" name="date" required>
+                    <input type="time" name="time" required>
+                </div>
+                <select name="restaurant" required>
                     <option value="">Choisir un restaurant</option>
                     <option>Paris</option>
                     <option>Argenteuil</option>
                     <option>Cergy</option>
                 </select>
-                <textarea placeholder="Commentaire ou demande spéciale"></textarea>
+                <textarea name="commentaire" placeholder="Commentaire ou demande spéciale"></textarea>
                 <button type="submit">Réserver</button>
             </form>
         </div>

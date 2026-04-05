@@ -15,6 +15,24 @@ $selectedType = $_GET['type'] ?? 'tous';
 $selectedSaveur = $_GET['saveur'] ?? 'tous';
 $selectedAllergene = $_GET['allergene'] ?? 'tous';
 
+/* MENUS */
+$menus = [
+    "fraicheur" => [
+        "nom" => "Menu Fraîcheur Fruitée",
+        "produits" => ["Framboise", "Mandarine", "Citron"]
+    ],
+    "exotique" => [
+        "nom" => "Menu Exotique & Gourmand",
+        "produits" => ["Mangue", "Noix de coco", "Pomme", "Poire"]
+    ],
+    "chocolat" => [
+        "nom" => "Menu Chocolat & Classiques",
+        "produits" => ["Tasses", "Pommes de pin", "Graine de café", "Noisette"]
+    ]
+];
+
+$menuActif = $_GET['menu'] ?? null;
+
 function h($value) {
     return htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');
 }
@@ -23,24 +41,24 @@ function active($current, $value) {
     return $current === $value ? 'active' : '';
 }
 
-function produitCorrespond($nom, $type, $saveur, $allergene){
-    $nom = strtolower($nom);
+function produitCorrespond($nom, $type, $saveur, $allergene) {
+    $nom = mb_strtolower($nom, 'UTF-8');
 
-    $typesFruit = ['citron', 'pomme', 'poire', 'mangue', 'mandarine', 'fraise', 'noix de coco', 'pêche', 'graine de mangoustan'];
-    $typesClassique = ['noisette', 'oeuf au plat', 'cacahuète'];
+    $typesFruit = ['citron', 'pomme', 'poire', 'mangue', 'mandarine', 'fraise', 'noix de coco', 'pêche', 'framboise'];
+    $typesClassique = ['noisette', 'oeuf au plat', 'cacahuète','graine de café'];
     $typesChocolat = ['tasses', 'pommes de pin'];
 
     $saveursAgrumes = ['citron', 'mandarine'];
-    $saveursExotique = ['mangue', 'noix de coco', 'graine de mangoustan'];
-    $saveursFruitsRouges = ['fraise'];
+    $saveursExotique = ['mangue', 'noix de coco'];
+    $saveursFruitsRouges = ['fraise','framboise'];
     $saveursNoisette = ['noisette'];
     $saveursChocolat = ['tasses', 'pommes de pin'];
     $saveursFruits = ['pomme', 'poire', 'pêche'];
-    $saveursClassiques = ['oeuf au plat', 'cacahuète'];
+    $saveursClassiques = ['oeuf au plat', 'cacahuète','graine de café'];
 
-    $allergenesGluten = ['citron', 'pomme', 'poire', 'mangue', 'mandarine', 'fraise', 'noisette', 'noix de coco', 'tasses', 'pommes de pin', 'pêche', 'graine de mangoustan', 'oeuf au plat', 'cacahuète'];
-    $allergenesLactose = ['citron', 'pomme', 'poire', 'mangue', 'mandarine', 'fraise', 'noisette', 'noix de coco', 'tasses', 'pommes de pin', 'pêche', 'graine de mangoustan', 'oeuf au plat', 'cacahuète'];
-    $allergenesOeufs = ['noix de coco', 'tasses', 'pommes de pin', 'pêche', 'graine de mangoustan', 'oeuf au plat', 'cacahuète'];
+    $allergenesGluten = ['citron', 'pomme', 'poire', 'mangue', 'mandarine', 'fraise', 'noisette', 'noix de coco', 'tasses', 'pommes de pin', 'pêche',  'oeuf au plat', 'cacahuète'];
+    $allergenesLactose = ['citron', 'pomme', 'poire', 'mangue', 'mandarine', 'fraise', 'noisette', 'noix de coco', 'tasses', 'pommes de pin', 'pêche', 'oeuf au plat', 'cacahuète'];
+    $allergenesOeufs = ['noix de coco', 'tasses', 'pommes de pin', 'pêche', 'oeuf au plat', 'cacahuète'];
     $allergenesSoja = ['tasses', 'pommes de pin', 'cacahuète'];
     $allergenesArachides = ['cacahuète'];
     $allergenesFruitsACoque = ['noisette', 'cacahuète'];
@@ -93,13 +111,13 @@ function produitCorrespond($nom, $type, $saveur, $allergene){
     <header class="navbar">
         <div class="left-group">
             <div class="burger" id="burger">☰</div>
-            <a href="page-d'accueil.php" class="accueil">IMPOSTEUR</a>
+            <a href="page-d'accueil.php" class="accueil">IMPOSTURE</a>
         </div>
         <div class="navliens">
             <div class="menu">
                 <a>Réservation</a>
                 <div class="infos">
-                    <a href="reserver.php">Réserver une table</a>
+                    <a href="reserver.html">Réserver une table</a>
                     <a href="commander.php">Commander</a>
                 </div>
             </div>
@@ -119,7 +137,7 @@ function produitCorrespond($nom, $type, $saveur, $allergene){
                 <a>Services</a>
                 <div class="infos">
                     <a href="commandes.php">Commandes</a>
-                    <a href="livraison.php">Livraison</a>
+                    <a href="livraison.html">Livraison</a>
                 </div>
             </div>
             <div class="menu">
@@ -197,10 +215,19 @@ function produitCorrespond($nom, $type, $saveur, $allergene){
         <a href="Paris.php" class="filter-btn">Réinitialiser</a>
     </div>
 
+    <?php if ($selectedMenu !== 'tous' && isset($menus[$selectedMenu])): ?>
+        <div class="menu-selection">
+            <?= h($menus[$selectedMenu]['nom']) ?>
+        </div>
+    <?php endif; ?>
+
     <section class="products">
         <div class="product-grid">
-            <?php if (produitCorrespond('Citron', $selectedType, $selectedSaveur, $selectedAllergene)) : ?>
-            <div class="product-card dessert gluten lactose" data-category="dessert" data-allergens="gluten,lactose">
+            <?php if (
+                ($menuActif === null || $menuActif === 'tous' || in_array('Citron', $menus[$menuActif]['produits'] ?? [])) &&
+                produitCorrespond('Citron', $selectedType, $selectedSaveur, $selectedAllergene)
+            ) : ?>
+            <div class="product-card type-fruit saveur-agrumes gluten lactose" data-category="fruit" data-allergens="gluten,lactose">
                 <div class="product-image">
                     <img src="Images/citron.png" alt="Citron">
                 </div>
@@ -209,7 +236,7 @@ function produitCorrespond($nom, $type, $saveur, $allergene){
                     Réplique d’un citron jaune, peau texturée — mousse citron & yuzu légère et acidulée à l’intérieur.
                 </p>
                 <p class="price">6,50 €</p>
-                <p class="allergens">Allergènes : Gluten, Lactose</p>
+                <p class="allergens">Allergènes : gluten, lactose</p>
 
                 <form method="post" action="ajouter-panier.php">
                     <input type="hidden" name="nom" value="Citron">
@@ -221,8 +248,11 @@ function produitCorrespond($nom, $type, $saveur, $allergene){
             </div>
             <?php endif; ?>
 
-            <?php if (produitCorrespond('Pomme', $selectedType, $selectedSaveur, $selectedAllergene)) : ?>
-            <div class="product-card dessert gluten lactose" data-category="dessert" data-allergens="gluten,lactose">
+            <?php if (
+                ($menuActif === null || $menuActif === 'tous' || in_array('Pomme', $menus[$menuActif]['produits'] ?? [])) &&
+                produitCorrespond('Pomme', $selectedType, $selectedSaveur, $selectedAllergene)
+            ) : ?>
+            <div class="product-card type-fruit saveur-fruits gluten lactose" data-category="fruit" data-allergens="gluten,lactose">
                 <div class="product-image">
                     <img src="Images/pomme.png" alt="Pomme">
                 </div>
@@ -231,7 +261,7 @@ function produitCorrespond($nom, $type, $saveur, $allergene){
                     À première vue une vraie pomme brillante, mais coupe-la et retrouve mousse fruitée et cœur fondant.
                 </p>
                 <p class="price">7,00 €</p>
-                <p class="allergens">Allergènes : Gluten, Lactose</p>
+                <p class="allergens">Allergènes : gluten, lactose</p>
 
                 <form method="post" action="ajouter-panier.php">
                     <input type="hidden" name="nom" value="Pomme">
@@ -243,8 +273,11 @@ function produitCorrespond($nom, $type, $saveur, $allergene){
             </div>
             <?php endif; ?>
 
-            <?php if (produitCorrespond('Poire', $selectedType, $selectedSaveur, $selectedAllergene)) : ?>
-            <div class="product-card dessert gluten lactose" data-category="dessert" data-allergens="gluten,lactose">
+            <?php if (
+                ($menuActif === null || $menuActif === 'tous' || in_array('Poire', $menus[$menuActif]['produits'] ?? [])) &&
+                produitCorrespond('Poire', $selectedType, $selectedSaveur, $selectedAllergene)
+            ) : ?>
+            <div class="product-card type-fruit saveur-fruits gluten lactose" data-category="fruit" data-allergens="gluten,lactose">
                 <div class="product-image">
                     <img src="Images/poire.png" alt="Poire">
                 </div>
@@ -253,7 +286,7 @@ function produitCorrespond($nom, $type, $saveur, $allergene){
                     Moulée comme une poire juteuse, mais c’est une mousse fine et parfumée qui se cache sous la coque.
                 </p>
                 <p class="price">7,20 €</p>
-                <p class="allergens">Allergènes : Gluten, Lactose</p>
+                <p class="allergens">Allergènes : gluten, lactose</p>
 
                 <form method="post" action="ajouter-panier.php">
                     <input type="hidden" name="nom" value="Poire">
@@ -269,8 +302,9 @@ function produitCorrespond($nom, $type, $saveur, $allergene){
 
     <section class="products">
         <div class="product-grid">
-            <?php if (produitCorrespond('Mangue', $selectedType, $selectedSaveur, $selectedAllergene)) : ?>
-            <div class="product-card dessert gluten lactose" data-category="dessert" data-allergens="gluten,lactose">
+            <?php if (($menuActif === null || $menuActif === 'tous' || in_array('Mangue', $menus[$menuActif]['produits'] ?? [])) &&
+                produitCorrespond('Mangue', $selectedType, $selectedSaveur, $selectedAllergene)) : ?>
+            <div class="product-card type-fruit saveur-exotique gluten lactose" data-category="fruit" data-allergens="gluten,lactose">
                 <div class="product-image">
                     <img src="Images/mangue.png" alt="Mangue">
                 </div>
@@ -279,7 +313,7 @@ function produitCorrespond($nom, $type, $saveur, $allergene){
                     Belle mangue orange, texture veloutée en apparence : une mousse mangue & gelée fruitée vous attend.
                 </p>
                 <p class="price">7,50 €</p>
-                <p class="allergens">Allergènes : Gluten, Lactose</p>
+                <p class="allergens">Allergènes : gluten, lactose</p>
 
                 <form method="post" action="ajouter-panier.php">
                     <input type="hidden" name="nom" value="Mangue">
@@ -291,8 +325,9 @@ function produitCorrespond($nom, $type, $saveur, $allergene){
             </div>
             <?php endif; ?>
 
-            <?php if (produitCorrespond('Mandarine', $selectedType, $selectedSaveur, $selectedAllergene)) : ?>
-            <div class="product-card dessert gluten lactose" data-category="dessert" data-allergens="gluten,lactose">
+            <?php if (($menuActif === null || $menuActif === 'tous' || in_array('Mandarine', $menus[$menuActif]['produits'] ?? [])) &&
+                produitCorrespond('Mandarine', $selectedType, $selectedSaveur, $selectedAllergene)) : ?>
+            <div class="product-card type-fruit saveur-agrumes gluten lactose" data-category="fruit" data-allergens="gluten,lactose">
                 <div class="product-image">
                     <img src="Images/mandarine.jpg" alt="Mandarine">
                 </div>
@@ -301,7 +336,7 @@ function produitCorrespond($nom, $type, $saveur, $allergene){
                     Petites rainures, peau brillante : ce dessert cache une ganache mandarine & confit acidulé.
                 </p>
                 <p class="price">6,90 €</p>
-                <p class="allergens">Allergènes : Gluten, Lactose</p>
+                <p class="allergens">Allergènes : gluten, lactose</p>
 
                 <form method="post" action="ajouter-panier.php">
                     <input type="hidden" name="nom" value="Mandarine">
@@ -313,8 +348,9 @@ function produitCorrespond($nom, $type, $saveur, $allergene){
             </div>
             <?php endif; ?>
 
-            <?php if (produitCorrespond('Fraise', $selectedType, $selectedSaveur, $selectedAllergene)) : ?>
-            <div class="product-card dessert gluten lactose" data-category="dessert" data-allergens="gluten,lactose">
+            <?php if (($menuActif === null || $menuActif === 'tous' || in_array('Fraise', $menus[$menuActif]['produits'] ?? [])) &&
+                produitCorrespond('Fraise', $selectedType, $selectedSaveur, $selectedAllergene)) : ?>
+            <div class="product-card type-fruit saveur-fruits-rouges gluten lactose" data-category="fruit" data-allergens="gluten,lactose">
                 <div class="product-image">
                     <img src="Images/fraise.png" alt="Fraise">
                 </div>
@@ -323,7 +359,7 @@ function produitCorrespond($nom, $type, $saveur, $allergene){
                     Rouge vif et brillante, ce dessert cache une mousse fraise & insert fruité sous une coque délicate.
                 </p>
                 <p class="price">6,80 €</p>
-                <p class="allergens">Allergènes : Gluten, Lactose</p>
+                <p class="allergens">Allergènes : gluten, lactose</p>
 
                 <form method="post" action="ajouter-panier.php">
                     <input type="hidden" name="nom" value="Fraise">
@@ -339,8 +375,9 @@ function produitCorrespond($nom, $type, $saveur, $allergene){
 
     <section class="products">
         <div class="product-grid">
-            <?php if (produitCorrespond('Noisette', $selectedType, $selectedSaveur, $selectedAllergene)) : ?>
-            <div class="product-card dessert gluten lactose" data-category="dessert" data-allergens="gluten,lactose">
+            <?php if (($menuActif === null || $menuActif === 'tous' || in_array('Noisette', $menus[$menuActif]['produits'] ?? [])) &&
+                    produitCorrespond('Noisette', $selectedType, $selectedSaveur, $selectedAllergene)) : ?>
+            <div class="product-card type-classique saveur-noisette fruits-a-coque gluten lactose" data-category="classique" data-allergens="fruits à coque,gluten,lactose">
                 <div class="product-image">
                     <img src="Images/noisette.avif" alt="Noisette">
                 </div>
@@ -361,8 +398,9 @@ function produitCorrespond($nom, $type, $saveur, $allergene){
             </div>
             <?php endif; ?>
 
-            <?php if (produitCorrespond('Noix de coco', $selectedType, $selectedSaveur, $selectedAllergene)) : ?>
-            <div class="product-card dessert gluten lactose" data-category="dessert" data-allergens="gluten,lactose">
+            <?php if (($menuActif === null || $menuActif === 'tous' || in_array('Noix de coco', $menus[$menuActif]['produits'] ?? [])) &&
+                    produitCorrespond('Noix de coco', $selectedType, $selectedSaveur, $selectedAllergene)) : ?>
+            <div class="product-card type-classique saveur-exotique gluten lactose oeufs" data-category="classique" data-allergens="gluten,lactose,oeufs">
                 <div class="product-image">
                     <img src="Images/noix_de_coco.jpg" alt="Noix de coco">
                 </div>
@@ -383,8 +421,9 @@ function produitCorrespond($nom, $type, $saveur, $allergene){
             </div>
             <?php endif; ?>
 
-            <?php if (produitCorrespond('Tasses', $selectedType, $selectedSaveur, $selectedAllergene)) : ?>
-            <div class="product-card dessert gluten lactose" data-category="dessert" data-allergens="gluten,lactose">
+            <?php if (($menuActif === null || $menuActif === 'tous' || in_array('Tasses', $menus[$menuActif]['produits'] ?? [])) &&
+                    produitCorrespond('Tasses', $selectedType, $selectedSaveur, $selectedAllergene)) : ?>
+            <div class="product-card type-chocolat saveur-chocolat gluten lactose soja oeufs" data-category="chocolat" data-allergens="gluten,lactose,soja,oeufs">
                 <div class="product-image">
                     <img src="Images/tasses.webp" alt="Tasses">
                 </div>
@@ -409,8 +448,9 @@ function produitCorrespond($nom, $type, $saveur, $allergene){
 
     <section class="products">
         <div class="product-grid">
-            <?php if (produitCorrespond('Pommes de pin', $selectedType, $selectedSaveur, $selectedAllergene)) : ?>
-            <div class="product-card dessert gluten lactose" data-category="dessert" data-allergens="gluten,lactose">
+            <?php if (($menuActif === null || $menuActif === 'tous' || in_array('Pommes de pin', $menus[$menuActif]['produits'] ?? [])) &&
+                    produitCorrespond('Pommes de pin', $selectedType, $selectedSaveur, $selectedAllergene)) : ?>
+            <div class="product-card type-chocolat saveur-chocolat gluten lactose soja oeufs" data-category="chocolat" data-allergens="gluten,lactose,soja,oeufs">
                 <div class="product-image">
                     <img src="Images/Pommes_de_pin.png" alt="Pommes de pin">
                 </div>
@@ -431,8 +471,9 @@ function produitCorrespond($nom, $type, $saveur, $allergene){
             </div>
             <?php endif; ?>
 
-            <?php if (produitCorrespond('Pêche', $selectedType, $selectedSaveur, $selectedAllergene)) : ?>
-            <div class="product-card dessert gluten lactose" data-category="dessert" data-allergens="gluten,lactose">
+            <?php if (($menuActif === null || $menuActif === 'tous' || in_array('Pêche', $menus[$menuActif]['produits'] ?? [])) &&
+                    produitCorrespond('Pêche', $selectedType, $selectedSaveur, $selectedAllergene)) : ?>
+            <div class="product-card type-fruit saveur-fruits gluten lactose oeufs" data-category="fruit" data-allergens="gluten,lactose,oeufs">
                 <div class="product-image">
                     <img src="Images/peche.jpg" alt="Pêche">
                 </div>
@@ -453,22 +494,23 @@ function produitCorrespond($nom, $type, $saveur, $allergene){
             </div>
             <?php endif; ?>
 
-            <?php if (produitCorrespond('Graine de mangoustan', $selectedType, $selectedSaveur, $selectedAllergene)) : ?>
-            <div class="product-card dessert gluten lactose" data-category="dessert" data-allergens="gluten,lactose">
+            <?php if (($menuActif === null || $menuActif === 'tous' || in_array('Graine de café', $menus[$menuActif]['produits'] ?? [])) &&
+                produitCorrespond('Graine de café', $selectedType, $selectedSaveur, $selectedAllergene)) : ?>
+            <div class="product-card type-classique saveur-classique gluten lactose" data-category="classique" data-allergens="gluten,lactose">
                 <div class="product-image">
-                    <img src="Images/graine_de_mangoustan.jpg" alt="Graine de mangoustan">
+                    <img src="Images/graine_de_café.jpg" alt="Graine de café">
                 </div>
-                <h3>Graine de mangoustan</h3>
+                <h3>Graine de café</h3>
                 <p class="description_produit">
-                    Trompe-l’œil exotique à la forme délicate — cœur fruité doux et parfumé inspiré du mangoustan.
+                    Trompe-l’œil en forme de graine de café — une création aux notes torréfiées, au cœur intense évoquant toute la richesse aromatique du café.
                 </p>
                 <p class="price">6,80 €</p>
-                <p class="allergens">Allergènes : lait, œufs, gluten</p>
+                <p class="allergens">Allergènes : gluten, lactose</p>
 
                 <form method="post" action="ajouter-panier.php">
-                    <input type="hidden" name="nom" value="Graine de mangoustan">
+                    <input type="hidden" name="nom" value="Graine de café">
                     <input type="hidden" name="prix" value="6.8">
-                    <button type="submit" class="add-to-cart" aria-label="Ajouter Graine de mangoustan au panier">
+                    <button type="submit" class="add-to-cart" aria-label="Ajouter Graine de café au panier">
                         Ajouter au panier
                     </button>
                 </form>
@@ -479,8 +521,9 @@ function produitCorrespond($nom, $type, $saveur, $allergene){
 
     <section class="products">
         <div class="product-grid">
-            <?php if (produitCorrespond('Oeuf au plat', $selectedType, $selectedSaveur, $selectedAllergene)) : ?>
-            <div class="product-card dessert gluten lactose" data-category="dessert" data-allergens="gluten,lactose">
+            <?php if (($menuActif === null || $menuActif === 'tous' || in_array('Oeuf au plat', $menus[$menuActif]['produits'] ?? [])) &&
+                    produitCorrespond('Oeuf au plat', $selectedType, $selectedSaveur, $selectedAllergene)) : ?>
+            <div class="product-card type-classique saveur-classique gluten lactose oeufs" data-category="classique" data-allergens="gluten,lactose,oeufs">
                 <div class="product-image">
                     <img src="Images/oeuf_plat.jpg" alt="Oeuf au plat">
                 </div>
@@ -501,8 +544,9 @@ function produitCorrespond($nom, $type, $saveur, $allergene){
             </div>
             <?php endif; ?>
 
-            <?php if (produitCorrespond('Cacahuète', $selectedType, $selectedSaveur, $selectedAllergene)) : ?>
-            <div class="product-card dessert gluten lactose" data-category="dessert" data-allergens="gluten,lactose">
+            <?php if (($menuActif === null || $menuActif === 'tous' || in_array('Cacahuète', $menus[$menuActif]['produits'] ?? [])) &&
+                    produitCorrespond('Cacahuète', $selectedType, $selectedSaveur, $selectedAllergene)) : ?>
+            <div class="product-card type-classique saveur-classique fruits-a-coque arachides gluten lactose" data-category="classique" data-allergens="arachides,fruits à coque,gluten,lactose">
                 <div class="product-image">
                     <img src="Images/cacahuete.jpg" alt="Cacahuète">
                 </div>
@@ -523,22 +567,23 @@ function produitCorrespond($nom, $type, $saveur, $allergene){
             </div>
             <?php endif; ?>
 
-            <?php if (produitCorrespond('Tasses', $selectedType, $selectedSaveur, $selectedAllergene)) : ?>
-            <div class="product-card dessert gluten lactose" data-category="dessert" data-allergens="gluten,lactose">
+            <?php if (($menuActif === null || $menuActif === 'tous' || in_array('Framboise', $menus[$menuActif]['produits'] ?? [])) &&
+                    produitCorrespond('Framboise', $selectedType, $selectedSaveur, $selectedAllergene)) : ?>
+            <div class="product-card type-fruit saveur-fruits-rouges gluten lactose" data-category="fruit" data-allergens="gluten,lactose">
                 <div class="product-image">
-                    <img src="Images/tasses.webp" alt="Tasses">
+                    <img src="Images/framboise.png" alt="Framboise">
                 </div>
-                <h3>Tasses</h3>
+                <h3>Framboise</h3>
                 <p class="description_produit">
-                    Rouge vif et brillante, ce dessert cache une mousse fraise & insert fruité sous une coque délicate.
+                    Trompe-l’œil en forme de framboise — une coque délicatement texturée renfermant une mousse légère à la framboise et un cœur acidulé aux notes fruitées intenses.
                 </p>
                 <p class="price">6,80 €</p>
-                <p class="allergens">Allergènes : Gluten, Lactose</p>
+                <p class="allergens">Allergènes : gluten, lactose</p>
 
                 <form method="post" action="ajouter-panier.php">
-                    <input type="hidden" name="nom" value="Tasses">
+                    <input type="hidden" name="nom" value="Framboise">
                     <input type="hidden" name="prix" value="6.8">
-                    <button type="submit" class="add-to-cart" aria-label="Ajouter Tasses au panier">
+                    <button type="submit" class="add-to-cart" aria-label="Ajouter Framboise">
                         Ajouter au panier
                     </button>
                 </form>

@@ -89,8 +89,8 @@
     <div class="contenu">
         <div class="villes">
             <a href="Paris.php" class="a1 a10">Paris</a>
-            <a href="Argenteuil.html" class="a1 a11">Argenteuil</a>
-            <a href="Cergy.html" class="a1 a12">Cergy</a>
+            <a href="Argenteuil.php" class="a1 a11">Argenteuil</a>
+            <a href="Cergy.php" class="a1 a12">Cergy</a>
         </div>
 
         <div class="villesimg">

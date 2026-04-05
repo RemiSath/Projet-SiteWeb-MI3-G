@@ -124,7 +124,7 @@ function urlMenu($menuKey, $selectedType, $selectedSaveur, $selectedAllergene) {
             <div class="menu">
                 <a>Réservation</a>
                 <div class="infos">
-                    <a href="reserver.html">Réserver une table</a>
+                    <a href="reserver.php">Réserver une table</a>
                     <a href="commander.php">Commander</a>
                 </div>
             </div>
@@ -144,7 +144,7 @@ function urlMenu($menuKey, $selectedType, $selectedSaveur, $selectedAllergene) {
                 <a>Services</a>
                 <div class="infos">
                     <a href="commandes.php">Commandes</a>
-                    <a href="livraison.html">Livraison</a>
+                    <a href="livraison.php">Livraison</a>
                 </div>
             </div>
             <div class="menu">

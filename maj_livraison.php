@@ -32,7 +32,6 @@ foreach ($commandes as &$commande) {
 
         $livreurCommande = $commande["livreur_email"] ?? "";
 
-        // Vérifie que la commande appartient bien au livreur
         if ($livreurCommande !== $identifiantLivreur) {
             break;
         }
@@ -46,7 +45,6 @@ foreach ($commandes as &$commande) {
             $commande["motif_abandon"] = "Livraison impossible";
             $commande["date_abandon"] = date("Y-m-d H:i:s");
         }
-
         break;
     }
 }

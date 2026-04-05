@@ -57,7 +57,7 @@ if(file_exists($fichierCommandes)){
         <div class="menu">
             <a>Réservation</a>
             <div class="infos">
-                <a href="reserver.html">Réserver une table</a>
+                <a href="reserver.php">Réserver une table</a>
                 <a href="commander.php">Commander</a>
             </div>
         </div>
@@ -118,6 +118,7 @@ if(file_exists($fichierCommandes)){
                 <?php foreach($commandesUtilisateur as $commande): ?> <!-- Affichage des commandes de l'utilisateur -->
                     <div class="commande">
                         <p><strong>Commande #<?php echo $i; $i++; ?></strong></p>
+                        <p>Statut : <?php echo htmlspecialchars($commande["statut"]); ?></p>
                         <p>Date : <?php echo htmlspecialchars($commande["date_souhaitee"] ?? $commande["date"]); ?></p> <!-- Affichage de la date de la commande -->
                         <p><strong>Plats :</strong></p>
                         <ul>

@@ -1,3 +1,7 @@
+<?php
+    session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -65,6 +69,12 @@
             <p class="subtitle">FAIRE UNE RÉSERVATION</p>
             <h2>Réserver une table</h2>
             <form action="reservation-infos.php" method="POST">
+                <?php
+                    if(isset($_SESSION["erreur"])){ 
+                        echo "<div class='erreur'>" . $_SESSION["erreur"] . "</div>";
+                        unset($_SESSION["erreur"]);
+                    }
+                ?>
                 <div class="row">
                     <input type="text" name="nom" placeholder="Nom" required>
                     <input type="text" name="prenom" placeholder="Prénom" required>

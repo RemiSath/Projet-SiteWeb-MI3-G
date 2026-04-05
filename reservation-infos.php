@@ -17,13 +17,21 @@
             $utilisateurs = array();
         }
 
+        $date = $_POST["date"];
+
+        if(strtotime($date) < strtotime(date("Y-m-d"))) {
+            $_SESSION["erreur"] = "La date de réservation doit être dans le futur.";
+            header("Location: reserver.php");
+            exit;
+        }
+
         $utilisateurs[] = array( // Ajoute la personne qui réserve dans un fichier.json
             "id" => uniqid(),
             "nom" => $_POST["nom"],
             "prenom" => $_POST["prenom"],
             "adultes" => $_POST["adultes"],
             "enfants" => $_POST["enfants"],
-            "date" => $_POST["date"],
+            "date" => $date,
             "time" => $_POST["time"],
             "restaurant" => $_POST["restaurant"],
             "commentaire" => $_POST["commentaire"],

@@ -7,12 +7,14 @@ if (!isset($_SESSION["statut"]) || $_SESSION["statut"] !== "Livreur") {
 }
 
 $fichier = "data/commandes.json";
+
 if (!file_exists($fichier)) {
     header("Location: livraison.php");
     exit();
 }
 
 $commandes = json_decode(file_get_contents($fichier), true);
+
 if (!is_array($commandes)) {
     $commandes = [];
 }
@@ -25,9 +27,12 @@ $livreurNom = trim(($_SESSION["prenom"] ?? "") . " " . ($_SESSION["nom"] ?? ""))
 $identifiantLivreur = $livreurEmail !== "" ? $livreurEmail : $livreurNom;
 
 foreach ($commandes as &$commande) {
-    if ((string)($commande["id"] ?? "") === (string)$commandeId) {
-        $livreurCommande = $commande["livreur_email"] ?? ($commande["livreur"] ?? "");
 
+    if ((string)($commande["id"] ?? "") === (string)$commandeId) {
+
+        $livreurCommande = $commande["livreur_email"] ?? "";
+
+        // Vérifie que la commande appartient bien au livreur
         if ($livreurCommande !== $identifiantLivreur) {
             break;
         }
@@ -35,9 +40,10 @@ foreach ($commandes as &$commande) {
         if ($action === "livree") {
             $commande["statut"] = "livree";
             $commande["date_livraison"] = date("Y-m-d H:i:s");
+
         } elseif ($action === "abandonnee") {
             $commande["statut"] = "abandonnee";
-            $commande["motif_abandon"] = "Adresse introuvable ou livraison impossible";
+            $commande["motif_abandon"] = "Livraison impossible";
             $commande["date_abandon"] = date("Y-m-d H:i:s");
         }
 
@@ -54,4 +60,3 @@ file_put_contents(
 
 header("Location: livraison.php");
 exit();
-?>

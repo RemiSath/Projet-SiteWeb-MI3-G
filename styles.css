@@ -835,6 +835,7 @@ form {
 /* --- Bouton Filtre --- */
 .filter-bar {
     display: flex;
+    flex-direction: row;
     flex-wrap: wrap;
     gap: 20px;
     align-items: center;
@@ -853,7 +854,9 @@ form {
 
 .filter-group form {
     display: flex;
+    flex-direction: row;
     gap: 8px;
+    flex-wrap: wrap;
 }
 
 .filter-btn {
@@ -908,13 +911,6 @@ form {
     color: white;
     text-decoration: underline;
     font-size: 14px;
-}
-
-.message2 {
-    color: green;
-    padding: 10px;
-    border-radius: 5px;
-    background-color: rgb(183, 255, 183);
 }
 
 .reservation {

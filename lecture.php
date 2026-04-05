@@ -3,7 +3,7 @@
 
     $fichier = __DIR__ . "/data/compte.json";
 
-    if (!is_dir(__DIR__ . "/data")) {
+    if(!is_dir(__DIR__ . "/data")){
         mkdir(__DIR__ . "/data", 0777, true);
     }
 

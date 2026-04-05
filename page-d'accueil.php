@@ -61,7 +61,7 @@
         </div>
     </header>
     <?php
-        if(isset($_SESSION["erreur"])) { // Affiche le message d'erreur
+        if(isset($_SESSION["erreur"])){ // Affiche le message d'erreur
             echo "<div class='erreur'>" . $_SESSION["erreur"] . "</div>";
             unset($_SESSION["erreur"]);
             }

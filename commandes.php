@@ -1,74 +1,75 @@
 <?php
-session_start();
+    session_start();
 
-if (!isset($_SESSION["statut"]) || $_SESSION["statut"] !== "Restaurateur") { // Vérifie que l'utilisateur est connecté et a le statut de restaurateur
-    $_SESSION["erreur2"] = "Uniquement pour les restaurateurs.";
-    header("Location: connexion.php");
-    exit();
-}
-
-$fichier = "data/commandes.json";
-$commandes = [];
-
-if (file_exists($fichier)) {
-    $contenu = file_get_contents($fichier);
-    $commandes = json_decode($contenu, true);
-    if (!is_array($commandes)) { // Vérifie que le contenu est un tableau
-        $commandes = [];
+    if(!isset($_SESSION["statut"]) || $_SESSION["statut"] !== "Restaurateur"){ // Vérifie que l'utilisateur est connecté et a le statut de restaurateur
+        $_SESSION["erreur2"] = "Uniquement pour les restaurateurs.";
+        header("Location: connexion.php");
+        exit();
     }
-}
 
-function labelStatut($statut) { // Retourne une étiquette lisible pour un statut donné
-    switch ($statut) {
-        case "a_preparer":
-            return "À préparer";
-        case "en_attente":
-            return "En attente";
-        case "en_cours":
-            return "En cours";
-        case "en_livraison":
-            return "En livraison";
-        case "livree":
-            return "Livrée";
-        default:
-            return "Inconnu";
+    $fichier = "data/commandes.json";
+    $commandes = [];
+
+    if(file_exists($fichier)){
+        $contenu = file_get_contents($fichier);
+        $commandes = json_decode($contenu, true);
+        if(!is_array($commandes)){ // Vérifie que le contenu est un tableau
+            $commandes = [];
+        }
     }
-}
 
-function classeStatut($statut) { // Retourne une classe CSS pour un statut donné (utilisée pour le style)
-    return "status-" . htmlspecialchars($statut);
-}
-
-$filtre = $_GET["statut"] ?? "toutes";
-
-$livreurs = [ // Liste fictive de livreurs pour la phase 3
-    "Livreur disponible 1",
-    "Livreur disponible 2",
-    "Livreur disponible 3"
-];
-
-$compteurs = [ // Initialise les compteurs pour chaque statut
-    "a_preparer" => 0,
-    "en_attente" => 0,
-    "en_cours" => 0,
-    "en_livraison" => 0,
-    "livree" => 0
-];
-
-foreach ($commandes as $commande) { // Compte le nombre de commandes pour chaque statut
-    $s = $commande["statut"] ?? "a_preparer";
-    if (isset($compteurs[$s])) {
-        $compteurs[$s]++;
+    function labelStatut($statut){ // Retourne une étiquette lisible pour un statut donné
+        switch ($statut){
+            case "a_preparer":
+                return "À préparer";
+            case "en_attente":
+                return "En attente";
+            case "en_cours":
+                return "En cours";
+            case "en_livraison":
+                return "En livraison";
+            case "livree":
+                return "Livrée";
+            default:
+                return "Inconnu";
+        }
     }
-}
 
-usort($commandes, function ($a, $b) { // Trie les commandes par ID décroissant (les plus récentes en premier)
-    return ($b["id"] ?? 0) <=> ($a["id"] ?? 0);
-});
+    function classeStatut($statut){ // Retourne une classe CSS pour un statut donné (utilisée pour le style)
+        return "status-" . htmlspecialchars($statut);
+    }
+
+    $filtre = $_GET["statut"] ?? "toutes";
+
+    $livreurs = [ // Liste fictive de livreurs pour la phase 3
+        "Livreur disponible 1",
+        "Livreur disponible 2",
+        "Livreur disponible 3"
+    ];
+
+    $compteurs = [ // Initialise les compteurs pour chaque statut
+        "a_preparer" => 0,
+        "en_attente" => 0,
+        "en_cours" => 0,
+        "en_livraison" => 0,
+        "livree" => 0
+    ];
+
+    foreach($commandes as $commande){ // Compte le nombre de commandes pour chaque statut
+        $s = $commande["statut"] ?? "a_preparer";
+        if(isset($compteurs[$s])){
+            $compteurs[$s]++;
+        }
+    }
+
+    usort($commandes, function ($a, $b){ // Trie les commandes par ID décroissant (les plus récentes en premier)
+        return ($b["id"] ?? 0) <=> ($a["id"] ?? 0);
+    });
 ?>
 
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -76,6 +77,7 @@ usort($commandes, function ($a, $b) { // Trie les commandes par ID décroissant 
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="Images/Among_Us.png">
 </head>
+
 <body>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -141,10 +143,10 @@ usort($commandes, function ($a, $b) { // Trie les commandes par ID décroissant 
             <?php
             $affichees = 0;
 
-            foreach ($commandes as $commande) { // Parcourt les commandes pour les afficher
+            foreach($commandes as $commande){ // Parcourt les commandes pour les afficher
                 $statut = $commande["statut"] ?? "a_preparer";
 
-                if ($filtre !== "toutes" && $statut !== $filtre) {
+                if($filtre !== "toutes" && $statut !== $filtre){
                     continue;
                 }
 
@@ -160,7 +162,7 @@ usort($commandes, function ($a, $b) { // Trie les commandes par ID décroissant 
 
                     <div class="details">
                         <div class="items">
-                            <?php foreach ($plats as $plat) { ?> <!-- Affiche les plats de la commande -->
+                            <?php foreach($plats as $plat){ ?> <!-- Affiche les plats de la commande -->
                                 <div class="item-row">
                                     <span><?php echo htmlspecialchars($plat["nom"] ?? "Produit"); ?></span>
                                     <span>x<?php echo htmlspecialchars($plat["quantite"] ?? 1); ?></span>
@@ -184,7 +186,7 @@ usort($commandes, function ($a, $b) { // Trie les commandes par ID décroissant 
                                 <p><strong>Commentaires :</strong> <?php echo htmlspecialchars($commande["commentaires"] ?? ""); ?></p>
 
                                 <h4>Produits</h4>
-                                <?php foreach ($plats as $plat) { // Affiche les détails de chaque plat (nom, quantité, prix, sous-total)
+                                <?php foreach($plats as $plat){ // Affiche les détails de chaque plat (nom, quantité, prix, sous-total)
                                     $nom = $plat["nom"] ?? "Produit";
                                     $quantite = (int)($plat["quantite"] ?? 1);
                                     $prix = (float)($plat["prix"] ?? 0);
@@ -208,7 +210,7 @@ usort($commandes, function ($a, $b) { // Trie les commandes par ID décroissant 
                         <div class="assignment-box">
                             <h4>Attribuer un livreur</h4> <!-- Affiche une section pour attribuer un livreur à la commande (désactivée pour l'instant, préparée pour la phase 3) -->
                             <select disabled>
-                                <?php foreach ($livreurs as $livreur) { ?>
+                                <?php foreach($livreurs as $livreur){ ?>
                                     <option><?php echo htmlspecialchars($livreur); ?></option>
                                 <?php } ?>
                             </select>
@@ -219,7 +221,7 @@ usort($commandes, function ($a, $b) { // Trie les commandes par ID décroissant 
                 </div>
             <?php } ?>
 
-            <?php if ($affichees === 0) { ?> <!-- Affiche un message si aucune commande ne correspond au filtre sélectionné -->
+            <?php if($affichees === 0){ ?> <!-- Affiche un message si aucune commande ne correspond au filtre sélectionné -->
                 <p>Aucune commande ne correspond à ce filtre.</p>
             <?php } ?>
         </div>
@@ -230,5 +232,6 @@ usort($commandes, function ($a, $b) { // Trie les commandes par ID décroissant 
         <p>✉ Email : imposturecontact@gmail.com</p>
         <p>Horaires : Lundi - Vendredi 10h-21h | Samedi - Dimanche 12h-18h</p>
     </footer>
+
 </body>
 </html>

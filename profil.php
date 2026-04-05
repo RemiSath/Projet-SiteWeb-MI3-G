@@ -133,7 +133,7 @@ if(file_exists($fichierCommandes)){
         <div class="carte fidelite">
             <h2>Compte Fidélité</h2>
             <p class="fidelite-texte">Points accumulés lors de vos commandes :</p>
-            <div class="fidelite-score">320</div>
+            <div class="fidelite-score">0</div>
             <p class="fidelite-texte">pts</p>
         </div>
     </div>

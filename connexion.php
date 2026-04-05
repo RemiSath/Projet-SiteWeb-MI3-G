@@ -65,7 +65,7 @@
         <h7>Connexion</h7> 
         <form action="lecture.php" method="POST">
             <?php
-                if(isset($_SESSION["erreur2"])) { // Affiche l'erreur de connexion s'il y en a une
+                if(isset($_SESSION["erreur2"])){ // Affiche l'erreur de connexion s'il y en a une
                     echo "<div class='erreur'>" . $_SESSION["erreur2"] . "</div>";
                     unset($_SESSION["erreur2"]);
                 }
@@ -93,6 +93,7 @@
         <p>✉ Email : imposturecontact@gmail.com</p>
         <p>Horaires : Lundi - Vendredi 10h-21h | Samedi - Dimanche 12h-18h</p>
     </footer>
+
 </body>
 
 </html>

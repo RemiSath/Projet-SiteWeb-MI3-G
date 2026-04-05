@@ -15,7 +15,7 @@
 
     $fichier = __DIR__ . "/data/compte.json";
 
-    if (!is_dir(__DIR__ . "/data")) {
+    if(!is_dir(__DIR__ . "/data")){
         mkdir(__DIR__ . "/data", 0777, true);
     }
 
@@ -23,7 +23,7 @@
         $json = file_get_contents($fichier);
         $utilisateurs = json_decode($json, true) ?? [];
     } 
-    else {
+    else{
         $utilisateurs = [];
     }
     
@@ -64,7 +64,7 @@
                 <a>Réservation</a>
                 <div class="infos">
                     <a href="reserver.html">Réserver une table</a>
-                    <a href="#">Commander</a>
+                    <a href="commander.php">Commander</a>
                 </div>
             </div>
             <div class="menu">
@@ -82,7 +82,7 @@
             <div class="menu">
                 <a>Services</a>
                 <div class="infos">
-                    <a href="commandes.html">Commandes</a>
+                    <a href="commandes.php">Commandes</a>
                     <a href="livraison.html">Livraison</a>
                 </div>
             </div>

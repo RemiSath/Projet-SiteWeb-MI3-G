@@ -5,7 +5,7 @@
 
         $fichier = __DIR__ . "/data/compte.json"; // Chemin vers le fichier JSON
 
-        if (!is_dir(__DIR__ . "/data")) { // Vérifie si le dossier "data" existe, sinon le crée
+        if(!is_dir(__DIR__ . "/data")){ // Vérifie si le dossier "data" existe, sinon le crée
             mkdir(__DIR__ . "/data", 0777, true);
         }
 
@@ -100,7 +100,7 @@
                 <a>Réservation</a>
                 <div class="infos">
                     <a href="reserver.html">Réserver une table</a>
-                    <a href="commander.html">Commander</a>
+                    <a href="commander.php">Commander</a>
                 </div>
             </div>
             <div class="menu">

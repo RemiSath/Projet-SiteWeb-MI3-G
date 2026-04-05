@@ -1,46 +1,46 @@
 <?php
-session_start();
+    session_start();
 
-function enregistrerNotation() {
-    $fichier = __DIR__ . "/data/notations.json";
+    function enregistrerNotation(){
+        $fichier = __DIR__ . "/data/notations.json";
 
-    if (!is_dir(__DIR__ . "/data")) {
-        mkdir(__DIR__ . "/data", 0777, true);
+        if(!is_dir(__DIR__ . "/data")){
+            mkdir(__DIR__ . "/data", 0777, true);
+        }
+
+        if(file_exists($fichier)){
+            $json = file_get_contents($fichier);
+            $notations = json_decode($json, true) ?? [];
+        } 
+        else{
+            $notations = [];
+        }
+
+        $livraison = isset($_POST["livraison"]) ? intval($_POST["livraison"]) : null;
+        $qualite = isset($_POST["qualite"]) ? intval($_POST["qualite"]) : null;
+        $commentaires = trim($_POST["commentaires"] ?? "");
+
+        if($livraison < 0 || $livraison > 5 || $qualite < 0 || $qualite > 5){ // Validation des notes
+            $_SESSION["erreur"] = "Les notes doivent être entre 0 et 5.";
+            header("Location: Notation.php");
+            exit;
+        }
+
+        $notations[] = array( // Ajout d'un ID unique pour chaque notation
+            "id" => uniqid(),
+            "livraison" => $livraison,
+            "qualite" => $qualite,
+            "commentaires" => $commentaires,
+            "date" => date("Y-m-d")
+        );
+
+        file_put_contents($fichier, json_encode($notations, JSON_PRETTY_PRINT));
+
+        $_SESSION["message"] = "Merci pour votre avis !";
     }
 
-    if(file_exists($fichier)){
-        $json = file_get_contents($fichier);
-        $notations = json_decode($json, true) ?? [];
-    } 
-    else{
-        $notations = [];
-    }
+    enregistrerNotation();
 
-    $livraison = isset($_POST["livraison"]) ? intval($_POST["livraison"]) : null;
-    $qualite = isset($_POST["qualite"]) ? intval($_POST["qualite"]) : null;
-    $commentaires = trim($_POST["commentaires"] ?? "");
-
-    if($livraison < 0 || $livraison > 5 || $qualite < 0 || $qualite > 5){ // Validation des notes
-        $_SESSION["erreur"] = "Les notes doivent être entre 0 et 5.";
-        header("Location: Notation.php");
-        exit;
-    }
-
-    $notations[] = array( // Ajout d'un ID unique pour chaque notation
-        "id" => uniqid(),
-        "livraison" => $livraison,
-        "qualite" => $qualite,
-        "commentaires" => $commentaires,
-        "date" => date("Y-m-d H:i:s")
-    );
-
-    file_put_contents($fichier, json_encode($notations, JSON_PRETTY_PRINT));
-
-    $_SESSION["message"] = "Merci pour votre avis !";
-}
-
-enregistrerNotation();
-
-header("Location: Notation.php");
-exit;
+    header("Location: Notation.php");
+    exit;
 ?>

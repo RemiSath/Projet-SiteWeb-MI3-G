@@ -42,7 +42,7 @@ function active($current, $value) {
 }
 
 function produitCorrespond($nom, $type, $saveur, $allergene) {
-    $nom = mb_strtolower($nom, 'UTF-8');
+    $nom = strtolower($nom);
 
     $typesFruit = ['citron', 'pomme', 'poire', 'mangue', 'mandarine', 'fraise', 'noix de coco', 'pêche', 'framboise'];
     $typesClassique = ['noisette', 'oeuf au plat', 'cacahuète','graine de café'];

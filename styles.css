@@ -210,6 +210,22 @@ a {
     pointer-events: visible;
 }
 
+.menu-links {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 20px;
+    font-size: 200%;
+}
+
+.menu-selection {
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    padding: 10px 20px;
+    color: black;
+}
+
 .img.paris {
     background-image: url("https://th.bing.com/th/id/R.4e312752589af6f4da3d6cf28e2f9775?rik=6XvqwkBl8ue5ew&riu=http%3a%2f%2fphotos.wikimapia.org%2fp%2f00%2f03%2f67%2f44%2f20_full.jpg&ehk=tZ93i9NWQQUrD9mGvJIMN0tkrsdq1m1xzNI%2bJhdcGys%3d&risl=&pid=ImgRaw&r=0");
 }

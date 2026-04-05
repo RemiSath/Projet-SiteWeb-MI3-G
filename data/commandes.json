@@ -1,0 +1,24 @@
+[
+    {
+        "id": 1,
+        "client": "Rémi SATHTHIRIYAN",
+        "date": "2026-04-05",
+        "mode_commande": "livraison",
+        "planification": "immediate",
+        "date_souhaitee": null,
+        "statut": "a_preparer",
+        "adresse": "24 rue de malcouture argenteuil 95100, 95100 Argenteuil",
+        "telephone": "0761414423",
+        "email": "remisaththiriyan@gmail.com",
+        "interphone": "",
+        "etage": "",
+        "commentaires": "",
+        "plats": [
+            {
+                "nom": "Citron",
+                "prix": 6.5,
+                "quantite": 3
+            }
+        ]
+    }
+]

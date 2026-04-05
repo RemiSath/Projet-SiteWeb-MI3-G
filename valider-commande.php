@@ -25,6 +25,12 @@
     $date_souhaitee = trim($_POST["date_souhaitee"] ?? "");
     $heure_souhaitee = trim($_POST["heure_souhaitee"] ?? "");
 
+    if($planification === "plus_tard" && (strtotime($date_souhaitee) <= strtotime(date("Y-m-d")))){
+        $_SESSION["erreur"] = "La date de commande doit être dans le futur.";
+        header("Location: commander.php");
+        exit;
+    }
+
     $date_planifiee = null;
     if($planification === "plus_tard" && $date_souhaitee !== "" && $heure_souhaitee !== ""){ // Validation de la date et de l'heure souhaitées pour une planification "plus tard"
         $date_planifiee = $date_souhaitee . " " . $heure_souhaitee;
@@ -104,6 +110,7 @@
 
     $statut = ($planification === "plus_tard") ? "en_attente" : "a_preparer";
 
+
     $commande = [ // Création d'une nouvelle commande avec les données fournies et des valeurs par défaut pour les champs non fournis
         "id" => $id,
         "client" => $nomComplet,
@@ -111,7 +118,6 @@
         "mode_commande" => "livraison",
         "planification" => $planification,
         "date_souhaitee" => $date_planifiee,
-        "paiement" => "en_attente",
         "statut" => $statut,
         "adresse" => $adresse_complete,
         "telephone" => $telephone,
@@ -128,6 +134,105 @@
 
     unset($_SESSION["panier"]);
 
-    header("Location: profil.php");
-    exit();
+    require(__DIR__ . '/getapikey.php');
+
+    $total = 0;
+    foreach($panier as $item){
+        $total += $item["prix"] * $item["quantite"];
+    }
+    
+    $transaction = uniqid();
+    $montant = number_format($total, 2, '.', '');
+    $vendeur = "MI-3_G";
+    $retour = "http://localhost:8080/retour-paiement.php";
+
+    $api_key = getAPIKey($vendeur);
+
+    $control = md5(
+        $api_key . "#" .
+        $transaction . "#" .
+        $montant . "#" .
+        $vendeur . "#" .
+        $retour . "#"
+    );
+
 ?>
+
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Commander</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="Images/Among_Us.png">
+</head>
+
+<body>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bungee&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playwrite+AT:ital,wght@0,100..400;1,100..400&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Annie+Use+Your+Telescope&display=swap" rel="stylesheet">
+
+    <header class="navbar">
+        <a href="page-d'accueil.php" class="accueil">IMPOSTEUR</a>
+        <div class="navliens">
+            <div class="menu">
+                <a>Réservation</a>
+                <div class="infos">
+                    <a href="reserver.php">Réserver une table</a>
+                    <a href="commander.php">Commander</a>
+                </div>
+            </div>
+            <div class="menu">
+                <a href="Notation.php">Notation</a>
+            </div>
+            <div class="menu">
+                <a>Compte</a>
+                <div class="infos">
+                    <a href="profil.php">Voir Profil</a>
+                    <a href="connexion.php">Connexion</a>
+                    <a href="inscription.php">Inscription</a>
+                    <a href="deconnexion.php">Deconnexion</a>
+                </div>
+            </div>
+            <div class="menu">
+                <a>Services</a>
+                <div class="infos">
+                    <a href="commandes.php">Commandes</a>
+                    <a href="livraison.php">Livraison</a>
+                </div>
+            </div>
+            <div class="menu">
+                <a href="Admin.php">Admin</a>
+            </div>
+            <input type="text" id="searchInput2" placeholder="Rechercher nos produits ..." autocomplete="off">
+        </div>
+    </header>
+
+    <form action='https://www.plateforme-smc.fr/cybank/index.php' method='POST'>
+        <input type='hidden' name='transaction' value="<?php echo $transaction ?>">
+        <input type='hidden' name='montant' value="<?php echo $montant ?>">
+        <input type='hidden' name='vendeur' value="<?php echo $vendeur ?>">
+        <input type='hidden' name='retour' value="<?php echo $retour ?>">
+        <input type='hidden' name='control' value="<?php echo $control ?>">
+        <button type="submit" class="bouttonclassique">Continuer vers le paiement</button>
+    </form>
+
+    <footer class="footer">
+        <p>📞 Téléphone : 07 61 41 44 23</p>
+        <p>✉ Email : imposturecontact@gmail.com</p>
+        <p>Horaires : Lundi - Vendredi 10h-21h | Samedi - Dimanche 12h-18h</p>
+    </footer>
+
+</body>
+</html>

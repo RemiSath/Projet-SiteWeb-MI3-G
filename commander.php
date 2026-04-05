@@ -43,7 +43,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Annie+Use+Your+Telescope&display=swap" rel="stylesheet">
 
     <header class="navbar">
-        <a href="page-d'accueil.php" class="accueil">IMPOSTURE</a>
+        <a href="page-d'accueil.php" class="accueil">IMPOSTEUR</a>
         <div class="navliens">
             <div class="menu">
                 <a>Réservation</a>
@@ -81,11 +81,16 @@
     <div class="container2"> <!-- Conteneur principal pour la page de commande -->
 
         <h4>📦 Informations de livraison</h4>
-
+            <?php
+                if(isset($_SESSION["erreur"])){
+                    echo "<div class='erreur'>" . $_SESSION["erreur"] . "</div>";
+                    unset($_SESSION["erreur"]);
+                }
+            ?>
         <aside class="cart-box">
             <h5>🛒 Votre panier</h5>
 
-            <?php if (empty($panier)) { ?> <!-- Affiche un message si le panier est vide, sinon affiche les articles du panier -->
+            <?php if(empty($panier)){ ?> <!-- Affiche un message si le panier est vide, sinon affiche les articles du panier -->
                 <div class="cart-empty">
                     <p>Votre panier est vide.</p>
                     <p>Vous pouvez remplir votre panier en visitant :</p>
@@ -97,7 +102,7 @@
                 </div>
             <?php } else { ?> <!-- Affiche les articles du panier avec leurs quantités et prix, ainsi que le total et les options pour vider le panier ou voir les produits disponibles -->
                 <ul class="cart-items">
-                    <?php foreach ($panier as $item) { 
+                    <?php foreach($panier as $item){ 
                         $sousTotal = $item["prix"] * $item["quantite"];
                     ?>
                         <li>
@@ -142,9 +147,9 @@
         </div>
 
         <form method="post" action="valider-commande.php">
-        <h5>Adresse</h5>
+            <h5>Adresse</h5>
 
-        <?php if ($isConnected) { ?> <!-- Si l'utilisateur est connecté, affiche les informations pré-remplies et en lecture seule, sinon affiche des champs vides pour que l'utilisateur puisse les remplir -->
+            <?php if ($isConnected) { ?> <!-- Si l'utilisateur est connecté, affiche les informations pré-remplies et en lecture seule, sinon affiche des champs vides pour que l'utilisateur puisse les remplir -->
             <label>Nom complet</label>
             <input type="text" value="<?php echo htmlspecialchars($prenom . ' ' . $nom); ?>" readonly>
 
@@ -168,7 +173,7 @@
             <input type="hidden" name="phone" value="<?php echo htmlspecialchars($telephone); ?>">
             <input type="hidden" name="email" value="<?php echo htmlspecialchars($email); ?>">
 
-        <?php } else { ?> <!-- Affiche des champs vides pour que l'utilisateur puisse les remplir s'il n'est pas connecté -->
+            <?php } else { ?> <!-- Affiche des champs vides pour que l'utilisateur puisse les remplir s'il n'est pas connecté -->
             <label>Nom complet</label>
             <input type="text" name="name" required>
 
@@ -190,39 +195,39 @@
             <h5>Créer un compte</h5>
             <label>Mot de passe</label>
             <input type="password" name="motdepasse" required>
-        <?php } ?>
+            <?php } ?>
 
-        <h5>Informations pour le livreur</h5> <!-- Affiche des champs pour que l'utilisateur puisse fournir des informations supplémentaires pour le livreur, comme le code de l'interphone, l'étage et des commentaires -->
-        <label>Code interphone</label>
-        <input type="text" name="interphone">
+            <h5>Informations pour le livreur</h5> <!-- Affiche des champs pour que l'utilisateur puisse fournir des informations supplémentaires pour le livreur, comme le code de l'interphone, l'étage et des commentaires -->
+            <label>Code interphone</label>
+            <input type="text" name="interphone">
 
-        <label>Étage</label>
-        <input type="text" name="floor">
+            <label>Étage</label>
+            <input type="text" name="floor">
 
-        <label>Commentaires</label>
-        <textarea name="comments" rows="3"></textarea>
+            <label>Commentaires</label>
+            <textarea name="comments" rows="3"></textarea>
 
-        <h5>Type de commande</h5>
+            <h5>Type de commande</h5>
 
-        <div class="planification-container">
-            <div class="option">
-                <input type="radio" id="immediate" name="planification" value="immediate" checked>
-                <label for="immediate">Préparation immédiate</label>
+            <div class="planification-container">
+                <div class="option">
+                    <input type="radio" id="immediate" name="planification" value="immediate" checked>
+                    <label for="immediate">Préparation immédiate</label>
+                </div>
+                <div class="option">
+                    <input type="radio" id="plus_tard" name="planification" value="plus_tard">
+                    <label for="plus_tard">Commander pour plus tard</label>
+                </div>
+                <div class="planification-fields">
+                    <label>Date souhaitée</label>
+                    <input type="date" name="date_souhaitee">
+                    <label>Heure souhaitée</label>
+                    <input type="time" name="heure_souhaitee">
+                </div>
             </div>
-            <div class="option">
-                <input type="radio" id="plus_tard" name="planification" value="plus_tard">
-                <label for="plus_tard">Commander pour plus tard</label>
-            </div>
-            <div class="planification-fields">
-                <label>Date souhaitée</label>
-                <input type="date" name="date_souhaitee">
-                <label>Heure souhaitée</label>
-                <input type="time" name="heure_souhaitee">
-            </div>
-        </div>
-
+            
             <button type="submit" class="submit-btn">
-                Continuer vers le paiement
+                Valider la commande
             </button>
         </form>
     </div>

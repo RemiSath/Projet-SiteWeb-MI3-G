@@ -93,7 +93,7 @@ function produitCorrespond($nom, $type, $saveur, $allergene){
     <header class="navbar">
         <div class="left-group">
             <div class="burger" id="burger">☰</div>
-            <a href="page-d'accueil.php" class="accueil">IMPOSTURE</a>
+            <a href="page-d'accueil.php" class="accueil">IMPOSTEUR</a>
         </div>
         <div class="navliens">
             <div class="menu">

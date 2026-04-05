@@ -1,5 +1,9 @@
 <?php
     session_start();
+    if(!isset($_SESSION["statut"]) || $_SESSION["statut"] !== "Admin"){
+        header("Location: connexion.php");
+        exit();
+    }
 
     function Admin(){
 

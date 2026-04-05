@@ -86,7 +86,7 @@ function produitCorrespond($nom, $type, $saveur, $allergene) {
 }
 
 function urlMenu($menuKey, $selectedType, $selectedSaveur, $selectedAllergene) {
-    return 'Paris.php?menu=' . urlencode($menuKey)
+    return 'Argenteuil.php?menu=' . urlencode($menuKey)
         . '&type=' . urlencode($selectedType)
         . '&saveur=' . urlencode($selectedSaveur)
         . '&allergene=' . urlencode($selectedAllergene);
@@ -98,7 +98,7 @@ function urlMenu($menuKey, $selectedType, $selectedSaveur, $selectedAllergene) {
 
 <head>
     <meta charset="UTF-8">
-    <title>Paris</title>
+    <title>Argenteuil</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="Images/Among_Us.png">
 </head>
@@ -219,14 +219,14 @@ function urlMenu($menuKey, $selectedType, $selectedSaveur, $selectedAllergene) {
             </form>
         </div>
 
-        <a href="Paris.php" class="filter-btn">Réinitialiser</a>
+        <a href="Argenteuil.php" class="filter-btn">Réinitialiser</a>
     </div>
 
     <div class="menu-links">
         <a href="<?php echo h(urlMenu('fraicheur', $selectedType, $selectedSaveur, $selectedAllergene)); ?>" class="filter-btn <?php echo active($menuActif, 'fraicheur'); ?>">Menu Fraîcheur</a>
         <a href="<?php echo h(urlMenu('exotique', $selectedType, $selectedSaveur, $selectedAllergene)); ?>" class="filter-btn <?php echo active($menuActif, 'exotique'); ?>">Menu Exotique</a>
         <a href="<?php echo h(urlMenu('chocolat', $selectedType, $selectedSaveur, $selectedAllergene)); ?>" class="filter-btn <?php echo active($menuActif, 'chocolat'); ?>">Menu Chocolat</a>
-        <a href="Paris.php" class="filter-btn">Tous les menus</a>
+        <a href="Argenteuil.php" class="filter-btn">Tous les menus</a>
     </div>
 
     <?php if ($menuActif !== null && $menuActif !== 'tous' && isset($menus[$menuActif])): ?>

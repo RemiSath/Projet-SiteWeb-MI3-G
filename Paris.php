@@ -215,9 +215,9 @@ function produitCorrespond($nom, $type, $saveur, $allergene) {
         <a href="Paris.php" class="filter-btn">Réinitialiser</a>
     </div>
 
-    <?php if ($selectedMenu !== 'tous' && isset($menus[$selectedMenu])): ?>
+    <?php if ($menuActif !== 'tous' && isset($menus[$menuActif])): ?>
         <div class="menu-selection">
-            <?= h($menus[$selectedMenu]['nom']) ?>
+            <?= h($menus[$menuActif]['nom']) ?>
         </div>
     <?php endif; ?>
 

@@ -115,7 +115,7 @@
                 <a>Services</a>
                 <div class="infos">
                     <a href="commandes.php">Commandes</a>
-                    <a href="livraison.html">Livraison</a>
+                    <a href="livraison.php">Livraison</a>
                 </div>
             </div>
             <div class="menu">

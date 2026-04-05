@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Réserver</title>
-<link rel="stylesheet" href="styles.css">
-<link rel="icon" href="Images/Among_Us.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Réserver</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="Images/Among_Us.png">
 </head>
+
 <body>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,8 +27,8 @@
             <div class="menu">
                 <a>Réservation</a>
                 <div class="infos">
-                    <a href="reserver.html">Réserver une table</a>
-                    <a href="commander.html">Commander</a>
+                    <a href="reserver.php">Réserver une table</a>
+                    <a href="commander.php">Commander</a>
                 </div>
             </div>
             <div class="menu">
@@ -45,7 +47,7 @@
                 <a>Services</a>
                 <div class="infos">
                     <a href="commandes.php">Commandes</a>
-                    <a href="livraison.html">Livraison</a>
+                    <a href="livraison.php">Livraison</a>
                 </div>
             </div>
             <div class="menu">
@@ -55,37 +57,40 @@
         </div>
     </header>
     
-<div class="container">
-    <div class="image-section">
-        <img src="Images/restaurant.png" alt="Restaurant">
+    <div class="container">
+        <div class="image-section">
+            <img src="Images/restaurant.png" alt="Restaurant">
+        </div>
+        <div class="reservation">
+            <p class="subtitle">FAIRE UNE RÉSERVATION</p>
+            <h2>Réserver une table</h2>
+            <form>
+                <div class="row">
+                    <input type="number" placeholder="Adultes" min="1" required>
+                    <input type="number" placeholder="Enfants" min="0" required>
+                </div>
+                <div class="row">
+                    <input type="date" required>
+                    <input type="time" required>
+                </div>
+                <select required>
+                    <option value="">Choisir un restaurant</option>
+                    <option>Paris</option>
+                    <option>Argenteuil</option>
+                    <option>Cergy</option>
+                </select>
+                <textarea placeholder="Commentaire ou demande spéciale"></textarea>
+                <button type="submit">Réserver</button>
+            </form>
+        </div>
     </div>
-    <div class="reservation">
-        <p class="subtitle">FAIRE UNE RÉSERVATION</p>
-        <h2>Réserver une table</h2>
-        <form>
-            <div class="row">
-                <input type="number" placeholder="Adultes" min="1" required>
-                <input type="number" placeholder="Enfants" min="0" required>
-            </div>
-            <div class="row">
-                <input type="date" required>
-                <input type="time" required>
-            </div>
-            <select required>
-                <option value="">Choisir un restaurant</option>
-                <option>Paris</option>
-                <option>Argenteuil</option>
-                <option>Cergy</option>
-            </select>
-            <textarea placeholder="Commentaire ou demande spéciale"></textarea>
-            <button type="submit">Réserver</button>
-        </form>
-    </div>
-</div>
+
     <footer class="footer">
         <p>📞 Téléphone : 07 67 01 02 03</p>
         <p>✉ Email : imposturecontact@gmail.com</p>
         <p>Horaires : Lundi - Vendredi 10h-21h | Samedi - Dimanche 12h-18h</p>
     </footer>
+
 </body>
+
 </html>

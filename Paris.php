@@ -23,7 +23,6 @@ function active($current, $value) {
     return $current === $value ? 'active' : '';
 }
 
-/* Renvoie vrai si le produit doit être affiché */
 function produitCorrespond($nom, $type, $saveur, $allergene) {
     $nom = mb_strtolower($nom, 'UTF-8');
 

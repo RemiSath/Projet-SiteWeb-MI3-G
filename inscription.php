@@ -61,7 +61,7 @@
         </div>
     </header>
 
-    <div class="container3">
+    <div class="container3"> <!-- Conteneur pour le formulaire d'inscription -->
         <h1>Inscription</h1>
         <form action="inscription-infos.php" method="POST">
             <div class="form-group">
@@ -76,7 +76,7 @@
                 <label class="label1" for="email">E-mail</label>
                 <input type="email" id="email" name="email" required placeholder="exemple@domaine.com">
                 <?php
-                    if(isset($_SESSION["erreur"])){
+                    if(isset($_SESSION["erreur"])){ // Vérifie si une erreur est stockée dans la session
                         echo "<div class='erreur'>" . $_SESSION["erreur"] . "</div>";
                         unset($_SESSION["erreur"]);
                     }

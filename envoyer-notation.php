@@ -20,13 +20,13 @@ function enregistrerNotation() {
     $qualite = isset($_POST["qualite"]) ? intval($_POST["qualite"]) : null;
     $commentaires = trim($_POST["commentaires"] ?? "");
 
-    if($livraison < 0 || $livraison > 5 || $qualite < 0 || $qualite > 5){
+    if($livraison < 0 || $livraison > 5 || $qualite < 0 || $qualite > 5){ // Validation des notes
         $_SESSION["erreur"] = "Les notes doivent être entre 0 et 5.";
         header("Location: Notation.php");
         exit;
     }
 
-    $notations[] = array(
+    $notations[] = array( // Ajout d'un ID unique pour chaque notation
         "id" => uniqid(),
         "livraison" => $livraison,
         "qualite" => $qualite,

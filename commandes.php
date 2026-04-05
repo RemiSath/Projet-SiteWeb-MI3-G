@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-if (!isset($_SESSION["statut"]) || $_SESSION["statut"] !== "Restaurateur") {
+if (!isset($_SESSION["statut"]) || $_SESSION["statut"] !== "Restaurateur") { // Vérifie que l'utilisateur est connecté et a le statut de restaurateur
     $_SESSION["erreur2"] = "Uniquement pour les restaurateurs.";
     header("Location: connexion.php");
     exit();
@@ -13,12 +13,12 @@ $commandes = [];
 if (file_exists($fichier)) {
     $contenu = file_get_contents($fichier);
     $commandes = json_decode($contenu, true);
-    if (!is_array($commandes)) {
+    if (!is_array($commandes)) { // Vérifie que le contenu est un tableau
         $commandes = [];
     }
 }
 
-function labelStatut($statut) {
+function labelStatut($statut) { // Retourne une étiquette lisible pour un statut donné
     switch ($statut) {
         case "a_preparer":
             return "À préparer";
@@ -35,19 +35,19 @@ function labelStatut($statut) {
     }
 }
 
-function classeStatut($statut) {
+function classeStatut($statut) { // Retourne une classe CSS pour un statut donné (utilisée pour le style)
     return "status-" . htmlspecialchars($statut);
 }
 
 $filtre = $_GET["statut"] ?? "toutes";
 
-$livreurs = [
+$livreurs = [ // Liste fictive de livreurs pour la phase 3
     "Livreur disponible 1",
     "Livreur disponible 2",
     "Livreur disponible 3"
 ];
 
-$compteurs = [
+$compteurs = [ // Initialise les compteurs pour chaque statut
     "a_preparer" => 0,
     "en_attente" => 0,
     "en_cours" => 0,
@@ -55,14 +55,14 @@ $compteurs = [
     "livree" => 0
 ];
 
-foreach ($commandes as $commande) {
+foreach ($commandes as $commande) { // Compte le nombre de commandes pour chaque statut
     $s = $commande["statut"] ?? "a_preparer";
     if (isset($compteurs[$s])) {
         $compteurs[$s]++;
     }
 }
 
-usort($commandes, function ($a, $b) {
+usort($commandes, function ($a, $b) { // Trie les commandes par ID décroissant (les plus récentes en premier)
     return ($b["id"] ?? 0) <=> ($a["id"] ?? 0);
 });
 ?>
@@ -127,7 +127,7 @@ usort($commandes, function ($a, $b) {
         <h1>Page des Commandes</h1>
     </div>
 
-    <main class="container">
+    <main class="container"> <!-- Conteneur principal pour les commandes -->
         <div class="filters">
             <a class="filter-btn2" href="commandes.php">Toutes</a>
             <a class="filter-btn2" href="commandes.php?statut=a_preparer">À préparer (<?php echo $compteurs["a_preparer"]; ?>)</a>
@@ -141,7 +141,7 @@ usort($commandes, function ($a, $b) {
             <?php
             $affichees = 0;
 
-            foreach ($commandes as $commande) {
+            foreach ($commandes as $commande) { // Parcourt les commandes pour les afficher
                 $statut = $commande["statut"] ?? "a_preparer";
 
                 if ($filtre !== "toutes" && $statut !== $filtre) {
@@ -151,7 +151,7 @@ usort($commandes, function ($a, $b) {
                 $affichees++;
                 $plats = $commande["plats"] ?? [];
                 ?>
-                <div class="order-card <?php echo classeStatut($statut); ?>">
+                <div class="order-card <?php echo classeStatut($statut); ?>"> <!-- Carte de commande avec une classe CSS basée sur le statut -->
                     <div class="meta">
                         <div class="id">#<?php echo htmlspecialchars($commande["id"] ?? ""); ?></div>
                         <div class="customer"><?php echo htmlspecialchars($commande["client"] ?? "Anonyme"); ?></div>
@@ -160,7 +160,7 @@ usort($commandes, function ($a, $b) {
 
                     <div class="details">
                         <div class="items">
-                            <?php foreach ($plats as $plat) { ?>
+                            <?php foreach ($plats as $plat) { ?> <!-- Affiche les plats de la commande -->
                                 <div class="item-row">
                                     <span><?php echo htmlspecialchars($plat["nom"] ?? "Produit"); ?></span>
                                     <span>x<?php echo htmlspecialchars($plat["quantite"] ?? 1); ?></span>
@@ -168,14 +168,14 @@ usort($commandes, function ($a, $b) {
                             <?php } ?>
                         </div>
 
-                        <div class="status-badge badge-<?php echo htmlspecialchars($statut); ?>">
+                        <div class="status-badge badge-<?php echo htmlspecialchars($statut); ?>"> <!-- Affiche le statut de la commande avec un badge coloré -->
                             <?php echo labelStatut($statut); ?>
                         </div>
 
                         <details class="order-details">
                             <summary>Voir le détail</summary>
 
-                            <div class="order-extra">
+                            <div class="order-extra"> <!-- Affiche les informations supplémentaires de la commande -->
                                 <p><strong>Adresse :</strong> <?php echo htmlspecialchars($commande["adresse"] ?? ""); ?></p>
                                 <p><strong>Téléphone :</strong> <?php echo htmlspecialchars($commande["telephone"] ?? ""); ?></p>
                                 <p><strong>Email :</strong> <?php echo htmlspecialchars($commande["email"] ?? ""); ?></p>
@@ -184,13 +184,13 @@ usort($commandes, function ($a, $b) {
                                 <p><strong>Commentaires :</strong> <?php echo htmlspecialchars($commande["commentaires"] ?? ""); ?></p>
 
                                 <h4>Produits</h4>
-                                <?php foreach ($plats as $plat) { 
+                                <?php foreach ($plats as $plat) { // Affiche les détails de chaque plat (nom, quantité, prix, sous-total)
                                     $nom = $plat["nom"] ?? "Produit";
                                     $quantite = (int)($plat["quantite"] ?? 1);
                                     $prix = (float)($plat["prix"] ?? 0);
                                     $sousTotal = $prix * $quantite;
                                 ?>
-                                    <div class="item-row">
+                                    <div class="item-row"> <!-- Affiche une ligne pour chaque produit avec son nom, sa quantité et son sous-total -->
                                         <span><?php echo htmlspecialchars($nom); ?></span>
                                         <span>x<?php echo $quantite; ?></span>
                                         <span><?php echo number_format($sousTotal, 2, ',', ' '); ?> €</span>
@@ -199,14 +199,14 @@ usort($commandes, function ($a, $b) {
                             </div>
                         </details>
 
-                        <div class="actions">
+                        <div class="actions">  <!-- Affiche les boutons d'action pour la commande (désactivés pour l'instant, préparés pour la phase 3) -->
                             <button class="btn2 primary" disabled>Mettre en livraison</button>
                             <button class="btn2 ghost" disabled>Supprimer</button>
                             <button class="btn2 success" disabled>Marquer livrée</button>
                         </div>
 
                         <div class="assignment-box">
-                            <h4>Attribuer un livreur</h4>
+                            <h4>Attribuer un livreur</h4> <!-- Affiche une section pour attribuer un livreur à la commande (désactivée pour l'instant, préparée pour la phase 3) -->
                             <select disabled>
                                 <?php foreach ($livreurs as $livreur) { ?>
                                     <option><?php echo htmlspecialchars($livreur); ?></option>
@@ -219,7 +219,7 @@ usort($commandes, function ($a, $b) {
                 </div>
             <?php } ?>
 
-            <?php if ($affichees === 0) { ?>
+            <?php if ($affichees === 0) { ?> <!-- Affiche un message si aucune commande ne correspond au filtre sélectionné -->
                 <p>Aucune commande ne correspond à ce filtre.</p>
             <?php } ?>
         </div>

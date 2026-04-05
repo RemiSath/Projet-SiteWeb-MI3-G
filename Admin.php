@@ -1,13 +1,13 @@
 <?php
     session_start();
 
-    if(!isset($_SESSION["email"])){
+    if(!isset($_SESSION["email"])){ // Vérifie si l'utilisateur est connecté
         $_SESSION["erreur2"] = "Accès réservé aux administrateurs.";
         header("Location: connexion.php");
         exit;
     }
 
-    if(!isset($_SESSION["statut"]) || $_SESSION["statut"] !== "Admin"){
+    if(!isset($_SESSION["statut"]) || $_SESSION["statut"] !== "Admin"){ // Vérifie si l'utilisateur est un administrateur
         $_SESSION["erreur"] = "Accès réservé aux administrateurs.";
         header("Location: page-d'accueil.php");
         exit;
@@ -97,7 +97,7 @@
         <h1>Page Administrateur</h1>
     </div>
 
-    <header id="topBar">
+    <header id="topBar"> <!-- Barre de recherche pour les clients -->
         <form method="GET">
             <input type="text" name="recherche" id="searchInput" placeholder="Rechercher un client..." value="<?php echo htmlspecialchars($_GET['recherche'] ?? '') ?>">
         </form>
@@ -113,7 +113,7 @@
                             continue;
                         }
                 ?>
-                <div class="card">
+                <div class="card"> <!-- Affiche les utilisateurs sous forme de cartes -->
                     <a href="admin-pouvoirs.php?id=<?= $utilisateur["id"] ?>">
                     <?php
                         echo htmlspecialchars($utilisateur["prenom"]);

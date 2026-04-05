@@ -3,29 +3,29 @@
 
     function Admin(){
 
-        $fichier = __DIR__ . "/data/compte.json";
+        $fichier = __DIR__ . "/data/compte.json"; // Chemin vers le fichier JSON
 
-        if (!is_dir(__DIR__ . "/data")) {
+        if (!is_dir(__DIR__ . "/data")) { // Vérifie si le dossier "data" existe, sinon le crée
             mkdir(__DIR__ . "/data", 0777, true);
         }
 
-        if(file_exists($fichier)){
+        if(file_exists($fichier)){ // Vérifie si le fichier JSON existe, sinon crée un tableau vide
             $json = file_get_contents($fichier);
-            $array = json_decode($json, true) ?? [];
+            $utilisateurs = json_decode($json, true) ?? [];
         } 
         
         else {
-            $array = array();
+            $utilisateurs = array();
         }
 
-        if(!isset($_GET["id"])){
+        if(!isset($_GET["id"])){ // Vérifie si l'ID est présent dans l'URL
             return null;
         }
 
         $id = $_GET["id"];
         $index = null;
 
-        foreach($array as $key => $utilisateur){
+        foreach($utilisateurs as $key => $utilisateur){ // Parcourt le tableau pour trouver l'utilisateur correspondant à l'ID
             if($utilisateur["id"] === $id){
                 $index = $key;
                 break;
@@ -36,35 +36,35 @@
             return null;
         }
 
-        if($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"])){
+        if($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"])){ // Vérifie si une action est soumise via POST
             if($_POST["action"] === "bloquer"){
-                $array[$index]["bloque"] = true;
+                $utilisateurs[$index]["bloque"] = true;
             }
             if($_POST["action"] === "debloquer"){
-                $array[$index]["bloque"] = false;
+                $utilisateurs[$index]["bloque"] = false;
             }
             if($_POST["action"] === "premium"){
-                $array[$index]["statut"] = "Premium";
+                $utilisateurs[$index]["statut"] = "Premium";
             }
             if($_POST["action"] === "vip"){
-                $array[$index]["statut"] = "VIP";
+                $utilisateurs[$index]["statut"] = "VIP";
             }
             if($_POST["action"] === "client"){
-                $array[$index]["statut"] = "Client";
+                $utilisateurs[$index]["statut"] = "Client";
             }
 
-            file_put_contents($fichier, json_encode($array, JSON_PRETTY_PRINT));
+            file_put_contents($fichier, json_encode($utilisateurs, JSON_PRETTY_PRINT));
 
             header("Location: admin-pouvoirs.php?id=".$id);
             exit;
         }
 
-        return $array[$index];
+        return $utilisateurs[$index];
     }
 
     $utilisateur = Admin();
 
-    if(!$utilisateur){
+    if(!$utilisateur){ // Si l'utilisateur n'est pas trouvé, affiche un message d'erreur
         die("Utilisateur introuvable");
     }
 ?>
@@ -93,7 +93,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Annie+Use+Your+Telescope&display=swap" rel="stylesheet">
 
-    <header class="navbar">
+    <header class="navbar"> <!-- Barre de navigation -->
         <a href="page-d'accueil.php" class="accueil">IMPOSTEUR</a>
         <div class="navliens">
             <div class="menu">
@@ -129,7 +129,7 @@
         </div>
     </header>
 
-    <div class="profile-container">
+    <div class="profile-container"> <!-- Conteneur principal du profil -->
         <div class="header-profil">
             <h1>Gestion de 
                 <?php 
@@ -141,7 +141,7 @@
             </h1>
         </div>
 
-        <div class="dashboard">
+        <div class="dashboard"> <!-- Tableau de bord avec les informations et les actions -->
             <div class="carte2">
                 <div class="infos-user">
                     <h2>Ses Informations</h2>
@@ -211,7 +211,7 @@
                     </div>
                 </div>
 
-                <div class="actions-admin">
+                <div class="actions-admin"> <!-- Section des actions administrateur -->
                     <h2>Actions administrateur</h2>
                     <form method="POST">
                         <button name="action" value="bloquer" class="btn-modifier2">Bloquer</button>
@@ -236,7 +236,7 @@
         </div>
     </div>
 
-    <footer class="footer">
+    <footer class="footer"> <!-- Pied de page avec les informations de contact -->
         <p>📞 Téléphone : 07 67 01 02 03</p>
         <p>✉ Email : imposturecontact@gmail.com</p>
         <p>Horaires : Lundi - Vendredi 10h-21h | Samedi - Dimanche 12h-18h</p>

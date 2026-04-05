@@ -7,7 +7,7 @@ if (!isset($_SESSION["panier"])) {
 
 $nom = trim($_POST["nom"] ?? "");
 
-if ($nom !== "" && isset($_SESSION["panier"][$nom])) {
+if ($nom !== "" && isset($_SESSION["panier"][$nom])) { // Vérification que le nom du plat est fourni et existe dans le panier
     $_SESSION["panier"][$nom]["quantite"]--;
     if ($_SESSION["panier"][$nom]["quantite"] <= 0) {
         unset($_SESSION["panier"][$nom]);

@@ -64,14 +64,14 @@
         </div>
     </nav>
 
-    <div class="sitedescription4">
+    <div class="sitedescription4"> 
         <h1>Notez-nous</h1>
         <p class="textedescription4">Votre avis compte pour nous !</p>
         <div class="container-notation">
             <div class="reservation2">
-                <form action="envoyer-notation.php" method="POST">
+                <form action="envoyer-notation.php" method="POST"> <!-- Formulaire de notation -->
                     <?php
-                        if(isset($_SESSION["message"])){
+                        if(isset($_SESSION["message"])){ // Affiche le message de succès ou d'erreur
                             echo "<div class='message'>" . $_SESSION["message"] . "</div>";
                             unset($_SESSION["message"]);
                         }

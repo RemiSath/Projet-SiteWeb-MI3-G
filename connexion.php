@@ -61,16 +61,16 @@
         </div>
     </header>
 
-    <div class="container3">
-        <h7>Connexion</h7>
+    <div class="container3"> <!-- Conteneur pour le formulaire de connexion -->
+        <h7>Connexion</h7> 
         <form action="lecture.php" method="POST">
             <?php
-                if(isset($_SESSION["erreur2"])) {
+                if(isset($_SESSION["erreur2"])) { // Affiche l'erreur de connexion s'il y en a une
                     echo "<div class='erreur'>" . $_SESSION["erreur2"] . "</div>";
                     unset($_SESSION["erreur2"]);
                 }
             ?>
-            <div class="form-group">
+            <div class="form-group"> 
                 <label class="label1" for="email">E-mail</label>
                 <input type="email" id="email" name="email" required placeholder="exemple@domaine.com">
             </div>

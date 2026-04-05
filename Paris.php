@@ -1,12 +1,12 @@
 <?php
 session_start();
 
-if (!isset($_SESSION["panier"])) {
+if (!isset($_SESSION["panier"])) { // Initialise le panier s'il n'existe pas
     $_SESSION["panier"] = [];
 }
 
 $nbArticles = 0;
-foreach ($_SESSION["panier"] as $item) {
+foreach ($_SESSION["panier"] as $item) { // Compte le nombre total d'articles dans le panier
     $nbArticles += $item["quantite"];
 }
 ?>
@@ -89,7 +89,7 @@ foreach ($_SESSION["panier"] as $item) {
     <p>Des desserts qui ressemblent à de vrais fruits, mais qui cachent des mousses, ganaches et inserts gourmands.</p>
 </div>
 
-<div class="filter-bar">
+<div class="filter-bar"> <!-- Barre de filtrage -->
     <h2>Filtrer par catégorie</h2>
     <div class="filter-group">
         <p>Types de plats :</p>
@@ -111,355 +111,379 @@ foreach ($_SESSION["panier"] as $item) {
     </div>
 </div>
 
-<section class="products">
-<div class="product-grid">
-<div class="product-card dessert gluten lactose"
-     data-category="dessert"
-     data-allergens="gluten,lactose">
-    <div class="product-image">
-        <img src="Images/citron.png" alt="Citron">
+<section class="products"> <!-- Section des produits -->
+    <div class="product-grid">
+        <div class="product-card dessert gluten lactose"
+             data-category="dessert"
+             data-allergens="gluten,lactose">
+            <div class="product-image">
+                <img src="Images/citron.png" alt="Citron">
+            </div>
+            <h3>Citron</h3>
+            <p class="description_produit">
+                Réplique d’un citron jaune, peau texturée — mousse citron & yuzu légère et acidulée à l’intérieur.
+            </p>
+            <p class="price">6,50 €</p>
+            <p class="allergens">Allergènes : Gluten, Lactose</p>
+
+            <form method="post" action="ajouter_panier.php">
+                <input type="hidden" name="nom" value="Citron">
+                <input type="hidden" name="prix" value="6.5">
+                <button type="submit" class="add-to-cart" aria-label="Ajouter Citron au panier">
+                    Ajouter au panier
+                </button>
+            </form>
+        </div>
+
+        <!-- Autres produits similaires... -->
     </div>
-    <h3>Citron</h3>
-    <p class="description_produit">
-        Réplique d’un citron jaune, peau texturée — mousse citron & yuzu légère et acidulée à l’intérieur.
-    </p>
-    <p class="price">6,50 €</p>
-    <p class="allergens">Allergènes : Gluten, Lactose</p>
+    <div class="product-grid"> <!-- Deuxième grille de produits -->
+        <div class="product-card dessert gluten lactose"
+            data-category="dessert"
+            data-allergens="gluten,lactose">
+            <div class="product-image">
+                <img src="Images/citron.png" alt="Citron">
+            </div>
+            <h3>Citron</h3>
+            <p class="description_produit">
+                Réplique d’un citron jaune, peau texturée — mousse citron & yuzu légère et acidulée à l’intérieur.
+            </p>
+            <p class="price">6,50 €</p>
+            <p class="allergens">Allergènes : Gluten, Lactose</p>
 
-    <form method="post" action="ajouter_panier.php">
-        <input type="hidden" name="nom" value="Citron">
-        <input type="hidden" name="prix" value="6.5">
-        <button type="submit" class="add-to-cart" aria-label="Ajouter Citron au panier">
-            Ajouter au panier
-        </button>
-    </form>
-</div>
+            <form method="post" action="ajouter_panier.php">
+                <input type="hidden" name="nom" value="Citron">
+                <input type="hidden" name="prix" value="6.5">
+                <button type="submit" class="add-to-cart" aria-label="Ajouter Citron au panier">
+                    Ajouter au panier
+                </button>
+            </form>
+        </div>
 
-<div class="product-card dessert gluten lactose"
-     data-category="dessert"
-     data-allergens="gluten,lactose">
-    <div class="product-image">
-        <img src="Images/pomme.png" alt="Pomme">
+        <div class="product-card dessert gluten lactose"
+            data-category="dessert"
+            data-allergens="gluten,lactose">
+            <div class="product-image">
+                <img src="Images/pomme.png" alt="Pomme">
+            </div>
+            <h3>Pomme</h3>
+            <p class="description_produit">
+                À première vue une vraie pomme brillante, mais coupe-la et retrouve mousse fruitée et cœur fondant.
+            </p>
+            <p class="price">7,00 €</p>
+            <p class="allergens">Allergènes : Gluten, Lactose</p>
+
+            <form method="post" action="ajouter_panier.php">
+                <input type="hidden" name="nom" value="Pomme">
+                <input type="hidden" name="prix" value="7.0">
+                <button type="submit" class="add-to-cart" aria-label="Ajouter Pomme au panier">
+                    Ajouter au panier
+                </button>
+            </form>
+        </div>
+
+        <div class="product-card dessert gluten lactose"
+            data-category="dessert"
+            data-allergens="gluten,lactose">
+            <div class="product-image">
+                <img src="Images/poire.png" alt="Poire">
+            </div>
+            <h3>Poire</h3>
+            <p class="description_produit">
+                Moulée comme une poire juteuse, mais c’est une mousse fine et parfumée qui se cache sous la coque.
+            </p>
+            <p class="price">7,20 €</p>
+            <p class="allergens">Allergènes : Gluten, Lactose</p>
+
+            <form method="post" action="ajouter_panier.php">
+                <input type="hidden" name="nom" value="Poire">
+                <input type="hidden" name="prix" value="7.2">
+                <button type="submit" class="add-to-cart" aria-label="Ajouter Poire au panier">
+                    Ajouter au panier
+                </button>
+            </form>
+        </div>
     </div>
-    <h3>Pomme</h3>
-    <p class="description_produit">
-        À première vue une vraie pomme brillante, mais coupe-la et retrouve mousse fruitée et cœur fondant.
-    </p>
-    <p class="price">7,00 €</p>
-    <p class="allergens">Allergènes : Gluten, Lactose</p>
-
-    <form method="post" action="ajouter_panier.php">
-        <input type="hidden" name="nom" value="Pomme">
-        <input type="hidden" name="prix" value="7.0">
-        <button type="submit" class="add-to-cart" aria-label="Ajouter Pomme au panier">
-            Ajouter au panier
-        </button>
-    </form>
-</div>
-
-<div class="product-card dessert gluten lactose"
-     data-category="dessert"
-     data-allergens="gluten,lactose">
-    <div class="product-image">
-        <img src="Images/poire.png" alt="Poire">
-    </div>
-    <h3>Poire</h3>
-    <p class="description_produit">
-        Moulée comme une poire juteuse, mais c’est une mousse fine et parfumée qui se cache sous la coque.
-    </p>
-    <p class="price">7,20 €</p>
-    <p class="allergens">Allergènes : Gluten, Lactose</p>
-
-    <form method="post" action="ajouter_panier.php">
-        <input type="hidden" name="nom" value="Poire">
-        <input type="hidden" name="prix" value="7.2">
-        <button type="submit" class="add-to-cart" aria-label="Ajouter Poire au panier">
-            Ajouter au panier
-        </button>
-    </form>
-</div>
-
-</div>
 </section>
 
 <section class="products">
-<div class="product-grid">
-<div class="product-card dessert gluten lactose"
-     data-category="dessert"
-     data-allergens="gluten,lactose">
-    <div class="product-image">
-        <img src="Images/mangue.png" alt="Mangue">
+    <div class="product-grid">
+        <div class="product-card dessert gluten lactose"
+            data-category="dessert"
+            data-allergens="gluten,lactose">
+            <div class="product-image">
+                <img src="Images/mangue.png" alt="Mangue">
+            </div>
+            <h3>Mangue</h3>
+            <p class="description_produit">
+                Belle mangue orange, texture veloutée en apparence : une mousse mangue & gelée fruitée vous attend.
+            </p>
+            <p class="price">7,50 €</p>
+            <p class="allergens">Allergènes : Gluten, Lactose</p>
+
+            <form method="post" action="ajouter_panier.php">
+                <input type="hidden" name="nom" value="Mangue">
+                <input type="hidden" name="prix" value="7.5">
+                <button type="submit" class="add-to-cart" aria-label="Ajouter Mangue au panier">
+                    Ajouter au panier
+                </button>
+            </form>
+        </div>
+
+        <div class="product-card dessert gluten lactose"
+            data-category="dessert"
+            data-allergens="gluten,lactose">
+            <div class="product-image">
+                <img src="Images/mandarine.jpg" alt="Mandarine">
+            </div>
+            <h3>Mandarine</h3>
+            <p class="description_produit">
+                Petites rainures, peau brillante : ce dessert cache une ganache mandarine & confit acidulé.
+            </p>
+            <p class="price">6,90 €</p>
+            <p class="allergens">Allergènes : Gluten, Lactose</p>
+
+            <form method="post" action="ajouter_panier.php">
+                <input type="hidden" name="nom" value="Mandarine">
+                <input type="hidden" name="prix" value="6.9">
+                <button type="submit" class="add-to-cart" aria-label="Ajouter Mandarine au panier">
+                    Ajouter au panier
+                </button>
+            </form>
+        </div>
+
+        <div class="product-card dessert gluten lactose"
+            data-category="dessert"
+            data-allergens="gluten,lactose">
+            <div class="product-image">
+                <img src="Images/fraise.png" alt="Fraise">
+            </div>
+            <h3>Fraise</h3>
+            <p class="description_produit">
+                Rouge vif et brillante, ce dessert cache une mousse fraise & insert fruité sous une coque délicate.
+            </p>
+            <p class="price">6,80 €</p>
+            <p class="allergens">Allergènes : Gluten, Lactose</p>
+
+            <form method="post" action="ajouter_panier.php">
+                <input type="hidden" name="nom" value="Fraise">
+                <input type="hidden" name="prix" value="6.8">
+                <button type="submit" class="add-to-cart" aria-label="Ajouter Fraise au panier">
+                    Ajouter au panier
+                </button>
+            </form>
+        </div>
     </div>
-    <h3>Mangue</h3>
-    <p class="description_produit">
-        Belle mangue orange, texture veloutée en apparence : une mousse mangue & gelée fruitée vous attend.
-    </p>
-    <p class="price">7,50 €</p>
-    <p class="allergens">Allergènes : Gluten, Lactose</p>
-
-    <form method="post" action="ajouter_panier.php">
-        <input type="hidden" name="nom" value="Mangue">
-        <input type="hidden" name="prix" value="7.5">
-        <button type="submit" class="add-to-cart" aria-label="Ajouter Mangue au panier">
-            Ajouter au panier
-        </button>
-    </form>
-</div>
-
-<div class="product-card dessert gluten lactose"
-     data-category="dessert"
-     data-allergens="gluten,lactose">
-    <div class="product-image">
-        <img src="Images/mandarine.jpg" alt="Mandarine">
-    </div>
-    <h3>Mandarine</h3>
-    <p class="description_produit">
-        Petites rainures, peau brillante : ce dessert cache une ganache mandarine & confit acidulé.
-    </p>
-    <p class="price">6,90 €</p>
-    <p class="allergens">Allergènes : Gluten, Lactose</p>
-
-    <form method="post" action="ajouter_panier.php">
-        <input type="hidden" name="nom" value="Mandarine">
-        <input type="hidden" name="prix" value="6.9">
-        <button type="submit" class="add-to-cart" aria-label="Ajouter Mandarine au panier">
-            Ajouter au panier
-        </button>
-    </form>
-</div>
-
-<div class="product-card dessert gluten lactose"
-     data-category="dessert"
-     data-allergens="gluten,lactose">
-    <div class="product-image">
-        <img src="Images/fraise.png" alt="Fraise">
-    </div>
-    <h3>Fraise</h3>
-    <p class="description_produit">
-        Rouge vif et brillante, ce dessert cache une mousse fraise & insert fruité sous une coque délicate.
-    </p>
-    <p class="price">6,80 €</p>
-    <p class="allergens">Allergènes : Gluten, Lactose</p>
-
-    <form method="post" action="ajouter_panier.php">
-        <input type="hidden" name="nom" value="Fraise">
-        <input type="hidden" name="prix" value="6.8">
-        <button type="submit" class="add-to-cart" aria-label="Ajouter Fraise au panier">
-            Ajouter au panier
-        </button>
-    </form>
-</div>
-</div>
 </section>
 
 <section class="products">
-<div class="product-grid">
-<div class="product-card dessert gluten lactose"
-     data-category="dessert"
-     data-allergens="gluten,lactose">
-    <div class="product-image">
-        <img src="Images/noisette.avif" alt="Noisette">
+    <div class="product-grid">
+        <div class="product-card dessert gluten lactose"
+            data-category="dessert"
+            data-allergens="gluten,lactose">
+            <div class="product-image">
+                <img src="Images/noisette.avif" alt="Noisette">
+            </div>
+            <h3>Noisette</h3>
+            <p class="description_produit">
+                Belle mangue orange, texture veloutée en apparence : une mousse mangue & gelée fruitée vous attend.
+            </p>
+            <p class="price">7,50 €</p>
+            <p class="allergens">Allergènes : Gluten, Lactose</p>
+
+            <form method="post" action="ajouter_panier.php">
+                <input type="hidden" name="nom" value="Noisette">
+                <input type="hidden" name="prix" value="7.5">
+                <button type="submit" class="add-to-cart" aria-label="Ajouter Noisette au panier">
+                    Ajouter au panier
+                </button>
+            </form>
+        </div>
+
+        <div class="product-card dessert gluten lactose"
+            data-category="dessert"
+            data-allergens="gluten,lactose">
+            <div class="product-image">
+                <img src="Images/noix_de_coco.jpg" alt="Noix de coco">
+            </div>
+            <h3>Noix de coco</h3>
+            <p class="description_produit">
+                Petites rainures, peau brillante : ce dessert cache une ganache mandarine & confit acidulé.
+            </p>
+            <p class="price">6,90 €</p>
+            <p class="allergens">Allergènes : Gluten, Lactose</p>
+
+            <form method="post" action="ajouter_panier.php">
+                <input type="hidden" name="nom" value="Noix de coco">
+                <input type="hidden" name="prix" value="6.9">
+                <button type="submit" class="add-to-cart" aria-label="Ajouter Noix de coco au panier">
+                    Ajouter au panier
+                </button>
+            </form>
+        </div>
+
+        <div class="product-card dessert gluten lactose"
+            data-category="dessert"
+            data-allergens="gluten,lactose">
+            <div class="product-image">
+                <img src="Images/tasses.webp" alt="Tasses">
+            </div>
+            <h3>Tasses</h3>
+            <p class="description_produit">
+                Rouge vif et brillante, ce dessert cache une mousse fraise & insert fruité sous une coque délicate.
+            </p>
+            <p class="price">6,80 €</p>
+            <p class="allergens">Allergènes : Gluten, Lactose</p>
+
+            <form method="post" action="ajouter_panier.php">
+                <input type="hidden" name="nom" value="Tasses">
+                <input type="hidden" name="prix" value="6.8">
+                <button type="submit" class="add-to-cart" aria-label="Ajouter Tasses au panier">
+                    Ajouter au panier
+                </button>
+            </form>
+        </div>
     </div>
-    <h3>Noisette</h3>
-    <p class="description_produit">
-        Belle mangue orange, texture veloutée en apparence : une mousse mangue & gelée fruitée vous attend.
-    </p>
-    <p class="price">7,50 €</p>
-    <p class="allergens">Allergènes : Gluten, Lactose</p>
-
-    <form method="post" action="ajouter_panier.php">
-        <input type="hidden" name="nom" value="Noisette">
-        <input type="hidden" name="prix" value="7.5">
-        <button type="submit" class="add-to-cart" aria-label="Ajouter Noisette au panier">
-            Ajouter au panier
-        </button>
-    </form>
-</div>
-
-<div class="product-card dessert gluten lactose"
-     data-category="dessert"
-     data-allergens="gluten,lactose">
-    <div class="product-image">
-        <img src="Images/noix_de_coco.jpg" alt="Noix de coco">
-    </div>
-    <h3>Noix de coco</h3>
-    <p class="description_produit">
-        Petites rainures, peau brillante : ce dessert cache une ganache mandarine & confit acidulé.
-    </p>
-    <p class="price">6,90 €</p>
-    <p class="allergens">Allergènes : Gluten, Lactose</p>
-
-    <form method="post" action="ajouter_panier.php">
-        <input type="hidden" name="nom" value="Noix de coco">
-        <input type="hidden" name="prix" value="6.9">
-        <button type="submit" class="add-to-cart" aria-label="Ajouter Noix de coco au panier">
-            Ajouter au panier
-        </button>
-    </form>
-</div>
-
-<div class="product-card dessert gluten lactose"
-     data-category="dessert"
-     data-allergens="gluten,lactose">
-    <div class="product-image">
-        <img src="Images/tasses.webp" alt="Tasses">
-    </div>
-    <h3>Tasses</h3>
-    <p class="description_produit">
-        Rouge vif et brillante, ce dessert cache une mousse fraise & insert fruité sous une coque délicate.
-    </p>
-    <p class="price">6,80 €</p>
-    <p class="allergens">Allergènes : Gluten, Lactose</p>
-
-    <form method="post" action="ajouter_panier.php">
-        <input type="hidden" name="nom" value="Tasses">
-        <input type="hidden" name="prix" value="6.8">
-        <button type="submit" class="add-to-cart" aria-label="Ajouter Tasses au panier">
-            Ajouter au panier
-        </button>
-    </form>
-</div>
-</div>
 </section>
 
 <section class="products">
-<div class="product-grid">
-<div class="product-card dessert gluten lactose"
-     data-category="dessert"
-     data-allergens="gluten,lactose">
-    <div class="product-image">
-        <img src="Images/Pommes_de_pin.png" alt="Pommes de pin">
+    <div class="product-grid">
+        <div class="product-card dessert gluten lactose"
+            data-category="dessert"
+            data-allergens="gluten,lactose">
+            <div class="product-image">
+                <img src="Images/Pommes_de_pin.png" alt="Pommes de pin">
+            </div>
+            <h3>Pommes de pin</h3>
+            <p class="description_produit">
+                Belle mangue orange, texture veloutée en apparence : une mousse mangue & gelée fruitée vous attend.
+            </p>
+            <p class="price">7,50 €</p>
+            <p class="allergens">Allergènes : Gluten, Lactose</p>
+
+            <form method="post" action="ajouter_panier.php">
+                <input type="hidden" name="nom" value="Pommes de pin">
+                <input type="hidden" name="prix" value="7.5">
+                <button type="submit" class="add-to-cart" aria-label="Ajouter Pommes de pin au panier">
+                    Ajouter au panier
+                </button>
+            </form>
+        </div>
+
+        <div class="product-card dessert gluten lactose"
+            data-category="dessert"
+            data-allergens="gluten,lactose">
+            <div class="product-image">
+                <img src="Images/peche.jpg" alt="Pêche">
+            </div>
+            <h3>Pêche</h3>
+            <p class="description_produit">
+                Petites rainures, peau brillante : ce dessert cache une ganache mandarine & confit acidulé.
+            </p>
+            <p class="price">6,90 €</p>
+            <p class="allergens">Allergènes : Gluten, Lactose</p>
+
+            <form method="post" action="ajouter_panier.php">
+                <input type="hidden" name="nom" value="Pêche">
+                <input type="hidden" name="prix" value="6.9">
+                <button type="submit" class="add-to-cart" aria-label="Ajouter Pêche au panier">
+                    Ajouter au panier
+                </button>
+            </form>
+        </div>
+
+        <div class="product-card dessert gluten lactose"
+            data-category="dessert"
+            data-allergens="gluten,lactose">
+            <div class="product-image">
+                <img src="Images/graine_de_mangoustan.jpg" alt="Graine de mangoustan">
+            </div>
+            <h3>Graine de mangoustan</h3>
+            <p class="description_produit">
+                Rouge vif et brillante, ce dessert cache une mousse fraise & insert fruité sous une coque délicate.
+            </p>
+            <p class="price">6,80 €</p>
+            <p class="allergens">Allergènes : Gluten, Lactose</p>
+
+            <form method="post" action="ajouter_panier.php">
+                <input type="hidden" name="nom" value="Graine de mangoustan">
+                <input type="hidden" name="prix" value="6.8">
+                <button type="submit" class="add-to-cart" aria-label="Ajouter Graine de mangoustan au panier">
+                    Ajouter au panier
+                </button>
+            </form>
+        </div>
     </div>
-    <h3>Pommes de pin</h3>
-    <p class="description_produit">
-        Belle mangue orange, texture veloutée en apparence : une mousse mangue & gelée fruitée vous attend.
-    </p>
-    <p class="price">7,50 €</p>
-    <p class="allergens">Allergènes : Gluten, Lactose</p>
-
-    <form method="post" action="ajouter_panier.php">
-        <input type="hidden" name="nom" value="Pommes de pin">
-        <input type="hidden" name="prix" value="7.5">
-        <button type="submit" class="add-to-cart" aria-label="Ajouter Pommes de pin au panier">
-            Ajouter au panier
-        </button>
-    </form>
-</div>
-
-<div class="product-card dessert gluten lactose"
-     data-category="dessert"
-     data-allergens="gluten,lactose">
-    <div class="product-image">
-        <img src="Images/peche.jpg" alt="Pêche">
-    </div>
-    <h3>Pêche</h3>
-    <p class="description_produit">
-        Petites rainures, peau brillante : ce dessert cache une ganache mandarine & confit acidulé.
-    </p>
-    <p class="price">6,90 €</p>
-    <p class="allergens">Allergènes : Gluten, Lactose</p>
-
-    <form method="post" action="ajouter_panier.php">
-        <input type="hidden" name="nom" value="Pêche">
-        <input type="hidden" name="prix" value="6.9">
-        <button type="submit" class="add-to-cart" aria-label="Ajouter Pêche au panier">
-            Ajouter au panier
-        </button>
-    </form>
-</div>
-
-<div class="product-card dessert gluten lactose"
-     data-category="dessert"
-     data-allergens="gluten,lactose">
-    <div class="product-image">
-        <img src="Images/graine_de_mangoustan.jpg" alt="Graine de mangoustan">
-    </div>
-    <h3>Graine de mangoustan</h3>
-    <p class="description_produit">
-        Rouge vif et brillante, ce dessert cache une mousse fraise & insert fruité sous une coque délicate.
-    </p>
-    <p class="price">6,80 €</p>
-    <p class="allergens">Allergènes : Gluten, Lactose</p>
-
-    <form method="post" action="ajouter_panier.php">
-        <input type="hidden" name="nom" value="Graine de mangoustan">
-        <input type="hidden" name="prix" value="6.8">
-        <button type="submit" class="add-to-cart" aria-label="Ajouter Graine de mangoustan au panier">
-            Ajouter au panier
-        </button>
-    </form>
-</div>
-</div>
 </section>
 
 <section class="products">
-<div class="product-grid">
-<div class="product-card dessert gluten lactose"
-     data-category="dessert"
-     data-allergens="gluten,lactose">
-    <div class="product-image">
-        <img src="Images/oeuf_plat.jpg" alt="Oeuf au plat">
+    <div class="product-grid">
+        <div class="product-card dessert gluten lactose"
+            data-category="dessert"
+            data-allergens="gluten,lactose">
+            <div class="product-image">
+                <img src="Images/oeuf_plat.jpg" alt="Oeuf au plat">
+            </div>
+            <h3>Oeuf au plat</h3>
+            <p class="description_produit">
+                Belle mangue orange, texture veloutée en apparence : une mousse mangue & gelée fruitée vous attend.
+            </p>
+            <p class="price">7,50 €</p>
+            <p class="allergens">Allergènes : Gluten, Lactose</p>
+
+            <form method="post" action="ajouter_panier.php">
+                <input type="hidden" name="nom" value="Oeuf au plat">
+                <input type="hidden" name="prix" value="7.5">
+                <button type="submit" class="add-to-cart" aria-label="Ajouter Oeuf au plat au panier">
+                    Ajouter au panier
+                </button>
+            </form>
+        </div>
+
+        <div class="product-card dessert gluten lactose"
+            data-category="dessert"
+            data-allergens="gluten,lactose">
+            <div class="product-image">
+                <img src="Images/cacahuete.jpg" alt="Cacahuète">
+            </div>
+            <h3>Cacahuète</h3>
+            <p class="description_produit">
+                Petites rainures, peau brillante : ce dessert cache une ganache mandarine & confit acidulé.
+            </p>
+            <p class="price">6,90 €</p>
+            <p class="allergens">Allergènes : Gluten, Lactose</p>
+
+            <form method="post" action="ajouter_panier.php">
+                <input type="hidden" name="nom" value="Cacahuète">
+                <input type="hidden" name="prix" value="6.9">
+                <button type="submit" class="add-to-cart" aria-label="Ajouter Cacahuète au panier">
+                    Ajouter au panier
+                </button>
+            </form>
+        </div>
+
+        <div class="product-card dessert gluten lactose"
+            data-category="dessert"
+            data-allergens="gluten,lactose">
+            <div class="product-image">
+                <img src="Images/tasses.webp" alt="Tasses">
+            </div>
+            <h3>Tasses</h3>
+            <p class="description_produit">
+                Rouge vif et brillante, ce dessert cache une mousse fraise & insert fruité sous une coque délicate.
+            </p>
+            <p class="price">6,80 €</p>
+            <p class="allergens">Allergènes : Gluten, Lactose</p>
+
+            <form method="post" action="ajouter_panier.php">
+                <input type="hidden" name="nom" value="Tasses">
+                <input type="hidden" name="prix" value="6.8">
+                <button type="submit" class="add-to-cart" aria-label="Ajouter Tasses au panier">
+                    Ajouter au panier
+                </button>
+            </form>
+        </div>
     </div>
-    <h3>Oeuf au plat</h3>
-    <p class="description_produit">
-        Belle mangue orange, texture veloutée en apparence : une mousse mangue & gelée fruitée vous attend.
-    </p>
-    <p class="price">7,50 €</p>
-    <p class="allergens">Allergènes : Gluten, Lactose</p>
-
-    <form method="post" action="ajouter_panier.php">
-        <input type="hidden" name="nom" value="Oeuf au plat">
-        <input type="hidden" name="prix" value="7.5">
-        <button type="submit" class="add-to-cart" aria-label="Ajouter Oeuf au plat au panier">
-            Ajouter au panier
-        </button>
-    </form>
-</div>
-
-<div class="product-card dessert gluten lactose"
-     data-category="dessert"
-     data-allergens="gluten,lactose">
-    <div class="product-image">
-        <img src="Images/cacahuete.jpg" alt="Cacahuète">
-    </div>
-    <h3>Cacahuète</h3>
-    <p class="description_produit">
-        Petites rainures, peau brillante : ce dessert cache une ganache mandarine & confit acidulé.
-    </p>
-    <p class="price">6,90 €</p>
-    <p class="allergens">Allergènes : Gluten, Lactose</p>
-
-    <form method="post" action="ajouter_panier.php">
-        <input type="hidden" name="nom" value="Cacahuète">
-        <input type="hidden" name="prix" value="6.9">
-        <button type="submit" class="add-to-cart" aria-label="Ajouter Cacahuète au panier">
-            Ajouter au panier
-        </button>
-    </form>
-</div>
-
-<div class="product-card dessert gluten lactose"
-     data-category="dessert"
-     data-allergens="gluten,lactose">
-    <div class="product-image">
-        <img src="Images/tasses.webp" alt="Tasses">
-    </div>
-    <h3>Tasses</h3>
-    <p class="description_produit">
-        Rouge vif et brillante, ce dessert cache une mousse fraise & insert fruité sous une coque délicate.
-    </p>
-    <p class="price">6,80 €</p>
-    <p class="allergens">Allergènes : Gluten, Lactose</p>
-
-    <form method="post" action="ajouter_panier.php">
-        <input type="hidden" name="nom" value="Tasses">
-        <input type="hidden" name="prix" value="6.8">
-        <button type="submit" class="add-to-cart" aria-label="Ajouter Tasses au panier">
-            Ajouter au panier
-        </button>
-    </form>
-</div>
-</div>
 </section>
 
 <footer class="footer">

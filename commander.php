@@ -1,9 +1,9 @@
 <?php
 session_start();
 
-$panier = $_SESSION["panier"] ?? [];
+$panier = $_SESSION["panier"] ?? []; // Récupère le panier depuis la session, ou initialise un tableau vide si le panier n'existe pas
 $total = 0;
-$isConnected = isset($_SESSION["email"]);
+$isConnected = isset($_SESSION["email"]); // Vérifie si l'utilisateur est connecté en vérifiant la présence de l'email dans la session
 
 $nom = $_SESSION["nom"] ?? "";
 $prenom = $_SESSION["prenom"] ?? "";
@@ -12,7 +12,7 @@ $telephone = $_SESSION["telephone"] ?? "";
 $adresse = $_SESSION["adresse"] ?? "";
 $infos = $_SESSION["infos"] ?? "";
 
-foreach ($panier as $item) {
+foreach ($panier as $item) { // Calcule le total en multipliant le prix par la quantité pour chaque article du panier
     $total += $item["prix"] * $item["quantite"];
 }
 ?>
@@ -76,14 +76,14 @@ foreach ($panier as $item) {
     </div>
 </header>
 
-<div class="container2">
+<div class="container2"> <!-- Conteneur principal pour la page de commande -->
 
     <h4>📦 Informations de livraison</h4>
 
     <aside class="cart-box">
         <h5>🛒 Votre panier</h5>
 
-        <?php if (empty($panier)) { ?>
+        <?php if (empty($panier)) { ?> <!-- Affiche un message si le panier est vide, sinon affiche les articles du panier -->
             <div class="cart-empty">
                 <p>Votre panier est vide.</p>
                 <p>Vous pouvez remplir votre panier en visitant :</p>
@@ -93,7 +93,7 @@ foreach ($panier as $item) {
                     <li><a href="Cergy.php">Cergy</a></li>
                 </ul>
             </div>
-        <?php } else { ?>
+        <?php } else { ?> <!-- Affiche les articles du panier avec leurs quantités et prix, ainsi que le total et les options pour vider le panier ou voir les produits disponibles -->
             <ul class="cart-items">
                 <?php foreach ($panier as $item) { 
                     $sousTotal = $item["prix"] * $item["quantite"];
@@ -134,7 +134,7 @@ foreach ($panier as $item) {
         <?php } ?>
     </aside>
 
-    <div class="account-box">
+    <div class="account-box"> <!-- Affiche une section pour les clients déjà connectés avec un lien vers la page de connexion -->
         <p>Déjà client ?</p>
         <a href="connexion.php" class="connexion">Se connecter</a>
     </div>
@@ -142,7 +142,7 @@ foreach ($panier as $item) {
     <form method="post" action="valider_commande.php">
     <h5>Adresse</h5>
 
-    <?php if ($isConnected) { ?>
+    <?php if ($isConnected) { ?> <!-- Si l'utilisateur est connecté, affiche les informations pré-remplies et en lecture seule, sinon affiche des champs vides pour que l'utilisateur puisse les remplir -->
         <label>Nom complet</label>
         <input type="text" value="<?php echo htmlspecialchars($prenom . ' ' . $nom); ?>" readonly>
 
@@ -166,7 +166,7 @@ foreach ($panier as $item) {
         <input type="hidden" name="phone" value="<?php echo htmlspecialchars($telephone); ?>">
         <input type="hidden" name="email" value="<?php echo htmlspecialchars($email); ?>">
 
-    <?php } else { ?>
+    <?php } else { ?> <!-- Affiche des champs vides pour que l'utilisateur puisse les remplir s'il n'est pas connecté -->
         <label>Nom complet</label>
         <input type="text" name="name" required>
 
@@ -190,7 +190,7 @@ foreach ($panier as $item) {
         <input type="password" name="motdepasse" required>
     <?php } ?>
 
-    <h5>Informations pour le livreur</h5>
+    <h5>Informations pour le livreur</h5> <!-- Affiche des champs pour que l'utilisateur puisse fournir des informations supplémentaires pour le livreur, comme le code de l'interphone, l'étage et des commentaires -->
     <label>Code interphone</label>
     <input type="text" name="interphone">
 

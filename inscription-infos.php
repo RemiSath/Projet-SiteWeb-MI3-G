@@ -19,7 +19,7 @@
         $email = $_POST["email"] ?? null;
         $emailExiste = false;
 
-        foreach($utilisateurs as $utilisateur){
+        foreach($utilisateurs as $utilisateur){ // Vérifie si l'email existe déjà
             if($utilisateur["email"] === $email){
                 $_SESSION["erreur"] = "Cet email est déjà utilisé.";
                 header("Location: inscription.php");
@@ -31,7 +31,7 @@
             return;
         }
 
-        $utilisateurs[] = array(
+        $utilisateurs[] = array( // Ajoute le nouvel utilisateur au tableau
             "id" => uniqid(),
             "nom" => $_POST["nom"],
             "prenom" => $_POST["prenom"],
@@ -46,7 +46,7 @@
 
         file_put_contents($fichier, json_encode($utilisateurs, JSON_PRETTY_PRINT));
 
-        $_SESSION["nom"] = $_POST["nom"];
+        $_SESSION["nom"] = $_POST["nom"]; // Stocke les informations de l'utilisateur dans la session
         $_SESSION["prenom"] = $_POST["prenom"];
         $_SESSION["email"] = strtolower(trim($email));
         $_SESSION["telephone"] = $_POST["telephone"];

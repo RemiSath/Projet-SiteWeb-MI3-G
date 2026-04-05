@@ -1,12 +1,12 @@
 <?php
 session_start();
 
-if (!isset($_SESSION["email"])) {
+if(!isset($_SESSION["email"])){
     header("Location: connexion.php");
     exit;
 }
 
-$data = [
+$data = [ // Récupération des données de session avec des valeurs par défaut
     "nom" => $_SESSION["nom"] ?? "",
     "prenom" => $_SESSION["prenom"] ?? "",
     "email" => strtolower(trim($_SESSION["email"] ?? "")),
@@ -19,14 +19,14 @@ $data = [
 $fichierCommandes = __DIR__ . "/data/commandes.json";
 $commandesUtilisateur = [];
 
-if (file_exists($fichierCommandes)) {
+if(file_exists($fichierCommandes)){
     $jsonCommandes = file_get_contents($fichierCommandes);
     $commandes = json_decode($jsonCommandes, true) ?? [];
 
     $sessionEmail = $data["email"];
 
-    foreach ($commandes as $commande) {
-        if (!empty($commande["email"]) && strtolower(trim($commande["email"])) === $sessionEmail) {
+    foreach($commandes as $commande){
+        if(!empty($commande["email"]) && strtolower(trim($commande["email"])) === $sessionEmail){ // Vérification de l'email de la commande
             $commandesUtilisateur[] = $commande;
         }
     }
@@ -94,7 +94,7 @@ if (file_exists($fichierCommandes)) {
 
     <div class="dashboard">
         <div class="carte">
-            <h2>Mes Informations</h2>
+            <h2>Mes Informations</h2> <!-- Affichage des informations de l'utilisateur -->
             <div class="info-ligne"><span class="info-label">Statut</span><?php echo htmlspecialchars($data["statut"]); ?></div>
             <div class="info-ligne"><span class="info-label">Nom</span><?php echo htmlspecialchars($data["nom"]); ?></div>
             <div class="info-ligne"><span class="info-label">Prénom</span><?php echo htmlspecialchars($data["prenom"]); ?></div>
@@ -111,17 +111,17 @@ if (file_exists($fichierCommandes)) {
 
         <div class="carte">
             <h2>Anciennes Commandes</h2>
-            <?php if(empty($commandesUtilisateur)): ?>
+            <?php if(empty($commandesUtilisateur)): ?> <!-- Affichage d'un message si aucune commande n'est trouvée pour l'utilisateur -->
                 <p>Aucune commande trouvée.</p>
             <?php else: ?>
-                <?php foreach($commandesUtilisateur as $commande): ?>
+                <?php foreach($commandesUtilisateur as $commande): ?> <!-- Affichage des commandes de l'utilisateur -->
                     <div class="commande">
                         <p><strong>Commande #<?php $i = 1; echo $i; $i++;?></strong></p>
-                        <p>Date : <?php echo htmlspecialchars($commande["date_souhaitee"] ?? $commande["date"]); ?></p>
+                        <p>Date : <?php echo htmlspecialchars($commande["date_souhaitee"] ?? $commande["date"]); ?></p> <!-- Affichage de la date de la commande -->
                         <p><strong>Plats :</strong></p>
                         <ul>
                             <?php foreach($commande["plats"] as $plat): ?>
-                                <li><?php echo htmlspecialchars($plat["nom"]); ?> x<?php echo $plat["quantite"]; ?> (<?php echo $plat["prix"]; ?> €)</li>
+                                <li><?php echo htmlspecialchars($plat["nom"]); ?> x<?php echo $plat["quantite"]; ?> (<?php echo $plat["prix"]; ?> €)</li> <!-- Affichage du nom, de la quantité et du prix de chaque plat de la commande -->
                             <?php endforeach; ?>
                         </ul>
                         <hr>

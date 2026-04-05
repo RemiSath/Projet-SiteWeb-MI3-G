@@ -22,7 +22,7 @@
 
     $utilisateurTrouve = false;
 
-    foreach($utilisateurs as $utilisateur){
+    foreach($utilisateurs as $utilisateur){ // Correction de la variable $ultilisateurs en $utilisateurs
         if($utilisateur["email"] === $email){
             $utilisateurTrouve = true;
 

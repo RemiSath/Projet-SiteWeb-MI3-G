@@ -8,6 +8,7 @@ if (empty($panier)) {
     exit();
 }
 
+// Récupération et validation des données du formulaire
 $nomComplet = trim($_POST["name"] ?? "Anonyme");
 $adresse = trim($_POST["address"] ?? "");
 $code_postal = trim($_POST["postal_code"] ?? "");
@@ -25,11 +26,11 @@ $date_souhaitee = trim($_POST["date_souhaitee"] ?? "");
 $heure_souhaitee = trim($_POST["heure_souhaitee"] ?? "");
 
 $date_planifiee = null;
-if ($planification === "plus_tard" && $date_souhaitee !== "" && $heure_souhaitee !== "") {
+if ($planification === "plus_tard" && $date_souhaitee !== "" && $heure_souhaitee !== "") { // Validation de la date et de l'heure souhaitées pour une planification "plus tard"
     $date_planifiee = $date_souhaitee . " " . $heure_souhaitee;
 }
 
-$adresse_complete = $adresse . ", " . $code_postal . " " . $ville;
+$adresse_complete = $adresse . ", " . $code_postal . " " . $ville; // Construction de l'adresse complète à partir des différentes parties
 
 $dirData = __DIR__ . "/data";
 $fichierComptes = $dirData . "/compte.json";
@@ -37,8 +38,8 @@ $fichierCommandes = $dirData . "/commandes.json";
 
 if (empty($_SESSION["email"])) {
 
-    $email = strtolower(trim($_POST["email"] ?? ""));
-    $motdepasse = $_POST["motdepasse"] ?? "";
+    $email = strtolower(trim($_POST["email"] ?? "")); // Validation de l'email fourni dans le formulaire ou dans la session
+    $motdepasse = $_POST["motdepasse"] ?? ""; // Validation du mot de passe fourni dans le formulaire
 
     if ($email === "" || $motdepasse === "") {
         header("Location: commander.php?erreur=champs_compte");
@@ -50,7 +51,7 @@ if (empty($_SESSION["email"])) {
     }
 
     $comptes = file_exists($fichierComptes) 
-        ? json_decode(file_get_contents($fichierComptes), true) 
+        ? json_decode(file_get_contents($fichierComptes), true) // Récupération des comptes existants à partir du fichier JSON
         : [];
 
     if (!is_array($comptes)) $comptes = [];
@@ -62,11 +63,11 @@ if (empty($_SESSION["email"])) {
         }
     }
 
-    $partiesNom = preg_split('/\s+/', trim($_POST["name"]), 2);
+    $partiesNom = preg_split('/\s+/', trim($_POST["name"]), 2); // Séparation du nom complet en prénom et nom, en limitant à 2 parties
     $prenom = $partiesNom[0] ?? "";
     $nom = $partiesNom[1] ?? "";
 
-    $nouveauCompte = [
+    $nouveauCompte = [ // Création d'un nouveau compte avec les données fournies et des valeurs par défaut pour les champs non fournis
         "id" => uniqid(),
         "nom" => $nom,
         "prenom" => $prenom,
@@ -96,14 +97,14 @@ if (empty($_SESSION["email"])) {
     $_SESSION["statut"] = "Client";
 }
 
-$commandes = file_exists($fichierCommandes) ? json_decode(file_get_contents($fichierCommandes), true) : [];
+$commandes = file_exists($fichierCommandes) ? json_decode(file_get_contents($fichierCommandes), true) : []; // Récupération des commandes existantes à partir du fichier JSON
 if (!is_array($commandes)) $commandes = [];
 
-$id = !empty($commandes) ? max(array_column($commandes, "id")) + 1 : 1;
+$id = !empty($commandes) ? max(array_column($commandes, "id")) + 1 : 1; // Génération d'un ID unique pour la nouvelle commande en se basant sur les commandes existantes
 
 $statut = ($planification === "plus_tard") ? "en_attente" : "a_preparer";
 
-$commande = [
+$commande = [ // Création d'une nouvelle commande avec les données fournies et des valeurs par défaut pour les champs non fournis
     "id" => $id,
     "client" => $nomComplet,
     "date" => $date_planifiee ?? date("Y-m-d"),

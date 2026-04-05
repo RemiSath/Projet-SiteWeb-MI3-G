@@ -84,6 +84,13 @@ function produitCorrespond($nom, $type, $saveur, $allergene) {
 
     return true;
 }
+
+function urlMenu($menuKey, $selectedType, $selectedSaveur, $selectedAllergene) {
+    return 'Paris.php?menu=' . urlencode($menuKey)
+        . '&type=' . urlencode($selectedType)
+        . '&saveur=' . urlencode($selectedSaveur)
+        . '&allergene=' . urlencode($selectedAllergene);
+}
 ?>
 
 <!DOCTYPE html>
@@ -111,7 +118,7 @@ function produitCorrespond($nom, $type, $saveur, $allergene) {
     <header class="navbar">
         <div class="left-group">
             <div class="burger" id="burger">☰</div>
-            <a href="page-d'accueil.php" class="accueil">IMPOSTURE</a>
+            <a href="page-daccueil.php" class="accueil">IMPOSTURE</a>
         </div>
         <div class="navliens">
             <div class="menu">
@@ -215,7 +222,14 @@ function produitCorrespond($nom, $type, $saveur, $allergene) {
         <a href="Paris.php" class="filter-btn">Réinitialiser</a>
     </div>
 
-    <?php if ($menuActif !== 'tous' && isset($menus[$menuActif])): ?>
+    <div class="menu-links">
+        <a href="<?php echo h(urlMenu('fraicheur', $selectedType, $selectedSaveur, $selectedAllergene)); ?>" class="filter-btn <?php echo active($menuActif, 'fraicheur'); ?>">Menu Fraîcheur</a>
+        <a href="<?php echo h(urlMenu('exotique', $selectedType, $selectedSaveur, $selectedAllergene)); ?>" class="filter-btn <?php echo active($menuActif, 'exotique'); ?>">Menu Exotique</a>
+        <a href="<?php echo h(urlMenu('chocolat', $selectedType, $selectedSaveur, $selectedAllergene)); ?>" class="filter-btn <?php echo active($menuActif, 'chocolat'); ?>">Menu Chocolat</a>
+        <a href="Paris.php" class="filter-btn">Tous les menus</a>
+    </div>
+
+    <?php if ($menuActif !== null && $menuActif !== 'tous' && isset($menus[$menuActif])): ?>
         <div class="menu-selection">
             <?= h($menus[$menuActif]['nom']) ?>
         </div>

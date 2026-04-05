@@ -226,7 +226,6 @@ function urlMenu($menuKey, $selectedType, $selectedSaveur, $selectedAllergene) {
         <a href="<?php echo h(urlMenu('fraicheur', $selectedType, $selectedSaveur, $selectedAllergene)); ?>" class="filter-btn <?php echo active($menuActif, 'fraicheur'); ?>">Menu Fraîcheur</a>
         <a href="<?php echo h(urlMenu('exotique', $selectedType, $selectedSaveur, $selectedAllergene)); ?>" class="filter-btn <?php echo active($menuActif, 'exotique'); ?>">Menu Exotique</a>
         <a href="<?php echo h(urlMenu('chocolat', $selectedType, $selectedSaveur, $selectedAllergene)); ?>" class="filter-btn <?php echo active($menuActif, 'chocolat'); ?>">Menu Chocolat</a>
-        <a href="Paris.php" class="filter-btn">Tous les menus</a>
     </div>
 
     <?php if ($menuActif !== null && $menuActif !== 'tous' && isset($menus[$menuActif])): ?>

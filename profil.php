@@ -110,13 +110,14 @@ if(file_exists($fichierCommandes)){
         </div>
 
         <div class="carte">
+            <?php $i = 1; ?>
             <h2>Anciennes Commandes</h2>
             <?php if(empty($commandesUtilisateur)): ?> <!-- Affichage d'un message si aucune commande n'est trouvée pour l'utilisateur -->
                 <p>Aucune commande trouvée.</p>
             <?php else: ?>
                 <?php foreach($commandesUtilisateur as $commande): ?> <!-- Affichage des commandes de l'utilisateur -->
                     <div class="commande">
-                        <p><strong>Commande #<?php $i = 1; echo $i; $i++;?></strong></p>
+                        <p><strong>Commande #<?php echo $i; $i++; ?></strong></p>
                         <p>Date : <?php echo htmlspecialchars($commande["date_souhaitee"] ?? $commande["date"]); ?></p> <!-- Affichage de la date de la commande -->
                         <p><strong>Plats :</strong></p>
                         <ul>

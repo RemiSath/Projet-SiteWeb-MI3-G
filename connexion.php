@@ -77,7 +77,14 @@
 
             <div class="form-group">
                 <label class="label1" for="password">Mot de passe</label>
-                <input type="password" id="password" name="password" required placeholder="Votre mot de passe">
+
+                <div class="password-container">
+                    <input type="password" id="password" name="password" required placeholder="Votre mot de passe">
+
+                    <button type="button" class="oeil" id="oeil">
+                        <img src="Oeil_amongus.png">
+                    </button>
+                </div>
             </div>
 
             <button type="submit">Se connecter</button>
@@ -94,6 +101,24 @@
         <p>Horaires : Lundi - Vendredi 10h-21h | Samedi - Dimanche 12h-18h</p>
     </footer>
 
+    <script>
+    const oeil = document.getElementById('oeil');
+    const mdpInput = document.getElementById('password');
+
+    oeil.addEventListener('click', () => {
+
+        if (mdpInput.type === 'password') {
+            mdpInput.type = 'text';
+            oeil.innerHTML = '🙈';
+        } 
+        
+        else {
+            mdpInput.type = 'password';
+            oeil.innerHTML = 'Oeil_amongus.png';
+        }
+
+    });
+</script>
 </body>
 
 </html>

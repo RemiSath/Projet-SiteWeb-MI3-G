@@ -22,6 +22,16 @@
     }
 }
 
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+    display: none;
+}
+
+input[type="password"]::-webkit-credentials-auto-fill-button,
+input[type="password"]::-webkit-textfield-decoration-container {
+    display: none !important;
+}
+
 /* Page d'accueil DEBUT */
 body {
     min-height: 100vh;
@@ -1653,7 +1663,7 @@ button2:hover {
 }
 
 .password-container input{
-    padding-right: 50px;
+    padding-right: 60px;
 }
 
 .oeil{
@@ -1666,7 +1676,10 @@ button2:hover {
     color: black;
 }
 
-.oeil:hover{
-    color: green;
+.oeil img{
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
 }
+
 /* Page de connexion/inscription FIN */

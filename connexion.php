@@ -81,9 +81,9 @@
                 <div class="password-container">
                     <input type="password" id="password" name="password" required placeholder="Votre mot de passe">
 
-                    <button type="button" class="oeil" id="oeil">
-                        <img src="Oeil_amongus.png">
-                    </button>
+                <button type="button" class="oeil" id="oeil">
+                    <img id="image-oeil" src="Images/Oeil_amongus.png" alt="Afficher mot de passe">
+                </button>
                 </div>
             </div>
 
@@ -102,23 +102,24 @@
     </footer>
 
     <script>
-    const oeil = document.getElementById('oeil');
-    const mdpInput = document.getElementById('password');
+        const oeil = document.getElementById('oeil');
+        const mdpInput = document.getElementById('password');
+        const imageOeil = document.getElementById('image-oeil');
 
-    oeil.addEventListener('click', () => {
+        oeil.addEventListener('click', () => {
 
-        if (mdpInput.type === 'password') {
-            mdpInput.type = 'text';
-            oeil.innerHTML = '🙈';
-        } 
-        
-        else {
-            mdpInput.type = 'password';
-            oeil.innerHTML = 'Oeil_amongus.png';
-        }
+            if (mdpInput.type === 'password') {
+                mdpInput.type = 'text';
+                imageOeil.src = "Images/Oeil_ferme.png";
+            } 
+            
+            else {
+                mdpInput.type = 'password';
+                imageOeil.src = "Images/Oeil_amongus.png";
+            }
 
-    });
-</script>
+        });
+    </script>
 </body>
 
 </html>

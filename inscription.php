@@ -84,7 +84,12 @@
             </div>
             <div class="form-group">
                 <label class="label1" for="motdepasse">Mot de passe</label>
-                <input type="password" id="motdepasse" name="motdepasse" required placeholder="XXXXXXXXXXX">
+                <div class="password-container">
+                    <input type="password" id="motdepasse" name="motdepasse" required placeholder="XXXXXXXXXXX">
+                    <button type="button" class="oeil" id="oeil">
+                        <img id="image-oeil" src="Images/Oeil_amongus.png" alt="Afficher mot de passe">
+                    </button>
+                </div>
             </div>
             <div class="form-group">
                 <label class="label1" for="adresse">Adresse de livraison</label>
@@ -108,6 +113,26 @@
         <p>✉ Email : imposturecontact@gmail.com</p>
         <p>Horaires : Lundi - Vendredi 10h-21h | Samedi - Dimanche 12h-18h</p>
     </footer>
+
+    <script>
+        const oeil = document.getElementById('oeil');
+        const mdpInput = document.getElementById('motdepasse');
+        const imageOeil = document.getElementById('image-oeil');
+
+        oeil.addEventListener('click', () => {
+
+            if (mdpInput.type === 'password') {
+                mdpInput.type = 'text';
+                imageOeil.src = "Images/Oeil_ferme.png";
+            } 
+            
+            else {
+                mdpInput.type = 'password';
+                imageOeil.src = "Images/Oeil_amongus.png";
+            }
+
+        });
+    </script>
     
 </body>
 

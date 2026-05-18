@@ -1428,9 +1428,19 @@ main.container {
     color: white;
 }
 
-.badge-a_preparer {
+.badge-payee {
+    background: #2563eb;
+    color: white;
+}
+
+.badge-en_preparation {
     background: #f59e0b;
-    color: #222;
+    color: black;
+}
+
+.badge-prete {
+    background: #10b981;
+    color: white;
 }
 
 .badge-en_livraison {

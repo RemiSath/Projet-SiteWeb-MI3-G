@@ -1216,6 +1216,8 @@ input:focus, textarea:focus {
     justify-content: space-between;
     align-items: flex-start;
     padding: 10px 0;
+    word-break: break-word;
+    overflow-wrap: break-word;
 }
 
 .info-ligne:last-child {
@@ -1680,6 +1682,23 @@ button2:hover {
     width: 30px;
     height: 30px;
     object-fit: contain;
+}
+
+.erreur-js{
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.correct-js{
+    color: limegreen;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.compteur{
+    font-size:16px;
+    color: black;
 }
 
 /* Page de connexion/inscription FIN */

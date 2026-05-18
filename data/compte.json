@@ -37,5 +37,17 @@
         "infos": "",
         "statut": "Livreur",
         "bloque": false
+    },
+    {
+        "id": "6a0ae8f2204f5",
+        "nom": "SATHTHIRIYAN",
+        "prenom": "R\u00e9mi",
+        "email": "remisaththiriyan@gmail.com",
+        "motdepasse": "$2y$12$lQYs2u48nLTgli7\/3kpbQuHmEytbAHhJTaH5vLZOHB421xqj1M7Ma",
+        "adresse": "24 rue de malcouture argenteuil 95100",
+        "telephone": "0761414423",
+        "infos": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "statut": "Client",
+        "bloque": false
     }
 ]

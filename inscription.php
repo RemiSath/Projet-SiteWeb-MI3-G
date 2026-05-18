@@ -63,7 +63,13 @@
 
     <div class="container3"> <!-- Conteneur pour le formulaire d'inscription -->
         <h1>Inscription</h1>
-        <form action="inscription-infos.php" method="POST">
+        <form id="formInscription" action="inscription-infos.php" method="POST">
+            <?php
+                if(isset($_SESSION["erreur"])){ // Vérifie si une erreur est stockée dans la session
+                    echo "<div class='erreur'>" . $_SESSION["erreur"] . "</div>";
+                    unset($_SESSION["erreur"]);
+                }
+            ?>
             <div class="form-group">
                 <label class="label1" for="nom">Nom</label>
                 <input type="text" id="nom" name="nom" required placeholder="Votre nom">
@@ -75,12 +81,6 @@
             <div class="form-group">
                 <label class="label1" for="email">E-mail</label>
                 <input type="email" id="email" name="email" required placeholder="exemple@domaine.com">
-                <?php
-                    if(isset($_SESSION["erreur"])){ // Vérifie si une erreur est stockée dans la session
-                        echo "<div class='erreur'>" . $_SESSION["erreur"] . "</div>";
-                        unset($_SESSION["erreur"]);
-                    }
-                ?>
             </div>
             <div class="form-group">
                 <label class="label1" for="motdepasse">Mot de passe</label>
@@ -121,16 +121,148 @@
 
         oeil.addEventListener('click', () => {
 
-            if (mdpInput.type === 'password') {
+            if(mdpInput.type === 'password'){
                 mdpInput.type = 'text';
                 imageOeil.src = "Images/Oeil_ferme.png";
             } 
             
-            else {
+            else{
                 mdpInput.type = 'password';
                 imageOeil.src = "Images/Oeil_amongus.png";
             }
 
+        });
+
+        const form = document.getElementById("formInscription");
+
+        form.addEventListener("submit", function(event){
+
+            supprimerMessages();
+
+            let valide = true;
+
+            const nom = document.getElementById("nom");
+            const prenom = document.getElementById("prenom");
+            const email = document.getElementById("email");
+            const motdepasse = document.getElementById("motdepasse");
+            const telephone = document.getElementById("telephone");
+            const adresse = document.getElementById("adresse");
+
+            if(nom.value.trim().length < 1){
+                afficherErreur(nom, "Nom invalide");
+                valide = false;
+            }
+
+            else{
+                afficherCorrect(nom, "Nom valide");
+            }
+
+            if(prenom.value.trim().length < 1){
+                afficherErreur(prenom, "Prénom invalide");
+                valide = false;
+            }
+
+            else{
+                afficherCorrect(prenom, "Prénom valide");
+            }
+
+            const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            if(!regexEmail.test(email.value)){
+                afficherErreur(email, "Email invalide");
+                valide = false;
+            }
+
+            else{
+                afficherCorrect(email, "Email valide");
+            }
+
+            if(motdepasse.value.length < 6){
+                afficherErreur(motdepasse, "Mot de passe trop court (6 caractères minimum)");
+                valide = false;
+            }
+
+            else{
+                afficherCorrect(motdepasse, "Mot de passe valide");
+            }
+
+            const regexTelephone = /^0[1-9](\s?[0-9]{2}){4}$/;
+
+            if(!regexTelephone.test(telephone.value)){
+                afficherErreur(telephone, "Téléphone invalide");
+                valide = false;
+            }
+
+            else{
+                afficherCorrect(telephone, "Téléphone valide");
+            }
+
+            if(adresse.value.trim().length < 4){
+                afficherErreur(adresse, "Adresse invalide");
+                valide = false;
+            }
+
+            else{
+                afficherCorrect(adresse, "Adresse valide");
+            }
+
+            if(valide == false){
+                event.preventDefault();
+            }
+
+        });
+
+        function afficherErreur(input, message){
+
+            const erreur = document.createElement("div");
+
+            erreur.innerText = message;
+            erreur.classList.add("erreur-js");
+
+            input.closest(".form-group").appendChild(erreur);
+
+            input.style.border = "2px solid red";
+        }
+
+        function afficherCorrect(input, message){
+
+            const correct = document.createElement("div");
+
+            correct.innerText = message;
+            correct.classList.add("correct-js");
+
+            input.closest(".form-group").appendChild(correct);
+
+            input.style.border = "2px solid green";
+        }
+
+        function supprimerMessages(){
+
+            const messages = document.querySelectorAll(".erreur-js, .correct-js");
+
+            messages.forEach(function(message){
+                message.remove();
+            });
+
+            const inputs = document.querySelectorAll("input");
+
+            inputs.forEach(function(input){
+                input.style.border = "";
+            });
+        }
+        
+        const infosInput = document.getElementById("infos");
+
+        const compteur = document.createElement("div");
+        compteur.classList.add("compteur");
+        infosInput.parentElement.appendChild(compteur);
+
+        infosInput.addEventListener("input", function () {
+            if(infosInput.value.length > 200){
+                infosInput.value = infosInput.value.substring(0, 200);
+            }
+
+            compteur.innerText = infosInput.value.length + "/200 caractères";
         });
     </script>
     

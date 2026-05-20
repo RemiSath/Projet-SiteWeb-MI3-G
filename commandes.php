@@ -60,37 +60,71 @@ function classeStatut($statut) {
     return "status-" . htmlspecialchars($statut);
 }
 
+$isAjax = isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $id = $_POST["id"] ?? null;
     $action = $_POST["action"] ?? null;
     $livreur = $_POST["livreur"] ?? null;
 
+    $response = ["success" => false, "message" => "Action invalide."];
+
     if ($id && $action) {
         foreach ($commandes as &$commande) {
             if (isset($commande["id"]) && $commande["id"] == $id) {
-                $statutActuel = normaliserStatut($commande["statut"] ?? "payee");
-                $commande["statut"] = $statutActuel;
+                $statutAvant = normaliserStatut($commande["statut"] ?? "payee");
+                $statutApres = $statutAvant;
+                $changed = false;
 
-                if ($action === "preparer" && $statutActuel === "payee") {
-                    $commande["statut"] = "en_preparation";
-                } elseif ($action === "prete" && $statutActuel === "en_preparation") {
-                    $commande["statut"] = "prete";
-                } elseif ($action === "assigner" && $statutActuel === "prete" && !empty($livreur)) {
-                    $commande["statut"] = "en_livraison";
+                if ($action === "preparer" && $statutAvant === "payee") {
+                    $statutApres = "en_preparation";
+                    $changed = true;
+                } elseif ($action === "prete" && $statutAvant === "en_preparation") {
+                    $statutApres = "prete";
+                    $changed = true;
+                } elseif ($action === "assigner" && $statutAvant === "prete" && !empty($livreur)) {
+                    $statutApres = "en_livraison";
                     $commande["livreur"] = $livreur;
-                } elseif ($action === "livree" && $statutActuel === "en_livraison") {
-                    $commande["statut"] = "livree";
+                    $changed = true;
+                } elseif ($action === "livree" && $statutAvant === "en_livraison") {
+                    $statutApres = "livree";
+                    $changed = true;
+                }
+
+                if ($changed) {
+                    $commande["statut"] = $statutApres;
+
+                    file_put_contents(
+                        $fichier,
+                        json_encode($commandes, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)
+                    );
+
+                    $response = [
+                        "success" => true,
+                        "id" => $id,
+                        "old_status" => $statutAvant,
+                        "new_status" => $statutApres,
+                        "livreur" => $commande["livreur"] ?? ""
+                    ];
+                } else {
+                    $response["message"] = "Transition de statut invalide.";
                 }
 
                 break;
             }
         }
         unset($commande);
-        file_put_contents(
-            $fichier,
-            json_encode($commandes, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)
-        );
+    } else {
+        $response["message"] = "Requête incomplète.";
+    }
 
+    if ($isAjax) {
+        header("Content-Type: application/json; charset=utf-8");
+        echo json_encode($response);
+        exit();
+    }
+
+    if ($response["success"]) {
         header("Location: commandes.php");
         exit();
     }
@@ -111,6 +145,8 @@ $compteurs = [
     "en_livraison" => 0,
     "livree" => 0
 ];
+
+$totalCommandes = count($commandes);
 
 foreach ($commandes as &$commande) {
     $commande["statut"] = normaliserStatut($commande["statut"] ?? "payee");
@@ -197,12 +233,12 @@ usort($commandes, function ($a, $b) {
     <main class="container">
 
         <div class="filters">
-            <a class="filter-btn2" href="commandes.php">Toutes</a>
-            <a class="filter-btn2" href="commandes.php?statut=payee">Payées (<?php echo $compteurs["payee"]; ?>)</a>
-            <a class="filter-btn2" href="commandes.php?statut=en_preparation">En préparation (<?php echo $compteurs["en_preparation"]; ?>)</a>
-            <a class="filter-btn2" href="commandes.php?statut=prete">Prêtes (<?php echo $compteurs["prete"]; ?>)</a>
-            <a class="filter-btn2" href="commandes.php?statut=en_livraison">En livraison (<?php echo $compteurs["en_livraison"]; ?>)</a>
-            <a class="filter-btn2" href="commandes.php?statut=livree">Livrées (<?php echo $compteurs["livree"]; ?>)</a>
+            <a class="filter-btn2" href="commandes.php">Toutes les commandes (<span id="count-toutes"><?php echo $totalCommandes; ?></span>)</a>
+            <a class="filter-btn2" href="commandes.php?statut=payee">Payées (<span id="count-payee"><?php echo $compteurs["payee"]; ?></span>)</a>
+            <a class="filter-btn2" href="commandes.php?statut=en_preparation">En préparation (<span id="count-en_preparation"><?php echo $compteurs["en_preparation"]; ?></span>)</a>
+            <a class="filter-btn2" href="commandes.php?statut=prete">Prêtes (<span id="count-prete"><?php echo $compteurs["prete"]; ?></span>)</a>
+            <a class="filter-btn2" href="commandes.php?statut=en_livraison">En livraison (<span id="count-en_livraison"><?php echo $compteurs["en_livraison"]; ?></span>)</a>
+            <a class="filter-btn2" href="commandes.php?statut=livree">Livrées (<span id="count-livree"><?php echo $compteurs["livree"]; ?></span>)</a>
         </div>
 
         <div class="grid2">
@@ -217,7 +253,7 @@ usort($commandes, function ($a, $b) {
                 $plats = $commande["plats"] ?? [];
                 $peutAttribuer = ($statut === "prete");
             ?>
-                <div class="order-card <?php echo classeStatut($statut); ?>">
+                <div class="order-card <?php echo classeStatut($statut); ?>" data-order-id="<?php echo htmlspecialchars($commande["id"] ?? ""); ?>">
 
                     <div class="meta">
                         <div class="id">#<?php echo htmlspecialchars($commande["id"] ?? ""); ?></div>
@@ -325,31 +361,140 @@ usort($commandes, function ($a, $b) {
         <p>Horaires : Lundi - Vendredi 10h-21h | Samedi - Dimanche 12h-18h</p>
     </footer>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const forms = document.querySelectorAll(".status-form");
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const currentFilter = new URLSearchParams(window.location.search).get("statut") || "toutes";
 
-            forms.forEach(form => {
-                const select = form.querySelector(".livreur-select");
-                const button = form.querySelector(".assign-btn");
+    const statusLabels = {
+        payee: "Payée",
+        en_preparation: "En préparation",
+        prete: "Prête",
+        en_livraison: "En livraison",
+        livree: "Livrée"
+    };
 
-                if (select && button) {
-                    const updateButtonState = () => {
-                        button.disabled = select.value === "";
-                    };
+    const livreurs = <?php echo json_encode($livreurs, JSON_UNESCAPED_UNICODE); ?>;
 
-                    select.addEventListener("change", updateButtonState);
-                    updateButtonState();
+    function escapeHtml(str) {
+        return String(str).replace(/[&<>"']/g, (m) => ({
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#039;"
+        }[m]));
+    }
+
+    function renderActions(status) {
+        if (status === "payee") {
+            return `<button class="btn2 primary" type="submit" name="action" value="preparer">Passer en préparation</button>`;
+        }
+
+        if (status === "en_preparation") {
+            return `<button class="btn2 primary" type="submit" name="action" value="prete">Marquer prête</button>`;
+        }
+
+        if (status === "prete") {
+            return `
+                <select name="livreur" class="livreur-select" required>
+                    <option value="">Choisir un livreur</option>
+                    ${livreurs.map(l => `<option value="${escapeHtml(l)}">${escapeHtml(l)}</option>`).join("")}
+                </select>
+                <button class="btn2 primary assign-btn" type="submit" name="action" value="assigner" disabled>
+                    Assigner au livreur
+                </button>`;
+        }
+
+        if (status === "en_livraison") {
+            return `<button class="btn2 success" type="submit" name="action" value="livree">Marquer livrée</button>`;
+        }
+
+        if (status === "livree") {
+            return `<p>Commande terminée</p>`;
+        }
+
+        return "";
+    }
+
+    function bindLivreurSelect(form) {
+        const select = form.querySelector(".livreur-select");
+        const button = form.querySelector(".assign-btn");
+
+        if (select && button) {
+            const updateButtonState = () => {
+                button.disabled = select.value === "";
+            };
+
+            select.addEventListener("change", updateButtonState);
+            updateButtonState();
+        }
+    }
+
+    function updateCounters(oldStatus, newStatus) {
+        const oldCounter = document.getElementById(`count-${oldStatus}`);
+        const newCounter = document.getElementById(`count-${newStatus}`);
+        if (oldCounter) {
+            oldCounter.textContent = Math.max(0, parseInt(oldCounter.textContent, 10) - 1);
+        }
+        if (newCounter) {
+            newCounter.textContent = parseInt(newCounter.textContent, 10) + 1;
+        }
+    }
+
+    function updateCard(card, data) {
+        card.dataset.status = data.new_status;
+        card.className = card.className
+            .replace(/\bstatus-\S+/g, "")
+            .trim() + ` status-${data.new_status}`;
+        const badge = card.querySelector(".status-badge");
+        if (badge) {
+            badge.className = `status-badge badge-${data.new_status}`;
+            badge.textContent = statusLabels[data.new_status] || "Inconnu";
+        }
+        const form = card.querySelector(".status-form");
+        if (form) {
+            const id = form.querySelector('input[name="id"]')?.value || data.id;
+            form.innerHTML = `<input type="hidden" name="id" value="${escapeHtml(id)}">${renderActions(data.new_status)}`;
+            bindLivreurSelect(form);
+        }
+        updateCounters(data.old_status, data.new_status);
+        if (currentFilter !== "toutes" && currentFilter !== data.new_status) {
+            card.remove();
+        }
+    }
+    document.querySelectorAll(".status-form").forEach(form => {
+        bindLivreurSelect(form);
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const ok = confirm("Confirmer le changement de statut ?");
+            if (!ok) return;
+            try {
+                const formData = new FormData(form);
+                if (e.submitter && e.submitter.name) {
+                    formData.append(e.submitter.name, e.submitter.value);
                 }
-
-                form.addEventListener("submit", (e) => {
-                    const confirmation = confirm("Confirmer le changement de statut ?");
-                    if (!confirmation) {
-                        e.preventDefault();
+                const response = await fetch("commandes.php", {
+                    method: "POST",
+                    body: formData,
+                    headers: {
+                        "X-Requested-With": "XMLHttpRequest"
                     }
                 });
-            });
+                const data = await response.json();
+                if (!data.success) {
+                    alert(data.message || "Erreur lors de la mise à jour.");
+                    return;
+                }
+                const card = form.closest(".order-card");
+                if (card) {
+                    updateCard(card, data);
+                }
+            } catch (error) {
+                alert("Erreur réseau.");
+            }
         });
-    </script>
+    });
+});
+</script>
 </body>
 </html>

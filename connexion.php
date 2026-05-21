@@ -62,7 +62,7 @@
     </header>
 
     <div class="container3"> <!-- Conteneur pour le formulaire de connexion -->
-        <h7>Connexion</h7> 
+        <h1 class="h7">Connexion</h1> 
         <form id="formConnexion" action="lecture.php" method="POST">
             <?php
                 if(isset($_SESSION["erreur2"])){ // Affiche l'erreur de connexion s'il y en a une
@@ -74,13 +74,10 @@
                 <label class="label1" for="email">E-mail</label>
                 <input type="email" id="email" name="email" required placeholder="exemple@domaine.com">
             </div>
-
             <div class="form-group">
                 <label class="label1" for="password">Mot de passe</label>
-
                 <div class="password-container">
                     <input type="password" id="password" name="password" required placeholder="Votre mot de passe">
-
                 <button type="button" class="oeil" id="oeil">
                     <img id="image-oeil" src="Images/Oeil_amongus.png" alt="Afficher mot de passe">
                 </button>

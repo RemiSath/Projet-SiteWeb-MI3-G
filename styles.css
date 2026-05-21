@@ -1585,6 +1585,13 @@ h6 {
     margin-bottom: 20px;
 }
 
+.h7 {
+    text-align: center;
+    color: black;
+    margin-bottom: 30px;
+    font-size: 300%;
+}
+
 .form-group {
     margin-bottom: 20px;
 }

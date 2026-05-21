@@ -24,25 +24,18 @@ function normaliserStatut($statut)
     switch ($statut) {
         case "a_preparer":
             return "payee";
-
         case "en_attente_livreur":
             return "prete";
-
         case "payee":
             return "payee";
-
         case "en_preparation":
             return "en_preparation";
-
         case "prete":
             return "prete";
-
         case "en_livraison":
             return "en_livraison";
-
         case "livree":
             return "livree";
-
         default:
             return "payee";
     }
@@ -53,19 +46,14 @@ function labelStatut($statut)
     switch ($statut) {
         case "payee":
             return "Payée";
-
         case "en_preparation":
             return "En préparation";
-
         case "prete":
             return "Prête";
-
         case "en_livraison":
             return "En livraison";
-
         case "livree":
             return "Livrée";
-
         default:
             return "Inconnu";
     }
@@ -76,40 +64,103 @@ function classeStatut($statut)
     return "status-" . htmlspecialchars($statut);
 }
 
-$isAjax = isset($_SERVER['HTTP_X_REQUESTED_WITH']) &&
+$isAjax =
+    isset($_SERVER['HTTP_X_REQUESTED_WITH']) &&
     strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
 
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
+$cheminComptes = "data/compte.json";
+$comptes = [];
 
+if (file_exists($cheminComptes)) {
+
+    $jsonComptes = file_get_contents($cheminComptes);
+    $comptes = json_decode($jsonComptes, true);
+
+    if (!is_array($comptes)) {
+        $comptes = [];
+    }
+}
+
+$livreurs = [];
+
+foreach ($comptes as $compte) {
+    if (
+        isset($compte["statut"]) &&
+        $compte["statut"] === "Livreur" &&
+        empty($compte["bloque"])
+    ) {
+        $livreurs[] = [
+            "email" => $compte["email"] ?? "",
+            "nom" => trim(
+                ($compte["prenom"] ?? "") .
+                " " .
+                ($compte["nom"] ?? "")
+            )
+        ];
+    }
+}
+
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $id = $_POST["id"] ?? null;
     $action = $_POST["action"] ?? null;
-    $livreur = $_POST["livreur"] ?? null;
-
+    $livreurEmail = $_POST["livreur"] ?? null;
     $response = [
         "success" => false,
         "message" => "Action invalide."
     ];
     if ($id && $action) {
         foreach ($commandes as &$commande) {
-            if (isset($commande["id"]) && $commande["id"] == $id) {
-                $statutAvant = normaliserStatut($commande["statut"] ?? "payee");
+            if (
+                isset($commande["id"]) &&
+                $commande["id"] == $id
+            ) {
+                $statutAvant =
+                    normaliserStatut(
+                        $commande["statut"] ?? "payee"
+                    );
                 $statutApres = $statutAvant;
                 $changed = false;
-                if ($action === "preparer" && $statutAvant === "payee") {
+                if (
+                    $action === "preparer" &&
+                    $statutAvant === "payee"
+                ) {
+
                     $statutApres = "en_preparation";
                     $changed = true;
-                } elseif ($action === "prete" && $statutAvant === "en_preparation") {
+                }
+                elseif (
+                    $action === "prete" &&
+                    $statutAvant === "en_preparation"
+                ) {
+
                     $statutApres = "prete";
                     $changed = true;
-                } elseif (
+                }
+                elseif (
                     $action === "assigner" &&
                     $statutAvant === "prete" &&
-                    !empty($livreur)
+                    !empty($livreurEmail)
                 ) {
+                    $nomLivreur = "";
+                    foreach ($livreurs as $livreurData) {
+                        if (
+                            $livreurData["email"] === $livreurEmail
+                        ) {
+                            $nomLivreur =
+                                $livreurData["nom"];
+                            break;
+                        }
+                    }
                     $statutApres = "en_livraison";
-                    $commande["livreur"] = $livreur;
+                    $commande["livreur_email"] =
+                        $livreurEmail;
+                    $commande["livreur"] =
+                        $nomLivreur;
+
                     $changed = true;
-                } elseif (
+                }
+                elseif (
                     $action === "livree" &&
                     $statutAvant === "en_livraison"
                 ) {
@@ -122,7 +173,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         $fichier,
                         json_encode(
                             $commandes,
-                            JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE
+                            JSON_PRETTY_PRINT |
+                            JSON_UNESCAPED_UNICODE
                         )
                     );
                     $response = [
@@ -130,7 +182,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         "id" => $id,
                         "old_status" => $statutAvant,
                         "new_status" => $statutApres,
-                        "livreur" => $commande["livreur"] ?? ""
+                        "livreur" =>
+                            $commande["livreur"] ?? ""
                     ];
                 } else {
                     $response["message"] =
@@ -139,32 +192,24 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 break;
             }
         }
-
         unset($commande);
     } else {
-
-        $response["message"] = "Requête incomplète.";
+        $response["message"] =
+            "Requête incomplète.";
     }
-
     if ($isAjax) {
-
-        header("Content-Type: application/json; charset=utf-8");
+        header(
+            "Content-Type: application/json; charset=utf-8"
+        );
         echo json_encode($response);
         exit();
     }
 
     if ($response["success"]) {
-
         header("Location: commandes.php");
         exit();
     }
 }
-
-$livreurs = [
-    "Livreur disponible 1",
-    "Livreur disponible 2",
-    "Livreur disponible 3"
-];
 
 $compteurs = [
     "payee" => 0,
@@ -177,8 +222,11 @@ $compteurs = [
 $totalCommandes = count($commandes);
 
 foreach ($commandes as &$commande) {
+
     $commande["statut"] =
-        normaliserStatut($commande["statut"] ?? "payee");
+        normaliserStatut(
+            $commande["statut"] ?? "payee"
+        );
 }
 
 unset($commande);
@@ -192,6 +240,7 @@ foreach ($commandes as $commande) {
     }
 }
 
+
 usort($commandes, function ($a, $b) {
     return ($b["id"] ?? 0) <=> ($a["id"] ?? 0);
 });
@@ -202,21 +251,27 @@ usort($commandes, function ($a, $b) {
 
 <head>
     <meta charset="UTF-8">
-    <title>Commandes-Restorateur</title>
+
+    <title>
+        Commandes - Restaurateur
+    </title>
+
     <link rel="stylesheet" href="styles.css">
+
     <link rel="icon" href="Images/Among_Us.png">
 </head>
+
 <body>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playwrite+AT:ital,wght@0,100..400;1,100..400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playwrite+AT:ital,wght@0,100..400;1,100..400&display=swap"
+        rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Annie+Use+Your+Telescope&display=swap" rel="stylesheet">
-
 <nav class="navbar">
     <a href="page-d'accueil.php" class="accueil">
         IMPOSTEUR
@@ -231,14 +286,13 @@ usort($commandes, function ($a, $b) {
                 <a href="commander.php">
                     Commander
                 </a>
-
             </div>
         </div>
-
         <div class="menu">
-            <a href="Notation.php">Notation</a>
+            <a href="Notation.php">
+                Notation
+            </a>
         </div>
-
         <div class="menu">
             <a>Compte</a>
             <div class="infos">
@@ -252,11 +306,11 @@ usort($commandes, function ($a, $b) {
                     Inscription
                 </a>
                 <a href="deconnexion.php">
-                    Deconnexion
+                    Déconnexion
                 </a>
+
             </div>
         </div>
-
         <div class="menu">
             <a>Services</a>
             <div class="infos">
@@ -268,17 +322,11 @@ usort($commandes, function ($a, $b) {
                 </a>
             </div>
         </div>
-
         <div class="menu">
-            <a href="Admin.php">Admin</a>
+            <a href="Admin.php">
+                Admin
+            </a>
         </div>
-
-        <input
-            type="text"
-            id="searchInput2"
-            placeholder="Rechercher nos produits ..."
-            autocomplete="off"
-        >
     </div>
 </nav>
 
@@ -287,7 +335,9 @@ usort($commandes, function ($a, $b) {
 </div>
 
 <main class="container">
+
     <div class="filters">
+
         <a class="filter-btn2" data-filter="toutes" href="#">
             Toutes les commandes
             (<span id="count-toutes">
@@ -325,7 +375,6 @@ usort($commandes, function ($a, $b) {
             </span>)
         </a>
     </div>
-
     <div class="grid2">
         <?php foreach ($commandes as $commande) {
             $statut = $commande["statut"] ?? "payee";
@@ -333,7 +382,6 @@ usort($commandes, function ($a, $b) {
         ?>
         <div
             class="order-card <?php echo classeStatut($statut); ?>"
-            data-order-id="<?php echo htmlspecialchars($commande["id"] ?? ""); ?>"
             data-status="<?php echo htmlspecialchars($statut); ?>"
         >
             <div class="meta">
@@ -364,7 +412,9 @@ usort($commandes, function ($a, $b) {
                     <?php echo labelStatut($statut); ?>
                 </div>
                 <details class="order-details">
-                    <summary>Voir le détail</summary>
+                    <summary>
+                        Voir le détail
+                    </summary>
                     <div class="order-extra">
                         <p>
                             <strong>Adresse :</strong>
@@ -379,26 +429,13 @@ usort($commandes, function ($a, $b) {
                             <?php echo htmlspecialchars($commande["email"] ?? ""); ?>
                         </p>
                         <p>
-                            <strong>Interphone :</strong>
-                            <?php echo htmlspecialchars($commande["interphone"] ?? ""); ?>
-                        </p>
-                        <p>
-                            <strong>Étage :</strong>
-                            <?php echo htmlspecialchars($commande["etage"] ?? ""); ?>
-                        </p>
-                        <p>
-                            <strong>Commentaires :</strong>
-                            <?php echo htmlspecialchars($commande["commentaires"] ?? ""); ?>
-                        </p>
-                        <p>
                             <strong>Livreur :</strong>
                             <?php echo htmlspecialchars($commande["livreur"] ?? "Non assigné"); ?>
                         </p>
                     </div>
                 </details>
-
                 <div class="actions">
-                    <form method="POST" class="status-form">
+                    <form method="POST">
                         <input
                             type="hidden"
                             name="id"
@@ -413,7 +450,6 @@ usort($commandes, function ($a, $b) {
                             >
                                 Passer en préparation
                             </button>
-
                         <?php } elseif ($statut === "en_preparation") { ?>
                             <button
                                 class="btn2 primary"
@@ -433,8 +469,10 @@ usort($commandes, function ($a, $b) {
                                     Choisir un livreur
                                 </option>
                                 <?php foreach ($livreurs as $livreur) { ?>
-                                <option value="<?php echo htmlspecialchars($livreur); ?>">
-                                    <?php echo htmlspecialchars($livreur); ?>
+                                <option
+                                    value="<?php echo htmlspecialchars($livreur["email"]); ?>"
+                                >
+                                    <?php echo htmlspecialchars($livreur["nom"]); ?>
                                 </option>
                                 <?php } ?>
                             </select>
@@ -448,16 +486,13 @@ usort($commandes, function ($a, $b) {
                                 Assigner au livreur
                             </button>
                         <?php } elseif ($statut === "en_livraison") { ?>
-                            <button
-                                class="btn2 success"
-                                type="submit"
-                                name="action"
-                                value="livree"
-                            >
-                                Marquer livrée
-                            </button>
+                            <p>
+                                Livraison en cours
+                            </p>
                         <?php } elseif ($statut === "livree") { ?>
-                            <p>Commande terminée</p>
+                            <p>
+                                Commande terminée
+                            </p>
                         <?php } ?>
                     </form>
                 </div>
@@ -470,31 +505,28 @@ usort($commandes, function ($a, $b) {
         >
             Aucune commande ne correspond à ce filtre.
         </p>
-
     </div>
 </main>
 
 <footer class="footer">
     <p>📞 Téléphone : 07 67 01 02 03</p>
     <p>✉ Email : imposturecontact@gmail.com</p>
-    <p>
-        Horaires :
-        Lundi - Vendredi 10h-21h |
-        Samedi - Dimanche 12h-18h
-    </p>
-
 </footer>
+
 <script>
 document.addEventListener("DOMContentLoaded", () => {
     const cards = document.querySelectorAll(".order-card");
     const filterButtons = document.querySelectorAll(".filter-btn2");
     const noResults = document.querySelector(".no-results-message");
-    let currentFilter = "toutes";
     function filtrerCommandes(filtre) {
-        currentFilter = filtre;
         let visible = 0;
-        cards.forEach(card => { const status = card.dataset.status;
-            if (filtre === "toutes" || status === filtre) {
+        cards.forEach(card => {
+            const status =
+                card.dataset.status;
+            if (
+                filtre === "toutes" ||
+                status === filtre
+            ) {
                 card.style.display = "block";
                 visible++;
             } else {
@@ -509,26 +541,35 @@ document.addEventListener("DOMContentLoaded", () => {
         filterButtons.forEach(btn => {
             btn.classList.remove("active");
         });
-        const activeBtn = document.querySelector(`[data-filter="${filtre}"]`);
+        const activeBtn =
+            document.querySelector(
+                `[data-filter="${filtre}"]`
+            );
         if (activeBtn) {
             activeBtn.classList.add("active");
         }
     }
-
     filterButtons.forEach(button => {
         button.addEventListener("click", (e) => {
             e.preventDefault();
-            const filtre = button.dataset.filter;
+            const filtre =
+                button.dataset.filter;
             filtrerCommandes(filtre);
         });
     });
-    document.querySelectorAll(".livreur-select").forEach(select => {
+    document
+        .querySelectorAll(".livreur-select")
+        .forEach(select => {
             select.addEventListener("change", () => {
-                const form = select.closest("form");
-                const btn = form.querySelector(".assign-btn");
-                btn.disabled = select.value === "";
+                const form =
+                    select.closest("form");
+                const btn =
+                    form.querySelector(".assign-btn");
+                btn.disabled =
+                    select.value === "";
             });
         });
+
     filtrerCommandes("toutes");
 });
 </script>

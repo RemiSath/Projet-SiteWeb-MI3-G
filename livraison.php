@@ -1,10 +1,10 @@
 <?php
 session_start();
 
-if (!isset($_SESSION["statut"]) || $_SESSION["statut"] !== "Livreur") {
-    header("Location: connexion.php");
-    exit();
-}
+#if (!isset($_SESSION["statut"]) || $_SESSION["statut"] !== "Livreur") {
+#    header("Location: connexion.php");
+#    exit();
+#}
 
 $fichier = "data/commandes.json";
 $commandes = [];
@@ -21,29 +21,26 @@ $livreurEmail = $_SESSION["email"] ?? "";
 $livreurNom = trim(($_SESSION["prenom"] ?? "") . " " . ($_SESSION["nom"] ?? ""));
 $identifiantLivreur = $livreurEmail !== "" ? $livreurEmail : $livreurNom;
 
-function labelStatut($statut) {
+function labelStatut($statut)
+{
     switch ($statut) {
         case "a_preparer":
             return "À préparer";
-
         case "en_attente_livreur":
             return "En attente d'un livreur";
-
         case "en_livraison":
             return "En livraison";
-
         case "livree":
             return "Livrée";
-
         case "abandonnee":
             return "Abandonnée";
-
         default:
             return "Inconnu";
     }
 }
 
-function classStatut($statut) {
+function classStatut($statut)
+{
     return "status-" . htmlspecialchars($statut);
 }
 
@@ -52,9 +49,9 @@ usort($commandes, function ($a, $b) {
 });
 
 $commandesAttribuees = [];
+
 foreach ($commandes as $commande) {
     $livreurCommande = $commande["livreur_email"] ?? ($commande["livreur"] ?? "");
-
     if ($livreurCommande === $identifiantLivreur) {
         $commandesAttribuees[] = $commande;
     }
@@ -64,11 +61,11 @@ foreach ($commandes as $commande) {
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Livraison</title>
-<link rel="stylesheet" href="styles.css">
-<link rel="icon" href="Images/Among_Us.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Livraison</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="Images/Among_Us.png">
 </head>
 <body>
 
@@ -124,7 +121,7 @@ foreach ($commandes as $commande) {
         </div>
     <?php } else { ?>
 
-        <?php foreach ($commandesAttribuees as $commande) { 
+        <?php foreach ($commandesAttribuees as $commande) {
             $commandeId = $commande["id"] ?? "";
             $client = $commande["client"] ?? "Client";
             $adresse = $commande["adresse"] ?? "";
@@ -164,7 +161,7 @@ foreach ($commandes as $commande) {
 
             <h4 style="margin-top: 20px;">Produits</h4>
             <div class="items">
-                <?php foreach ($plats as $plat) { 
+                <?php foreach ($plats as $plat) {
                     $nomPlat = $plat["nom"] ?? "Produit";
                     $quantite = (int)($plat["quantite"] ?? 1);
                     $prix = (float)($plat["prix"] ?? 0);
@@ -184,11 +181,9 @@ foreach ($commandes as $commande) {
             <p><strong>Commentaires :</strong> <?php echo htmlspecialchars($commentaires); ?></p>
             <p><strong>Téléphone :</strong> <?php echo htmlspecialchars($telephone); ?></p>
             <p><strong>Email :</strong> <?php echo htmlspecialchars($email); ?></p>
-
             <a href="tel:<?php echo htmlspecialchars($telephone); ?>" class="btn4 call-btn4">
                 📞 Appeler le client
             </a>
-
             <form method="post" action="maj_livraison.php" style="margin-top: 20px;">
                 <input type="hidden" name="commande_id" value="<?php echo htmlspecialchars($commandeId); ?>">
 
@@ -201,9 +196,7 @@ foreach ($commandes as $commande) {
                 </button>
             </form>
         </div>
-
         <?php } ?>
-
     <?php } ?>
 </div>
 

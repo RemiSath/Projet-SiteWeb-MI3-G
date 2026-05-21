@@ -1641,7 +1641,7 @@ input:focus {
     text-decoration: underline;
 }
 
-.erreur, .erreur2, .erreur3 {
+.erreur, .erreur3 {
     color: red;
     background-color: white;
     padding: 10px;

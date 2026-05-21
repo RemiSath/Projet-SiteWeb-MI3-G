@@ -1585,13 +1585,6 @@ h6 {
     margin-bottom: 20px;
 }
 
-h7 {
-    text-align: center;
-    color: black;
-    margin-bottom: 30px;
-    font-size: 300%;
-}
-
 .form-group {
     margin-bottom: 20px;
 }
@@ -1616,30 +1609,10 @@ textarea {
     border-radius: 8px;
     box-sizing: border-box;
     font-family: inherit;
-    transition: border-color 0.3s ease;
 }
 
 input:focus {
     outline: none;
-    border-color: green;
-}
-
-button2 {
-    font-size: 150%;
-    width: 100%;
-    padding: 12px;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    background-color: black;
-    border: 3px solid white;
-    margin-top: 10px;
-}
-
-button2:hover {
     border-color: green;
 }
 
@@ -1663,7 +1636,7 @@ button2:hover {
 
 .erreur, .erreur2, .erreur3 {
     color: red;
-    background-color: #ffe6e6;
+    background-color: white;
     padding: 10px;
     border-radius: 5px;
 }
@@ -1694,12 +1667,6 @@ button2:hover {
     object-fit: contain;
 }
 
-.erreur-js{
-    color: red;
-    font-size: 14px;
-    margin-top: 5px;
-}
-
 .correct-js{
     color: limegreen;
     font-size: 14px;
@@ -1711,4 +1678,19 @@ button2:hover {
     color: black;
 }
 
+.erreur-js{
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.input-erreur{
+    border: 2px solid red !important;
+    background-color: white;
+}
+
+.input-correct{
+    border: 2px solid limegreen !important;
+    background-color: white;
+}
 /* Page de connexion/inscription FIN */

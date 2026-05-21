@@ -101,53 +101,74 @@
         <p>Horaires : Lundi - Vendredi 10h-21h | Samedi - Dimanche 12h-18h</p>
     </footer>
 
-<script>
-const form = document.getElementById("formConnexion");
-const email = document.getElementById("email");
+    <script>
+        const form = document.getElementById("formConnexion");
+        const email = document.getElementById("email");
+        const password = document.getElementById("password");
+        const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const oeil = document.getElementById("oeil");
+        const motdepasse = document.getElementById("password");
+        const imageOeil = document.getElementById("image-oeil");
 
-const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        oeil.addEventListener("click", () => {
+            if(motdepasse.type === "password"){
+                motdepasse.type = "text";
+                imageOeil.src = "Images/Oeil_ferme.png";
+            }
+            else{
+                motdepasse.type = "password";
+                imageOeil.src = "Images/Oeil_amongus.png";
+            }
+        });
 
-const oeil = document.getElementById('oeil');
-const mdpInput = document.getElementById('password');
-const imageOeil = document.getElementById('image-oeil');
+        form.addEventListener("submit", async (event) => {
+            event.preventDefault();
+            supprimerMessages();
+            if(!regexEmail.test(email.value)){
+                afficherErreur(email, "Adresse mail invalide, pas la bonne syntaxe");
+                return;
+            }
+            const formData = new FormData(form);
+            try{
+                const response = await fetch("lecture.php", {
+                    method: "POST",
+                    body: formData
+                });
+                const data = await response.text();
+                if(data === "email"){
+                    afficherErreur(email, "Adresse mail introuvable ou incorrecte");
+                }
+                else if(data === "password"){
+                    afficherErreur(password, "Mot de passe incorrect");
+                }
+                else if(data === "bloque"){
+                    afficherErreur(password, "Compte bloqué par l'administrateur");
+                }
+                else{
+                    window.location.href = data;
+                }
+            }
+            catch(error){
+                afficherErreur(password, "ERREUR : Impossible de se connecter");
+            }
+        });
 
-oeil.addEventListener('click', () => {
-    if (mdpInput.type === 'password') {
-        mdpInput.type = 'text';
-        imageOeil.src = "Images/Oeil_ferme.png";
-    } else {
-        mdpInput.type = 'password';
-        imageOeil.src = "Images/Oeil_amongus.png";
-    }
-});
+        function afficherErreur(input, message){
+            const erreur = document.createElement("div");
+            erreur.innerText = message;
+            erreur.classList.add("erreur-js");
+            input.closest(".form-group").appendChild(erreur);
+            input.classList.add("input-erreur");
+        }
 
-form.addEventListener("submit", function(event){
-    event.preventDefault();
-
-    supprimerMessages();
-
-    if(!regexEmail.test(email.value)){
-        afficherErreur(email, "Email invalide");
-        return;
-    }
-
-    form.submit();
-});
-
-function afficherErreur(input, message){
-    const erreur = document.createElement("div");
-    erreur.innerText = message;
-    erreur.classList.add("erreur-js");
-
-    input.closest(".form-group").appendChild(erreur);
-    input.style.border = "2px solid red";
-}
-
-function supprimerMessages(){
-    document.querySelectorAll(".erreur-js").forEach(e => e.remove());
-    document.querySelectorAll("input").forEach(i => i.style.border = "");
-}
-</script>
+        function supprimerMessages(){
+            document.querySelectorAll(".erreur-js").forEach(e => e.remove());
+            
+            document.querySelectorAll("input").forEach(i => {
+                i.classList.remove("input-erreur");
+            });
+        }
+    </script>
 </body>
 
 </html>

@@ -196,7 +196,7 @@
             erreur.innerText = message;
             erreur.classList.add("erreur-js");
             input.closest(".form-group").appendChild(erreur);
-            input.style.border = "2px solid red";
+            input.classList.add("input-erreur");
         }
 
         function afficherCorrect(input, message){
@@ -204,7 +204,7 @@
             correct.innerText = message;
             correct.classList.add("correct-js");
             input.closest(".form-group").appendChild(correct);
-            input.style.border = "2px solid green";
+            input.classList.add("input-correct");
         }
 
         function supprimerMessages(){
@@ -212,9 +212,10 @@
             messages.forEach(function(message){
                 message.remove();
             });
-            const inputs = document.querySelectorAll("input");
+            const inputs = document.querySelectorAll("input, textarea");
             inputs.forEach(function(input){
-                input.style.border = "";
+                input.classList.remove("input-erreur");
+                input.classList.remove("input-correct");
             });
         }
 
@@ -222,6 +223,7 @@
         const compteur = document.createElement("div");
         compteur.classList.add("compteur");
         infosInput.parentElement.appendChild(compteur);
+        
         infosInput.addEventListener("input", function () {
             if(infosInput.value.length > 200){
                 infosInput.value = infosInput.value.substring(0, 200);

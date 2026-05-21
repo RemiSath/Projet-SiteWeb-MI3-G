@@ -26,35 +26,39 @@ $livreurEmail = $_SESSION["email"] ?? "";
 $livreurNom = trim(($_SESSION["prenom"] ?? "") . " " . ($_SESSION["nom"] ?? ""));
 $identifiantLivreur = $livreurEmail !== "" ? $livreurEmail : $livreurNom;
 
+$commandeTrouvee = false;
+$commandeModifiee = false;
+
 foreach ($commandes as &$commande) {
-
     if ((string)($commande["id"] ?? "") === (string)$commandeId) {
-
-        $livreurCommande = $commande["livreur_email"] ?? "";
-
+        $commandeTrouvee = true;
+        $livreurCommande = $commande["livreur_email"] ?? ($commande["livreur"] ?? "");
         if ($livreurCommande !== $identifiantLivreur) {
             break;
         }
-
         if ($action === "livree") {
             $commande["statut"] = "livree";
             $commande["date_livraison"] = date("Y-m-d H:i:s");
+            $commandeModifiee = true;
 
         } elseif ($action === "abandonnee") {
             $commande["statut"] = "abandonnee";
             $commande["motif_abandon"] = "Livraison impossible";
             $commande["date_abandon"] = date("Y-m-d H:i:s");
+            $commandeModifiee = true;
         }
         break;
     }
 }
 unset($commande);
 
-file_put_contents(
-    $fichier,
-    json_encode($commandes, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE),
-    LOCK_EX
-);
+if ($commandeModifiee) {
+    file_put_contents(
+        $fichier,
+        json_encode($commandes, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE),
+        LOCK_EX
+    );
+}
 
 header("Location: livraison.php");
 exit();

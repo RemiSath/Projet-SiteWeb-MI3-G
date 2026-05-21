@@ -63,7 +63,7 @@
 
     <div class="container3"> <!-- Conteneur pour le formulaire de connexion -->
         <h7>Connexion</h7> 
-        <form action="lecture.php" method="POST">
+        <form id="formConnexion" action="lecture.php" method="POST">
             <?php
                 if(isset($_SESSION["erreur2"])){ // Affiche l'erreur de connexion s'il y en a une
                     echo "<div class='erreur'>" . $_SESSION["erreur2"] . "</div>";
@@ -101,25 +101,53 @@
         <p>Horaires : Lundi - Vendredi 10h-21h | Samedi - Dimanche 12h-18h</p>
     </footer>
 
-    <script>
-        const oeil = document.getElementById('oeil');
-        const mdpInput = document.getElementById('password');
-        const imageOeil = document.getElementById('image-oeil');
+<script>
+const form = document.getElementById("formConnexion");
+const email = document.getElementById("email");
 
-        oeil.addEventListener('click', () => {
+const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-            if (mdpInput.type === 'password') {
-                mdpInput.type = 'text';
-                imageOeil.src = "Images/Oeil_ferme.png";
-            } 
-            
-            else {
-                mdpInput.type = 'password';
-                imageOeil.src = "Images/Oeil_amongus.png";
-            }
+const oeil = document.getElementById('oeil');
+const mdpInput = document.getElementById('password');
+const imageOeil = document.getElementById('image-oeil');
 
-        });
-    </script>
+oeil.addEventListener('click', () => {
+    if (mdpInput.type === 'password') {
+        mdpInput.type = 'text';
+        imageOeil.src = "Images/Oeil_ferme.png";
+    } else {
+        mdpInput.type = 'password';
+        imageOeil.src = "Images/Oeil_amongus.png";
+    }
+});
+
+form.addEventListener("submit", function(event){
+    event.preventDefault();
+
+    supprimerMessages();
+
+    if(!regexEmail.test(email.value)){
+        afficherErreur(email, "Email invalide");
+        return;
+    }
+
+    form.submit();
+});
+
+function afficherErreur(input, message){
+    const erreur = document.createElement("div");
+    erreur.innerText = message;
+    erreur.classList.add("erreur-js");
+
+    input.closest(".form-group").appendChild(erreur);
+    input.style.border = "2px solid red";
+}
+
+function supprimerMessages(){
+    document.querySelectorAll(".erreur-js").forEach(e => e.remove());
+    document.querySelectorAll("input").forEach(i => i.style.border = "");
+}
+</script>
 </body>
 
 </html>

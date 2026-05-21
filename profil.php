@@ -97,45 +97,43 @@ if(file_exists($fichierCommandes)){
         <div class="dashboard">
             <div class="carte">
                 <h2>Mes Informations</h2>
-
                 <form id="modifier">
-
                     <div class="info-ligne">
                         <span class="info-label">Nom</span>
-                        <input type="text" name="nom" value="<?php echo htmlspecialchars($data["nom"]); ?>" disabled>
+                        <input type="text" name="nom" class="info-input" value="<?php echo htmlspecialchars($data["nom"]); ?>" disabled>
                     </div>
-
                     <div class="info-ligne">
                         <span class="info-label">Prénom</span>
-                        <input type="text" name="prenom" value="<?php echo htmlspecialchars($data["prenom"]); ?>" disabled>
+                        <input type="text" name="prenom" class="info-input" value="<?php echo htmlspecialchars($data["prenom"]); ?>" disabled>
                     </div>
-
                     <div class="info-ligne">
                         <span class="info-label">Téléphone</span>
-                        <input type="text" name="telephone" value="<?php echo htmlspecialchars($data["telephone"]); ?>" disabled>
+                        <input type="text" name="telephone" class="info-input" value="<?php echo htmlspecialchars($data["telephone"]); ?>" disabled>
                     </div>
-
+                    <div class="info-ligne">
+                        <span class="info-label">Nouveau mot de passe</span>
+                        <input type="password" name="motdepasse" class="info-input" disabled>
+                    </div>
+                    <div class="info-ligne">
+                        <span class="info-label">Confirmer mot de passe</span>
+                        <input type="password" name="confirmation" class="info-input" disabled>
+                    </div>
                     <div class="info-ligne">
                         <span class="info-label">Adresse</span>
-                        <input type="text" name="adresse" value="<?php echo htmlspecialchars($data["adresse"]); ?>" disabled>
+                        <input type="text" name="adresse" class="info-input" value="<?php echo htmlspecialchars($data["adresse"]); ?>" disabled>
                     </div>
-
                     <div class="info-ligne">
                         <span class="info-label">Informations complémentaires</span>
-                        <textarea name="infos" disabled><?php echo htmlspecialchars($data["infos"]); ?></textarea>
+                        <textarea name="infos" class="info-input" disabled><?php echo htmlspecialchars($data["infos"]); ?></textarea>
                     </div>
-
                     <button type="button" class="btn-modifier" id="btnModifier">
                         <img src="Images/stylo.png" alt="Modifier" class="crayon-icon">
                         Modifier
                     </button>
-
                     <button type="submit" class="btn-modifier" id="btnEnregistrer" style="display:none;">
                         Enregistrer
                     </button>
-
                     <p id="message"></p>
-
                 </form>
             </div>
 
@@ -178,7 +176,6 @@ if(file_exists($fichierCommandes)){
     </footer>
 
     <script>
-
         const form = document.getElementById("modifier");
         const btnModifier = document.getElementById("btnModifier");
         const btnEnregistrer = document.getElementById("btnEnregistrer");
@@ -186,33 +183,40 @@ if(file_exists($fichierCommandes)){
         const message = document.getElementById("message");
 
         btnModifier.addEventListener("click", () => {
-            champs.forEach(champ => {
-                champ.disabled = false;
-            });
+            champs.forEach(champ => { champ.disabled = false; });
             btnModifier.style.display = "none";
             btnEnregistrer.style.display = "inline-block";
         });
 
         form.addEventListener("submit", async (e) => {
             e.preventDefault();
+
             const formData = new FormData(form);
+
             try{
-                const response = await fetch("profil-à-jour.php", {
-                    method: "POST",
-                    body: formData
-                });
+                const response = await fetch("profil-à-jour.php", { method: "POST", body: formData });
                 const data = await response.text();
+
                 message.textContent = data;
-                message.style.color = "green";
-                champs.forEach(champ => {
-                    champ.disabled = true;
-                });
-                btnModifier.style.display = "inline-block";
-                btnEnregistrer.style.display = "none";
-            } 
+
+                if(data.toLowerCase().includes("succès")){
+                    message.style.color = "green";
+                    champs.forEach(champ => { champ.disabled = true; });
+                    btnModifier.style.display = "inline-block";
+                    btnEnregistrer.style.display = "none";
+                }
+
+                else{
+                    message.style.color = "red";
+                    btnEnregistrer.disabled = true;
+                    champs.forEach(champ => { champ.addEventListener("input", () => {btnEnregistrer.disabled = false;}); });
+                }
+            }
+
             catch(error){
-                message.textContent = "Erreur lors de la mise à jour";
+                message.textContent = "Erreur lors de la mise à jour.";
                 message.style.color = "red";
+                btnEnregistrer.disabled = true;
             }
         });
     </script>

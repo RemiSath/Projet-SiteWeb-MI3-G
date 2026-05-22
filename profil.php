@@ -1,36 +1,36 @@
 <?php
-session_start();
+    session_start();
 
-if(!isset($_SESSION["email"])){
-    header("Location: connexion.php");
-    exit;
-}
+    if(!isset($_SESSION["email"])){
+        header("Location: connexion.php");
+        exit;
+    }
 
-$data = [ // Récupération des données de session avec des valeurs par défaut
-    "nom" => $_SESSION["nom"] ?? "",
-    "prenom" => $_SESSION["prenom"] ?? "",
-    "email" => strtolower(trim($_SESSION["email"] ?? "")),
-    "telephone" => $_SESSION["telephone"] ?? "",
-    "adresse" => $_SESSION["adresse"] ?? "",
-    "infos" => $_SESSION["infos"] ?? "",
-    "statut" => $_SESSION["statut"] ?? ""
-];
+    $data = [ // Récupération des données de session avec des valeurs par défaut
+        "nom" => $_SESSION["nom"] ?? "",
+        "prenom" => $_SESSION["prenom"] ?? "",
+        "email" => strtolower(trim($_SESSION["email"] ?? "")),
+        "telephone" => $_SESSION["telephone"] ?? "",
+        "adresse" => $_SESSION["adresse"] ?? "",
+        "infos" => $_SESSION["infos"] ?? "",
+        "statut" => $_SESSION["statut"] ?? ""
+    ];
 
-$fichierCommandes = __DIR__ . "/data/commandes.json";
-$commandesUtilisateur = [];
+    $fichierCommandes = __DIR__ . "/data/commandes.json";
+    $commandesUtilisateur = [];
 
-if(file_exists($fichierCommandes)){
-    $jsonCommandes = file_get_contents($fichierCommandes);
-    $commandes = json_decode($jsonCommandes, true) ?? [];
+    if(file_exists($fichierCommandes)){
+        $jsonCommandes = file_get_contents($fichierCommandes);
+        $commandes = json_decode($jsonCommandes, true) ?? [];
 
-    $sessionEmail = $data["email"];
+        $sessionEmail = $data["email"];
 
-    foreach($commandes as $commande){
-        if(!empty($commande["email"]) && strtolower(trim($commande["email"])) === $sessionEmail){ // Vérification de l'email de la commande
-            $commandesUtilisateur[] = $commande;
+        foreach($commandes as $commande){
+            if(!empty($commande["email"]) && strtolower(trim($commande["email"])) === $sessionEmail){ // Vérification de l'email de la commande
+                $commandesUtilisateur[] = $commande;
+            }
         }
     }
-}
 ?>
 
 <!DOCTYPE html>
@@ -183,25 +183,35 @@ if(file_exists($fichierCommandes)){
         const message = document.getElementById("message");
 
         btnModifier.addEventListener("click", () => {
-            champs.forEach(champ => { champ.disabled = false; });
+            champs.forEach(champ => { 
+                champ.disabled = false; 
+            });
+
             btnModifier.style.display = "none";
             btnEnregistrer.style.display = "inline-block";
         });
 
-        form.addEventListener("submit", async (e) => {
-            e.preventDefault();
+        form.addEventListener("submit", profil);
+        async function profil(event){
+            event.preventDefault();
 
             const formData = new FormData(form);
 
             try{
-                const response = await fetch("profil-à-jour.php", { method: "POST", body: formData });
+                const response = await fetch("profil-à-jour.php", { 
+                    method: "POST", 
+                    body: formData 
+                });
+
                 const data = await response.text();
 
                 message.textContent = data;
 
                 if(data.toLowerCase().includes("succès")){
                     message.style.color = "green";
-                    champs.forEach(champ => { champ.disabled = true; });
+                    champs.forEach(champ => { 
+                        champ.disabled = true; 
+                    });
                     btnModifier.style.display = "inline-block";
                     btnEnregistrer.style.display = "none";
                 }
@@ -209,7 +219,11 @@ if(file_exists($fichierCommandes)){
                 else{
                     message.style.color = "red";
                     btnEnregistrer.disabled = true;
-                    champs.forEach(champ => { champ.addEventListener("input", () => {btnEnregistrer.disabled = false;}); });
+                    champs.forEach(champ => { 
+                        champ.addEventListener("input", () => {
+                            btnEnregistrer.disabled = false;
+                        }); 
+                    });
                 }
             }
 
@@ -218,7 +232,7 @@ if(file_exists($fichierCommandes)){
                 message.style.color = "red";
                 btnEnregistrer.disabled = true;
             }
-        });
+        }
     </script>
 </body>
 

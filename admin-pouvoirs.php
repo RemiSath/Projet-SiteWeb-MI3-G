@@ -1,78 +1,48 @@
 <?php
     session_start();
+
     if(!isset($_SESSION["statut"]) || $_SESSION["statut"] !== "Admin"){
         header("Location: connexion.php");
         exit();
     }
 
-    function Admin(){
+    $fichier = __DIR__ . "/data/compte.json";
 
-        $fichier = __DIR__ . "/data/compte.json"; // Chemin vers le fichier JSON
-
-        if(!is_dir(__DIR__ . "/data")){ // Vérifie si le dossier "data" existe, sinon le crée
-            mkdir(__DIR__ . "/data", 0777, true);
-        }
-
-        if(file_exists($fichier)){ // Vérifie si le fichier JSON existe, sinon crée un tableau vide
-            $json = file_get_contents($fichier);
-            $utilisateurs = json_decode($json, true) ?? [];
-        } 
-        
-        else {
-            $utilisateurs = array();
-        }
-
-        if(!isset($_GET["id"])){ // Vérifie si l'ID est présent dans l'URL
-            return null;
-        }
-
-        $id = $_GET["id"];
-        $index = null;
-
-        foreach($utilisateurs as $key => $utilisateur){ // Parcourt le tableau pour trouver l'utilisateur correspondant à l'ID
-            if($utilisateur["id"] === $id){
-                $index = $key;
-                break;
-            }
-        }
-
-        if($index === null){
-            return null;
-        }
-
-        if($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"])){ // Vérifie si une action est soumise via POST
-            if($_POST["action"] === "bloquer"){
-                $utilisateurs[$index]["bloque"] = true;
-            }
-            if($_POST["action"] === "debloquer"){
-                $utilisateurs[$index]["bloque"] = false;
-            }
-            if($_POST["action"] === "premium"){
-                $utilisateurs[$index]["statut"] = "Premium";
-            }
-            if($_POST["action"] === "vip"){
-                $utilisateurs[$index]["statut"] = "VIP";
-            }
-            if($_POST["action"] === "client"){
-                $utilisateurs[$index]["statut"] = "Client";
-            }
-
-            file_put_contents($fichier, json_encode($utilisateurs, JSON_PRETTY_PRINT));
-
-            header("Location: admin-pouvoirs.php?id=".$id);
-            exit;
-        }
-
-        return $utilisateurs[$index];
+    if(!is_dir(__DIR__ . "/data")){
+        mkdir(__DIR__ . "/data", 0777, true);
     }
 
-    $utilisateur = Admin();
+    if(file_exists($fichier)){
+        $json = file_get_contents($fichier);
+        $utilisateurs = json_decode($json, true) ?? [];
+    } 
+        
+    else {
+        $utilisateurs = array();
+    }
 
-    if(!$utilisateur){ // Si l'utilisateur n'est pas trouvé, affiche un message d'erreur
+    if(!isset($_GET["id"])){
+        return null;
+    }
+
+    $id = $_GET["id"];
+    $index = null;
+
+    foreach($utilisateurs as $key => $utilisateur){
+        if($utilisateur["id"] === $id){
+            $index = $key;
+            break;
+        }
+    }
+
+    if($index === null){
+        return null;
+    }
+
+    if(!$utilisateur){
         die("Utilisateur introuvable");
     }
 ?>
-
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -217,22 +187,12 @@
 
                 <div class="actions-admin"> <!-- Section des actions administrateur -->
                     <h2>Actions administrateur</h2>
-                    <form method="POST">
+                    <form id="formAdmin">
                         <button name="action" value="bloquer" class="btn-modifier2">Bloquer</button>
-                    </form>
-                    <form method="POST">
-                        <button name="action" value="debloquer" class="btn-modifier2">Débloquer</button>
-                    </form>
-                    <form method="POST">
-                        <button name="action" value="premium" class="btn-modifier2">Premium</button>
-                    </form>
-                    <form method="POST">
-                        <button name="action" value="vip" class="btn-modifier2">VIP</button>
-                    </form>
-                    <form method="POST">
-                        <button name="action" value="client" class="btn-modifier2">Client</button>
-                    </form>
-                    <form method="POST">
+                        <button name="action" value="debloquer" class="btn-modifier2">Débloquer</button>                    
+                        <button name="action" value="premium" class="btn-modifier2">Premium</button>                    
+                        <button name="action" value="vip" class="btn-modifier2">VIP</button>                   
+                        <button name="action" value="client" class="btn-modifier2">Client</button>                   
                         <button name="action" value="client" class="btn-modifier2">Remise</button>
                     </form>
                 </div>
@@ -245,6 +205,27 @@
         <p>✉ Email : imposturecontact@gmail.com</p>
         <p>Horaires : Lundi - Vendredi 10h-21h | Samedi - Dimanche 12h-18h</p>
     </footer>
+
+    <script>
+        const form = document.getElementById("formAdmin");
+        const action = document.getElementByName("action");
+
+        form.addEventListener("submit", profil);
+        async function profil(event){
+            event.preventDefault();
+
+            const formData = new FormData(form);
+
+            try{
+                const response = await fetch("admin-actions.php", { 
+                    method: "POST", 
+                    body: formData 
+                });
+
+                
+
+
+    </script>
 </body>
 
 </html>

@@ -89,7 +89,6 @@
             <div class="menu">
                 <a href="Admin.php">Admin</a>
             </div>
-            <input type="text" id="searchInput2" placeholder="Rechercher nos produits ..." autocomplete="off">
         </div>
     </nav>
 
@@ -114,7 +113,7 @@
                         }
                 ?>
                 <div class="card"> <!-- Affiche les utilisateurs sous forme de cartes -->
-                    <a href="admin-pouvoirs.php?id=<?= $utilisateur["id"] ?>">
+                    <a href="admin-pouvoirs.php?id=<?php echo $utilisateur["id"] ?>">
                     <?php
                         echo htmlspecialchars($utilisateur["prenom"]);
                     ?>

@@ -62,6 +62,16 @@
                 $utilisateur["motdepasse"] = password_hash($motdepasse, PASSWORD_DEFAULT);
             }
 
+            if(!preg_match("/^0[1-9](\s?[0-9]{2}){4}$/", $telephone)){
+                echo "Numéro de téléphone invalide.";
+                exit;
+            }
+
+            if(strlen($adresse) < 5){
+                echo "Adresse invalide.";
+                exit;
+            }
+
             $_SESSION["nom"] = $nom;
             $_SESSION["prenom"] = $prenom;
             $_SESSION["telephone"] = $telephone;

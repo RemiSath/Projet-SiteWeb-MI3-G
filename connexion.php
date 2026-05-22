@@ -112,20 +112,28 @@
             }
         });
 
-        form.addEventListener("submit", async (event) => {
+        form.addEventListener("submit", connexion); 
+        
+        async function connexion(event){
+
             event.preventDefault();
             supprimerMessages();
+
             if(!regexEmail.test(email.value)){
                 afficherErreur(email, "Adresse mail invalide, pas la bonne syntaxe");
                 return;
             }
+            
             const formData = new FormData(form);
+
             try{
                 const response = await fetch("lecture.php", {
                     method: "POST",
                     body: formData
                 });
+
                 const data = await response.text();
+
                 if(data === "email"){
                     afficherErreur(email, "Adresse mail introuvable ou incorrecte");
                 }
@@ -139,10 +147,11 @@
                     window.location.href = data;
                 }
             }
+
             catch(error){
                 afficherErreur(password, "ERREUR : Impossible de se connecter");
             }
-        });
+        }
 
         function afficherErreur(input, message){
             const erreur = document.createElement("div");

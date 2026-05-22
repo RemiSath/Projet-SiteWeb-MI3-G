@@ -132,7 +132,9 @@
         
         const form = document.getElementById("formInscription");
 
-        form.addEventListener("submit", function(event){
+        form.addEventListener("submit", inscription);
+
+        async function inscription(event){
             supprimerMessages();
             let valide = true;
             const nom = document.getElementById("nom");
@@ -141,6 +143,7 @@
             const motdepasse = document.getElementById("motdepasse");
             const telephone = document.getElementById("telephone");
             const adresse = document.getElementById("adresse");
+
             if(nom.value.trim().length < 1){
                 afficherErreur(nom, "Nom invalide");
                 valide = false;
@@ -155,7 +158,9 @@
             else{
                 afficherCorrect(prenom, "Prénom valide");
             }
+
             const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
             if(!regexEmail.test(email.value)){
                 afficherErreur(email, "Email invalide");
                 valide = false;
@@ -170,7 +175,9 @@
             else{
                 afficherCorrect(motdepasse, "Mot de passe valide");
             }
+
             const regexTelephone = /^0[1-9](\s?[0-9]{2}){4}$/;
+            
             if(!regexTelephone.test(telephone.value)){
                 afficherErreur(telephone, "Téléphone invalide");
                 valide = false;
@@ -189,7 +196,7 @@
                 event.preventDefault();
             }
 
-        });
+        }
 
         function afficherErreur(input, message){
             const erreur = document.createElement("div");
@@ -224,12 +231,13 @@
         compteur.classList.add("compteur");
         infosInput.parentElement.appendChild(compteur);
         
-        infosInput.addEventListener("input", function () {
+        infosInput.addEventListener("input", infos);
+        async function infos() {
             if(infosInput.value.length > 200){
                 infosInput.value = infosInput.value.substring(0, 200);
             }
             compteur.innerText = infosInput.value.length + "/200 caractères";
-        });
+        }
     </script>
     
 </body>

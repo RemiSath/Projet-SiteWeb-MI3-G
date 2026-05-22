@@ -1,11 +1,11 @@
 <?php
 session_start();
 
-#if (!isset($_SESSION["statut"]) || $_SESSION["statut"] !== "Restaurateur") {
-#    $_SESSION["erreur2"] = "Uniquement pour les restaurateurs.";
-#    header("Location: connexion.php");
-#    exit();
-#}
+if (!isset($_SESSION["statut"]) || $_SESSION["statut"] !== "Restaurateur") {
+    $_SESSION["erreur2"] = "Uniquement pour les restaurateurs.";
+    header("Location: connexion.php");
+    exit();
+}
 
 $fichier = "data/commandes.json";
 $commandes = [];

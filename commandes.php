@@ -1,5 +1,6 @@
 <?php
 session_start();
+include "bibliothèques/bloquer.php";
 
 if (!isset($_SESSION["statut"]) || $_SESSION["statut"] !== "Restaurateur") {
     $_SESSION["erreur2"] = "Uniquement pour les restaurateurs.";

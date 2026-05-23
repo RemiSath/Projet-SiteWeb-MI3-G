@@ -1,5 +1,6 @@
 <?php
     session_start();
+    include "bibliothèques/bloquer.php";
 
     $fichierCommandes = "data/commandes.json";
     $fichierNotations = "data/notations.json";

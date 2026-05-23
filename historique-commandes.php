@@ -13,7 +13,7 @@
     }
 
     $json = file_get_contents($fichier);
-    $ultilisateurs = json_decode($json, true) ?? [];
+    $utilisateurs = json_decode($json, true) ?? [];
 
     $jsonCommandes = file_get_contents($fichierCommandes);
     $commandes = json_decode($jsonCommandes, true) ?? [];
@@ -22,7 +22,7 @@
 
     $utilisateurTrouve = false;
 
-    foreach($utilisateurs as $utilisateur){ // Correction de la variable $ultilisateurs en $utilisateurs
+    foreach($utilisateurs as $utilisateur){
         if($utilisateur["email"] === $email){
             $utilisateurTrouve = true;
 

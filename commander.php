@@ -1,5 +1,6 @@
 <?php
     session_start();
+    include "bibliothèques/bloquer.php";
 
     $panier = $_SESSION["panier"] ?? []; // Récupère le panier depuis la session, ou initialise un tableau vide si le panier n'existe pas
     $total = 0;

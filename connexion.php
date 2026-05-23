@@ -62,7 +62,13 @@
     </header>
 
     <div class="container3"> <!-- Conteneur pour le formulaire de connexion -->
-        <h1 class="h7">Connexion</h1> 
+        <h1 class="h7">Connexion</h1>
+        <?php
+            if(isset($_SESSION["erreurConnexion"])){
+                echo "<div class='erreur-js'>" . $_SESSION["erreurConnexion"] . "</div>";
+                unset($_SESSION["erreurConnexion"]);
+            }
+        ?> 
         <form id="formConnexion" action="lecture.php" method="POST">
             <div class="form-group"> 
                 <label class="label1" for="email">E-mail</label>

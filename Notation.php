@@ -1,5 +1,38 @@
 <?php
     session_start();
+
+    $fichierCommandes = "data/commandes.json";
+    $fichierNotations = "data/notations.json";
+    $commandes = [];
+    $notations = [];
+
+    if(file_exists($fichierCommandes)){
+        $json = file_get_contents($fichierCommandes);
+        $commandes = json_decode($json, true) ?? [];
+    }
+
+    if(file_exists($fichierNotations)){
+        $json = file_get_contents($fichierNotations);
+        $notations = json_decode($json, true) ?? [];
+    }
+
+    $emailClient = $_SESSION["email"] ?? "";
+
+    $commandesLivrees = [];
+
+    foreach($commandes as $commande){
+        $dejaNotee = false;
+        foreach($notations as $notation){
+            if(isset($notation["commande_id"]) && $notation["commande_id"] == $commande["id"]){
+                $dejaNotee = true;
+                break;
+            }
+        }
+
+        if(isset($commande["email"]) && $commande["email"] === $emailClient && isset($commande["statut"]) && $commande["statut"] === "livree" && !$dejaNotee){
+            $commandesLivrees[] = $commande;
+        }
+    }
 ?>
 
 <!DOCTYPE html>
@@ -69,26 +102,44 @@
         <p class="textedescription4">Votre avis compte pour nous !</p>
         <div class="container-notation">
             <div class="reservation2">
-                <form action="envoyer-notation.php" method="POST"> <!-- Formulaire de notation -->
-                    <?php
-                        if(isset($_SESSION["message"])){ // Affiche le message de succès ou d'erreur
-                            echo "<div class='message'>" . $_SESSION["message"] . "</div>";
-                            unset($_SESSION["message"]);
-                        }
+                <?php
+                    if(isset($_SESSION["message"])){
+                        echo "<div class='message'>" . $_SESSION["message"] . "</div>";
+                        unset($_SESSION["message"]);
+                    }
+                ?>
+                    <?php 
+                        if(count($commandesLivrees) > 0){ 
+                            foreach($commandesLivrees as $commande){ 
                     ?>
-                    <div class="row">
-                        <input type="number" name="livraison" required placeholder="Livraison" min="0" max="5" required>
-                        <p>0 à 5</p>
-                    </div>
-                    <div class="row">
-                        <input type="number" name="qualite" required placeholder="Qualité des produits" min="0" max="5" required>
-                        <p>0 à 5</p>
-                    </div>
-                    <div class="row">
-                        <textarea name="commentaires" placeholder="Commentaires"></textarea>
-                    </div>
-                    <button type="submit">Envoyer</button>
-                </form>
+                        <form action="envoyer-notation.php" method="POST">
+                            <input type="hidden" name="commande_id" value="<?php echo $commande["id"]; ?>">
+                            <h3>Commande #<?php echo $commande["id"]; ?></h3>
+                            <div class="row">
+                                <input type="number" name="livraison" required placeholder="Livraison" min="0" max="5">
+                                <p>0 à 5</p>
+                            </div>
+                            <div class="row">
+                                <input type="number" name="qualite" required placeholder="Qualité des produits" min="0" max="5">
+                                <p>0 à 5</p>
+                            </div>
+                            <div class="row">
+                                <textarea name="commentaires" placeholder="Commentaires"
+                                ></textarea>
+                            </div>
+                            <button type="submit">
+                                Envoyer
+                            </button>
+                        </form>
+
+                    <?php 
+                            } 
+                        }
+                        else{
+                    ?> <p>Aucune commande livrée à noter.</p>
+                <?php 
+                    } 
+                ?>
             </div>
             <div class="vide"></div>
         </div>

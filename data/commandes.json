@@ -2,11 +2,11 @@
     {
         "id": 1,
         "client": "Rémi SATHTHIRIYAN",
-        "date": "2026-05-21",
+        "date": "2026-05-23",
         "mode_commande": "livraison",
         "planification": "immediate",
         "date_souhaitee": null,
-        "statut": "a_preparer",
+        "statut": "livree",
         "adresse": "24 rue de malcouture argenteuil 95100, 95100 Argenteuil",
         "telephone": "0761414423",
         "email": "remisaththiriyan@gmail.com",
@@ -15,10 +15,13 @@
         "commentaires": "",
         "plats": [
             {
-                "nom": "Pomme",
-                "prix": 7,
+                "nom": "Citron",
+                "prix": 6.5,
                 "quantite": 1
             }
-        ]
+        ],
+        "livreur_email": "livreur@gmail.com",
+        "livreur": "Livreur Livreur",
+        "date_livraison": "2026-05-23 12:27:06"
     }
 ]

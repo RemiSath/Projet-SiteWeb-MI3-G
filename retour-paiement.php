@@ -46,6 +46,6 @@
         exit;
     }
 
-    header("Location: Notation.php");
+    header("Location: profil.php");
     exit;
 ?>

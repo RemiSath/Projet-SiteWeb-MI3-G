@@ -8,10 +8,6 @@
 
     $fichier = __DIR__ . "/data/compte.json";
 
-    if(!is_dir(__DIR__ . "/data")){
-        mkdir(__DIR__ . "/data", 0777, true);
-    }
-
     if(file_exists($fichier)){
         $json = file_get_contents($fichier);
         $utilisateurs = json_decode($json, true) ?? [];
@@ -121,7 +117,7 @@
                     <h2>Ses Informations</h2>
                     <div class="info-ligne2">
                         <span class="info-label">Statut Client</span>
-                        <div class="info-valeur2">
+                        <div class="info-valeur2" id="statut-client">
                             <?php 
                                 echo htmlspecialchars($utilisateur["statut"]);
                             ?>
@@ -129,7 +125,7 @@
                     </div>
                     <div class="info-ligne2">
                         <span class="info-label">Compte</span>
-                        <div class="info-valeur2">
+                        <div class="info-valeur2" id="statut-compte">
                             <?php 
                                 echo ($utilisateur["bloque"]) ? "Bloqué" : "Actif";
                             ?>
@@ -208,24 +204,50 @@
 
     <script>
         const form = document.getElementById("formAdmin");
-        const action = document.getElementByName("action");
+        const statutClient = document.getElementById("statut-client");
+        const statutCompte = document.getElementById("statut-compte");
 
-        form.addEventListener("submit", profil);
-        async function profil(event){
+        form.addEventListener("click", actions);
+        async function actions(event){
+
+            if(event.target.tagName !== "BUTTON"){
+                return;
+            }
+
             event.preventDefault();
-
-            const formData = new FormData(form);
+            const formData = new FormData();
+            formData.append("action", event.target.value);
+            formData.append("id", "<?php echo $id; ?>");
 
             try{
-                const response = await fetch("admin-actions.php", { 
-                    method: "POST", 
-                    body: formData 
+                await fetch("admin-actions.php", {
+                    method: "POST",
+                    body: formData
                 });
 
-                
+                if(event.target.value === "bloquer"){
+                    statutCompte.innerText = "Bloqué";
+                }
+                else if(event.target.value === "debloquer"){
+                    statutCompte.innerText = "Actif";
+                }
+                else if(event.target.value === "premium"){
+                    statutClient.innerText = "Premium";
+                }
+                else if(event.target.value === "vip"){
+                    statutClient.innerText = "VIP";
+                }
+                else if(event.target.value === "client"){
+                    statutClient.innerText = "Client";
+                }
+            }
 
-
+            catch(error){
+                console.log("Erreur serveur");
+            }
+        }
     </script>
+
 </body>
 
 </html>

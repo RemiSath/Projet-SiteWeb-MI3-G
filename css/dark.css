@@ -25,6 +25,10 @@ a{
     color:white;
 }
 
+.h7{
+    color:white;
+}
+
 .sitedescription,
 .sitedescription2,
 .sitedescription3,
@@ -148,7 +152,7 @@ form{
 
 .item-row{
     background:#222;
-    border-color:#444;
+    border:1px solid #444;
     color:white;
 }
 
@@ -188,4 +192,293 @@ form{
 
 .input-correct{
     background:#222 !important;
+}
+
+.reservation{
+    background:#1f1f1f;
+    color:white;
+}
+
+.reservation h2{
+    color:white;
+}
+
+.subtitle{
+    color:#cccccc;
+}
+
+.container{
+    background:#121212;
+    color:white;
+}
+
+.order-card{
+    background:#1f1f1f;
+    color:white;
+    border-left-color:white;
+}
+
+.order-card .meta{
+    color:#d3d3d3;
+}
+
+.order-card .meta .id{
+    color:white;
+}
+
+.customer{
+    color:white;
+}
+
+.item-row{
+    background:#222;
+    border:1px solid #444;
+    color:white;
+}
+
+.item-row span{
+    color:white;
+}
+
+.details{
+    color:white;
+}
+
+.order-details summary{
+    color:white;
+    cursor:pointer;
+}
+
+.order-extra{
+    background:#222;
+    color:white;
+    padding:10px;
+    border-radius:8px;
+    margin-top:10px;
+}
+
+.btn-link{
+    background:#333;
+    color:white;
+    border:1px solid #555;
+}
+
+.btn-link:hover{
+    background:black;
+    color:white;
+}
+
+.message{
+    background:#1f1f1f;
+    color:limegreen;
+}
+
+.container2,
+.cart-box,
+.account-box,
+.cart-sample,
+form {
+    background-color: #111;
+    color: white;
+    border-color: white;
+}
+
+h4,
+h5,
+label,
+.cart-box h5,
+.account-box p,
+.note {
+    color: white;
+}
+
+input,
+textarea,
+select {
+    background-color: #222;
+    color: white;
+    border: 1px solid white;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: #ccc;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    border-color: white;
+}
+
+.cart-items li {
+    background-color: #1b1b1b;
+    border-bottom: 1px solid #444;
+    color: white;
+}
+
+.cart-total {
+    color: white;
+}
+
+details,
+summary,
+.order-extra,
+.cart-actions {
+    color: white;
+}
+
+button,
+.submit-btn,
+.remove-btn {
+    background-color: black;
+    color: white;
+    border: 1px solid white;
+}
+
+.cities a,
+.btn-link,
+.connexion {
+    color: white;
+}
+
+.btn-link {
+    background-color: #222;
+    border: 1px solid white;
+}
+
+.btn-link:hover {
+    background-color: white;
+    color: black;
+}
+
+.erreur-js {
+    background-color: #300;
+    color: #ff8080;
+}
+
+.correct-js {
+    color: lime;
+}
+
+.option label {
+    color: white;
+}
+
+.cart-empty p,
+.cart-empty li {
+    color: white;
+}
+
+.sitedescription4,
+.textedescription4,
+.sitedescription4 h1,
+.sitedescription4 p,
+.reservation2,
+.reservation2 label,
+.reservation2 h2,
+.message2 {
+    color: white;
+}
+
+.reservation2 {
+    background-color: #111;
+    border: 1px solid white;
+}
+
+.reservation2 input,
+.reservation2 textarea,
+.reservation2 select {
+    background-color: #222;
+    color: white;
+    border: 1px solid white;
+}
+
+.reservation2 input::placeholder,
+.reservation2 textarea::placeholder {
+    color: #ccc;
+}
+
+.reservation2 .row p {
+    color: white;
+}
+
+.message {
+    background-color: #013b01;
+    color: lime;
+}
+
+.message2 {
+    background-color: #1b1b1b;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.reservation2 button {
+    background-color: black;
+    color: white;
+    border: 1px solid white;
+}
+
+.reservation2 button:hover {
+    background-color: white;
+    color: black;
+}
+
+.input-erreur {
+    border: 2px solid red !important;
+}
+
+.input-correct {
+    border: 2px solid limegreen !important;
+}
+
+
+.profile-container,
+.profile-container h1,
+.profile-container h2,
+.profile-container h3,
+.profile-container p,
+.profile-container span,
+.profile-container strong,
+.profile-container li,
+.profile-container label,
+.profile-container a {
+    color: white;
+}
+
+.profile-container input,
+.profile-container textarea {
+    color: white;
+    background-color: rgba(255,255,255,0.08);
+    border: 1px solid white;
+}
+
+.profile-container input::placeholder,
+.profile-container textarea::placeholder {
+    color: rgba(255,255,255,0.7);
+}
+
+.carte,
+.commande,
+.bon-item {
+    color: white;
+}
+
+.fidelite-texte,
+.fidelite-score {
+    color: white;
+}
+
+#message {
+    color: white;
+}
+
+.btn-link {
+    color: white;
+    border-color: white;
+}
+
+.commande hr {
+    border-color: rgba(255,255,255,0.3);
 }

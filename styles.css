@@ -1135,14 +1135,16 @@ input:focus, textarea:focus {
 }
 
 .btn-link {
+    display: inline-block;
     text-decoration: none;
-    padding: 8px 14px;
+    padding: 4px 14px;
     border-radius: 8px;
     border: 1px solid #ddd;
     font-size: 0.95rem;
     background: #f8f8f8;
     color: black;
     transition: 0.2s;
+    margin-top: 10px;
 }
 
 .btn-link:hover {

@@ -2,9 +2,15 @@
 session_start();
 include "bibliothèques/bloquer.php";
 
+if(!isset($_SESSION["email"])){ 
+    $_SESSION["erreur"] = "Accès réservé aux restaurateurs.";
+    header("Location: page-d'accueil.php");
+    exit;
+}
+
 if (!isset($_SESSION["statut"]) || $_SESSION["statut"] !== "Restaurateur") {
-    $_SESSION["erreur2"] = "Uniquement pour les restaurateurs.";
-    header("Location: connexion.php");
+    $_SESSION["erreur"] = "Uniquement pour les restaurateurs.";
+    header("Location: page-d'accueil.php");
     exit();
 }
 

@@ -1,8 +1,15 @@
 <?php
 session_start();
 
+if(!isset($_SESSION["email"])){ 
+    $_SESSION["erreur"] = "Accès réservé aux livreurs.";
+    header("Location: page-d'accueil.php");
+    exit;
+}
+
 if (!isset($_SESSION["statut"]) || $_SESSION["statut"] !== "Livreur") {
-    header("Location: connexion.php");
+    $_SESSION["erreur"] = "Accès réservé aux livreurs.";
+    header("Location: page-d'accueil.php");
     exit();
 }
 

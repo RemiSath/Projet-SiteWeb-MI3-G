@@ -1,0 +1,79 @@
+[
+    {
+        "client": "Rémi Saththiriyan",
+        "date": "2026-05-24",
+        "mode_commande": "livraison",
+        "planification": "immediate",
+        "date_souhaitee": null,
+        "statut": "en_preparation",
+        "adresse": "24 rue de malcouture argenteuil 95100, 95100 Argenteuil",
+        "telephone": "0761414423",
+        "email": "remisaththiriyan@gmail.com",
+        "interphone": "",
+        "etage": "",
+        "commentaires": "",
+        "plats": [
+            {
+                "nom": "Fraise",
+                "prix": 6.8,
+                "quantite": 1
+            },
+            {
+                "nom": "Pomme",
+                "prix": 7,
+                "quantite": 1
+            }
+        ],
+        "total_initial": 26.8,
+        "total_actuel": 13.8,
+        "total_paye": 26.8,
+        "reste_a_payer": 0,
+        "ticket_reduction": 13,
+        "paiements": [
+            {
+                "transaction": "6a12f362a6d77",
+                "montant": 26.8,
+                "statut": "accepte",
+                "type": "paiement_initial",
+                "date": "2026-05-24 12:47:46"
+            }
+        ],
+        "id": 1
+    },
+    {
+        "client": "Rémi Saththiriyan",
+        "date": "2026-05-24",
+        "mode_commande": "livraison",
+        "planification": "immediate",
+        "date_souhaitee": null,
+        "statut": "a_preparer",
+        "adresse": "24 rue de malcouture argenteuil 95100, 95100 Argenteuil",
+        "telephone": "0761414423",
+        "email": "remisaththiriyan@gmail.com",
+        "interphone": "",
+        "etage": "",
+        "commentaires": "",
+        "plats": [
+            {
+                "nom": "Fraise",
+                "prix": 6.8,
+                "quantite": 1
+            }
+        ],
+        "total_initial": 6.8,
+        "total_actuel": 6.8,
+        "total_paye": 6.8,
+        "reste_a_payer": 0,
+        "ticket_reduction": 0,
+        "paiements": [
+            {
+                "transaction": "6a12f6fe661c0",
+                "montant": 6.8,
+                "statut": "accepte",
+                "type": "paiement_initial",
+                "date": "2026-05-24 13:03:01"
+            }
+        ],
+        "id": 2
+    }
+]

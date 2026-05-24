@@ -2,8 +2,8 @@
     session_start();
 
     if(!isset($_SESSION["email"])){ // Vérifie si l'utilisateur est connecté
-        $_SESSION["erreur2"] = "Accès réservé aux administrateurs.";
-        header("Location: connexion.php");
+        $_SESSION["erreur"] = "Accès réservé aux administrateurs.";
+        header("Location: page-d'accueil.php");
         exit;
     }
 

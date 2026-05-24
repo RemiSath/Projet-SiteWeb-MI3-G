@@ -59,7 +59,7 @@ if (isset($_SESSION["commande_en_attente"]) && $_SESSION["commande_en_attente"][
     unset($_SESSION["commande_en_attente"]);
     unset($_SESSION["panier"]);
 
-    header("Location: Notation.php");
+    header("Location: profil.php");
     exit();
 }
 $commandeTrouvee = false;

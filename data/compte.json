@@ -41,13 +41,13 @@
     {
         "id": "6a0ae8f2204f5",
         "nom": "Saththiriyan",
-        "prenom": "R\u00e9mi",
+        "prenom": "Rémi",
         "email": "remisaththiriyan@gmail.com",
         "motdepasse": "$2y$12$lKwbLjh\/M6EEb.kVL7ML5up0FPBQrS24cnbpgBSW3SNl2yzu2Bk7.",
         "adresse": "24 rue de malcouture argenteuil 95100",
         "telephone": "0761414423",
-        "infos": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "infos": "1",
         "statut": "Client",
-        "bloque": true
+        "bloque": false
     }
 ]

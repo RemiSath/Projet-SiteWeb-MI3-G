@@ -207,6 +207,8 @@ form{
     color:#cccccc;
 }
 
+/* PAGE MES RESERVATIONS */
+
 .container{
     background:#121212;
     color:white;
@@ -272,6 +274,8 @@ form{
     background:#1f1f1f;
     color:limegreen;
 }
+
+/* ⚠️ doublon supprimé ici (erreur) */
 
 .container2,
 .cart-box,
@@ -433,6 +437,7 @@ button,
     border: 2px solid limegreen !important;
 }
 
+/* ===== PROFIL ===== */
 
 .profile-container,
 .profile-container h1,

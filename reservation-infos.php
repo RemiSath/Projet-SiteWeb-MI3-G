@@ -77,10 +77,12 @@ file_put_contents(
 $_SESSION["nom"] = $nom;
 $_SESSION["prenom"] = $prenom;
 $_SESSION["message2"] = "Votre réservation a été enregistrée avec succès.";
+
 if (isset($_SESSION["email"])) {
     header("Location: mes-reservations.php");
 } else {
     header("Location: page-d'accueil.php");
 }
+
 exit();
 ?>

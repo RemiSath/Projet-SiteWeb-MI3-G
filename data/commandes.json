@@ -46,7 +46,7 @@
         "mode_commande": "livraison",
         "planification": "immediate",
         "date_souhaitee": null,
-        "statut": "a_preparer",
+        "statut": "livree",
         "adresse": "24 rue de malcouture argenteuil 95100, 95100 Argenteuil",
         "telephone": "0761414423",
         "email": "remisaththiriyan@gmail.com",
@@ -74,6 +74,9 @@
                 "date": "2026-05-24 13:03:01"
             }
         ],
-        "id": 2
+        "id": 2,
+        "livreur_email": "livreur@gmail.com",
+        "livreur": "Livreur Livreur",
+        "date_livraison": "2026-05-24 13:15:03"
     }
 ]

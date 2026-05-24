@@ -49,6 +49,9 @@
             elseif($utilisateur["statut"] === "Restaurateur"){
                 echo "commandes.php";
             }
+            elseif($utilisateur["statut"] === "Livreur"){
+                echo "livraison.php";
+            }
             else{
                 echo "profil.php";
             }

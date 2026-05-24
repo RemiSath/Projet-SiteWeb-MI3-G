@@ -1340,6 +1340,11 @@ main.container {
     transition: 0.2s;
     font-family: "Annie Use Your Telescope", cursive;
     font-size: 150%;
+    color: white;
+}
+
+.filter-btn2:visited {
+    color: white;
 }
 
 .filter-btn2:hover {

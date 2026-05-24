@@ -3,7 +3,6 @@ body{
     color:white;
 }
 
-/* NAVBAR */
 .navbar{
     background:black;
     border-bottom:1px solid white;
@@ -13,13 +12,11 @@ body{
     color:white;
 }
 
-/* FOOTER */
 .footer{
     background:black;
     color:white;
 }
 
-/* TEXTES */
 h1,h2,h3,h4,h5,h6,
 p,
 span,
@@ -28,7 +25,6 @@ a{
     color:white;
 }
 
-/* SECTIONS */
 .sitedescription,
 .sitedescription2,
 .sitedescription3,
@@ -37,7 +33,6 @@ a{
     color:white;
 }
 
-/* MENUS */
 .menu{
     background:black;
     border-color:white;
@@ -56,7 +51,6 @@ a{
     background:#333;
 }
 
-/* CARTES */
 .card,
 .carte,
 .carte2,
@@ -69,7 +63,6 @@ a{
     border-color:white;
 }
 
-/* PRODUITS */
 .product-card{
     background:#1f1f1f;
 }
@@ -91,7 +84,6 @@ a{
     background:#333;
 }
 
-/* BOUTONS */
 button,
 .add-to-cart,
 .submit-btn,
@@ -104,7 +96,6 @@ button,
     border-color:white;
 }
 
-/* INPUTS */
 input,
 select,
 textarea{
@@ -118,12 +109,10 @@ textarea::placeholder{
     color:#ccc;
 }
 
-/* FORMULAIRES */
 form{
     background:transparent;
 }
 
-/* OVERLAY */
 .overlay-menu{
     background:#121212;
 }
@@ -136,7 +125,6 @@ form{
     color:white;
 }
 
-/* DESCRIPTION VILLES */
 .infosville,
 .description{
     background:#1f1f1f;
@@ -144,7 +132,6 @@ form{
     border-color:white;
 }
 
-/* BARRE RECHERCHE */
 #topBar{
     background:#121212;
 }
@@ -155,24 +142,20 @@ form{
     border:1px solid #555;
 }
 
-/* RESULTATS */
 #results{
     background:transparent;
 }
 
-/* COMMANDES */
 .item-row{
     background:#222;
     border-color:#444;
     color:white;
 }
 
-/* BADGES */
 .badge-en_preparation{
     color:black;
 }
 
-/* FIDELITE */
 .fidelite-score{
     color:white;
     text-shadow:none;
@@ -182,27 +165,23 @@ form{
     color:#ccc;
 }
 
-/* LIENS */
 .logo-text,
 .connexion,
 .liens-secondaires a{
     color:white;
 }
 
-/* LABELS */
 .label1,
 .info-label{
     color:white;
 }
 
-/* ERREURS */
 .erreur,
 .erreur3{
     background:#222;
     color:#ff6b6b;
 }
 
-/* INPUTS VALIDATION */
 .input-erreur{
     background:#222 !important;
 }

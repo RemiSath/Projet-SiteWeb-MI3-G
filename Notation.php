@@ -50,52 +50,52 @@ $peutNoter = !empty($commandesLivrees);
 </head>
 
 <body>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bungee&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Playwrite+AT:ital,wght@0,100..400;1,100..400&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Annie+Use+Your+Telescope&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playwrite+AT:ital,wght@0,100..400;1,100..400&display=swap"
+        rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Annie+Use+Your+Telescope&display=swap" rel="stylesheet">
 
-<nav class="navbar">
-    <a href="page-d'accueil.php" class="accueil">IMPOSTEUR</a>
-
-    <div class="navliens">
-        <div class="menu">
-            <a>Réservation</a>
-            <div class="infos">
-                <a href="reserver.php">Réserver une table</a>
-                <a href="commander.php">Commander</a>
+    <header class="navbar">
+        <a href="page-d'accueil.php" class="accueil">IMPOSTEUR</a>
+        <div class="navliens">
+            <div class="menu">
+                <a>Réservation</a>
+                <div class="infos">
+                    <a href="reserver.php">Réserver une table</a>
+                    <a href="mes-reservations.php">Mes réservations</a>
+                    <a href="commander.php">Commander</a>
+                </div>
+            </div>
+            <div class="menu">
+                <a href="Notation.php">Notation</a>
+            </div>
+            <div class="menu">
+                <a>Compte</a>
+                <div class="infos">
+                    <a href="profil.php">Voir Profil</a>
+                    <a href="connexion.php">Connexion</a>
+                    <a href="inscription.php">Inscription</a>
+                    <a href="deconnexion.php">Deconnexion</a>
+                </div>
+            </div>
+            <div class="menu">
+                <a>Services</a>
+                <div class="infos">
+                    <a href="commandes.php">Commandes</a>
+                    <a href="livraison.php">Livraison</a>
+                </div>
+            </div>
+            <div class="menu">
+                <a href="Admin.php">Admin</a>
             </div>
         </div>
-
-        <div class="menu">
-            <a href="Notation.php">Notation</a>
-        </div>
-
-        <div class="menu">
-            <a>Compte</a>
-            <div class="infos">
-                <a href="profil.php">Voir Profil</a>
-                <a href="connexion.php">Connexion</a>
-                <a href="inscription.php">Inscription</a>
-                <a href="deconnexion.php">Deconnexion</a>
-            </div>
-        </div>
-
-        <div class="menu">
-            <a>Services</a>
-            <div class="infos">
-                <a href="commandes.php">Commandes</a>
-                <a href="livraison.php">Livraison</a>
-            </div>
-        </div>
-
-        <div class="menu">
-            <a href="Admin.php">Admin</a>
-        </div>
-    </div>
-</nav>
+    </header>
 
 <div class="sitedescription4">
     <h1>Notez-nous</h1>

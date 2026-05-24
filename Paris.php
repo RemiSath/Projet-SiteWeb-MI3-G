@@ -43,6 +43,7 @@ function h($value)
             <a>Réservation</a>
             <div class="infos">
                 <a href="reserver.php">Réserver une table</a>
+                <a href="mes-reservations.php">Mes réservations</a>
                 <a href="commander.php">Commander</a>
             </div>
         </div>

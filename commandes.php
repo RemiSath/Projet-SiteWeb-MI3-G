@@ -294,6 +294,8 @@ usort($commandes, function ($a, $b) {
                 <a href="reserver.php">
                     Réserver une table
                 </a>
+                <a href="mes-reservations.php">
+                    Mes réservations
                 <a href="commander.php">
                     Commander
                 </a>

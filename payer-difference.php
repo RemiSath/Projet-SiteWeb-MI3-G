@@ -64,16 +64,62 @@ $control = md5(
 
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
-    <title>Payer la différence</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="Images/Among_Us.png">
+    <title>Payer la différence</title>
 </head>
+
 <body>
-<header class="navbar">
-    <a href="page-d'accueil.php" class="accueil">IMPOSTEUR</a>
-</header>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playwrite+AT:ital,wght@0,100..400;1,100..400&display=swap"
+        rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Annie+Use+Your+Telescope&display=swap" rel="stylesheet">
+
+    <header class="navbar">
+        <a href="page-d'accueil.php" class="accueil">IMPOSTEUR</a>
+        <div class="navliens">
+            <div class="menu">
+                <a>Réservation</a>
+                <div class="infos">
+                    <a href="reserver.php">Réserver une table</a>
+                    <a href="mes-reservations.php">Mes réservations</a>
+                    <a href="commander.php">Commander</a>
+                </div>
+            </div>
+            <div class="menu">
+                <a href="Notation.php">Notation</a>
+            </div>
+            <div class="menu">
+                <a>Compte</a>
+                <div class="infos">
+                    <a href="profil.php">Voir Profil</a>
+                    <a href="connexion.php">Connexion</a>
+                    <a href="inscription.php">Inscription</a>
+                    <a href="deconnexion.php">Deconnexion</a>
+                </div>
+            </div>
+            <div class="menu">
+                <a>Services</a>
+                <div class="infos">
+                    <a href="commandes.php">Commandes</a>
+                    <a href="livraison.php">Livraison</a>
+                </div>
+            </div>
+            <div class="menu">
+                <a href="Admin.php">Admin</a>
+            </div>
+        </div>
+    </header>
 
 <div class="container2">
     <h4>Paiement complémentaire</h4>

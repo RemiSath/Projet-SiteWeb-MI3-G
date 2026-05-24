@@ -60,51 +60,56 @@
             </div>
         </div>
     </header>
-    
-    <div class="container">
-        <div class="image-section">
-            <img src="Images/restaurant.png" alt="Restaurant">
-        </div>
-        <div class="reservation">
-            <p class="subtitle">FAIRE UNE RÉSERVATION</p>
-            <h2>Réserver une table</h2>
-            <form action="reservation-infos.php" method="POST">
-                <?php
-                    if(isset($_SESSION["erreur"])){ 
-                        echo "<div class='erreur'>" . $_SESSION["erreur"] . "</div>";
-                        unset($_SESSION["erreur"]);
-                    }
-                ?>
-                <div class="row">
-                    <input type="text" name="nom" placeholder="Nom" required>
-                    <input type="text" name="prenom" placeholder="Prénom" required>
-                </div>
-                <div class="row">
-                    <input type="number" name="adultes" placeholder="Adultes" min="1" required>
-                    <input type="number" name="enfants" placeholder="Enfants" min="0" required>
-                </div>
-                <div class="row">
-                    <input type="date" name="date" required>
-                    <input type="time" name="time" required>
-                </div>
-                <select name="restaurant" required>
-                    <option value="">Choisir un restaurant</option>
-                    <option>Paris</option>
-                    <option>Argenteuil</option>
-                    <option>Cergy</option>
-                </select>
-                <textarea name="commentaire" placeholder="Commentaire ou demande spéciale"></textarea>
-                <button type="submit">Réserver</button>
-            </form>
-        </div>
+
+<div class="container">
+    <div class="image-section">
+        <img src="Images/restaurant.png" alt="Restaurant">
     </div>
+    <div class="reservation">
+        <p class="subtitle">FAIRE UNE RÉSERVATION</p>
+        <h2>Réserver une table</h2>
+        <form action="reservation-infos.php" method="POST">
+            <?php
+            if (isset($_SESSION["erreur"])) {
+                echo "<div class='erreur'>" . htmlspecialchars($_SESSION["erreur"]) . "</div>";
+                unset($_SESSION["erreur"]);
+            }
+            ?>
+            <div class="row">
+                <input type="text" name="nom" placeholder="Nom" value="<?php echo htmlspecialchars($nom); ?>" required>
+                <input type="text" name="prenom" placeholder="Prénom" value="<?php echo htmlspecialchars($prenom); ?>" required>
+            </div>
+            <?php if (!$isConnected) { ?>
+                <div class="row">
+                    <input type="email" name="email" placeholder="Email" required>
+                </div>
+            <?php } else { ?>
+                <input type="hidden" name="email" value="<?php echo htmlspecialchars($email); ?>">
+            <?php } ?>
+            <div class="row">
+                <input type="number" name="adultes" placeholder="Adultes" min="1" required>
+                <input type="number" name="enfants" placeholder="Enfants" min="0" required>
+            </div>
+            <div class="row">
+                <input type="date" name="date" required>
+                <input type="time" name="time" required>
+            </div>
+            <select name="restaurant" required>
+                <option value="">Choisir un restaurant</option>
+                <option value="Paris">Paris</option>
+                <option value="Argenteuil">Argenteuil</option>
+                <option value="Cergy">Cergy</option>
+            </select>
+            <textarea name="commentaire" placeholder="Commentaire ou demande spéciale"></textarea>
+            <button type="submit">Réserver</button>
+        </form>
+    </div>
+</div>
 
-    <footer class="footer">
-        <p>📞 Téléphone : 07 67 01 02 03</p>
-        <p>✉ Email : imposteurcontact@gmail.com</p>
-        <p>Horaires : Lundi - Vendredi 10h-21h | Samedi - Dimanche 12h-18h</p>
-    </footer>
-
+<footer class="footer">
+    <p>📞 Téléphone : 07 67 01 02 03</p>
+    <p>✉ Email : imposteurcontact@gmail.com</p>
+    <p>Horaires : Lundi - Vendredi 10h-21h | Samedi - Dimanche 12h-18h</p>
+</footer>
 </body>
-
 </html>

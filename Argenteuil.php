@@ -607,8 +607,8 @@ function urlMenu($menuKey, $selectedType, $selectedSaveur, $selectedAllergene) {
     </section>
 
     <footer class="footer">
-        <p>📞 Téléphone : 07 61 41 44 23</p>
-        <p>✉ Email : imposturecontact@gmail.com</p>
+        <p>📞 Téléphone : 07 67 01 02 03</p>
+        <p>✉ Email : imposteurcontact@gmail.com</p>
         <p>Horaires : Lundi - Vendredi 10h-21h | Samedi - Dimanche 12h-18h</p>
     </footer>
 

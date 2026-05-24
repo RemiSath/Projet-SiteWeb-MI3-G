@@ -94,8 +94,6 @@ $peutNoter = !empty($commandesLivrees);
         <div class="menu">
             <a href="Admin.php">Admin</a>
         </div>
-
-        <input type="text" id="searchInput2" placeholder="Rechercher nos produits ..." autocomplete="off">
     </div>
 </nav>
 
@@ -143,7 +141,7 @@ $peutNoter = !empty($commandesLivrees);
                     <button type="submit">Envoyer</button>
                 </form>
             <?php } else { ?>
-                <div class="message">
+                <div class="message2">
                     Vous pourrez noter votre expérience lorsqu’une commande sera livrée.
                     Si vous avez déjà noté vos commandes livrées, elles ne s’affichent plus ici.
                 </div>

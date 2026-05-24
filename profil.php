@@ -107,8 +107,6 @@ foreach ($commandesUtilisateur as $commande) {
         <div class="menu">
             <a href="Admin.php">Admin</a>
         </div>
-
-        <input type="text" id="searchInput2" placeholder="Rechercher nos produits ..." autocomplete="off">
     </div>
 </header>
 

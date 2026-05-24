@@ -45,6 +45,7 @@ foreach ($panier as $item) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Commander</title>
     <link rel="stylesheet" href="styles.css">
+    <link id="theme-link" rel="stylesheet" href="css/default.css">
     <link rel="icon" href="Images/Among_Us.png">
 </head>
 
@@ -89,6 +90,7 @@ foreach ($panier as $item) {
         <div class="menu">
             <a href="Admin.php">Admin</a>
         </div>
+        <button id="theme-button">Changer le thème</button>
     </div>
 </header>
 
@@ -428,6 +430,6 @@ foreach ($panier as $item) {
         });
     }
 </script>
-
+<script src="cookie.js"></script>
 </body>
 </html>

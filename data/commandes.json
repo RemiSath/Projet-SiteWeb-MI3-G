@@ -247,5 +247,24 @@
         "date_livraison": "2026-05-24 14:14:02",
         "note_donnee": true,
         "date_notation": "2026-05-24 14:14:22"
+    },
+    {
+        "id": 8,
+        "type": "bon_reduction_admin",
+        "client": "Rémi Saththiriyan",
+        "date": "2026-05-24",
+        "statut": "bon_reduction",
+        "adresse": "24 rue de malcouture argenteuil 95100",
+        "telephone": "0761414423",
+        "email": "remisaththiriyan@gmail.com",
+        "plats": [],
+        "total_initial": 0,
+        "total_actuel": 0,
+        "total_paye": 0,
+        "reste_a_payer": 0,
+        "ticket_reduction": 10,
+        "ticket_reduction_utilise": 0,
+        "accorde_par_admin": "admin@gmail.com",
+        "commentaire": ""
     }
 ]

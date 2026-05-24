@@ -150,14 +150,14 @@ foreach ($commandes as $commande) {
 
                 <div class="info-ligne2">
                     <span class="info-label">Statut Client</span>
-                    <div class="info-valeur2">
+                    <div class="info-valeur2" id="statut-client">
                         <?php echo htmlspecialchars($utilisateur["statut"] ?? ""); ?>
                     </div>
                 </div>
 
                 <div class="info-ligne2">
                     <span class="info-label">Compte</span>
-                    <div class="info-valeur2">
+                    <div class="info-valeur2" id="statut-compte">
                         <?php echo !empty($utilisateur["bloque"]) ? "Bloqué" : "Actif"; ?>
                     </div>
                 </div>
@@ -215,7 +215,7 @@ foreach ($commandes as $commande) {
             <div class="actions-admin">
                 <h2>Actions administrateur</h2>
 
-                <form method="post" action="admin-actions.php">
+                <form method="post" action="admin-actions.php" id="formAdmin">
                     <input type="hidden" name="id" value="<?php echo htmlspecialchars($id); ?>">
 
                     <button type="submit" name="action" value="bloquer" class="btn-modifier2">
@@ -267,5 +267,55 @@ foreach ($commandes as $commande) {
     <p>Horaires : Lundi - Vendredi 10h-21h | Samedi - Dimanche 12h-18h</p>
 </footer>
 
+<script>
+    const form = document.getElementById("formAdmin");
+    const statutClient = document.getElementById("statut-client");
+    const statutCompte = document.getElementById("statut-compte");
+
+    form.addEventListener("click", actions);
+
+    async function actions(event){
+
+        if(event.target.tagName !== "BUTTON"){
+            return;
+        }
+
+        event.preventDefault();
+
+        const formData = new FormData();
+        formData.append("action", event.target.value);
+        formData.append("id", "<?php echo $id; ?>");
+
+        try{
+
+            const response = await fetch("admin-actions.php", {
+                method: "POST",
+                body: formData
+            });
+
+            const resultat = await response.text();
+
+            if(event.target.value === "bloquer"){
+                statutCompte.innerText = "Bloqué";
+            }
+            else if(event.target.value === "debloquer"){
+                statutCompte.innerText = "Actif";
+            }
+            else if(event.target.value === "premium"){
+                statutClient.innerText = "Premium";
+            }
+            else if(event.target.value === "vip"){
+                statutClient.innerText = "VIP";
+            }
+            else if(event.target.value === "client"){
+                statutClient.innerText = "Client";
+            }
+        }
+
+        catch(error){
+            console.log("Erreur serveur");
+        }
+    }
+    </script>
 </body>
 </html>

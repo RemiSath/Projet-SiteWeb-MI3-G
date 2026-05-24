@@ -114,7 +114,7 @@
                         }
                 ?>
                 <div class="card"> <!-- Affiche les utilisateurs sous forme de cartes -->
-                    <a href="admin-pouvoirs.php?id=<?php echo $utilisateur["id"] ?>">
+                    <a class="utilisateurs-links"href="admin-pouvoirs.php?id=<?php echo $utilisateur["id"] ?>">
                     <?php
                         echo htmlspecialchars($utilisateur["prenom"]);
                     ?>

@@ -3,8 +3,8 @@ session_start();
 include "bibliothèques/bloquer.php";
 
 if (!isset($_SESSION["email"])) {
-    $_SESSION["erreur2"] = "Connectez-vous pour voir vos réservations.";
-    header("Location: connexion.php");
+    $_SESSION["erreur"] = "Connectez-vous pour voir vos réservations.";
+    header("Location: page-d'accueil.php");
     exit();
 }
 

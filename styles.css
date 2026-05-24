@@ -102,17 +102,9 @@ body {
     font-size: 350%;
 }
 
-a,
-a:link,
-a:visited {
-    color: black;
+a {
     text-decoration: none;
     list-style-type: none;
-}
-
-a:hover {
-    color: black;
-    text-decoration: underline;
 }
 
 .a1 {
@@ -436,6 +428,11 @@ a:hover {
     box-shadow: none;
     display: block;
     overflow: hidden;
+}
+
+.utilisateurs-links {
+    text-decoration: none;
+    color: black;
 }
 
 .infos-utilisateur {

@@ -2,10 +2,14 @@
 session_start();
 include "bibliothèques/bloquer.php";
 
+if (!isset($_SESSION["email"])) {
+    $_SESSION["erreur"] = "Connectez-vous pour pouvoir faire une réservation.";
+    header("Location: page-d'accueil.php");
+    exit();
+}
+
 $nom = $_SESSION["nom"] ?? "";
 $prenom = $_SESSION["prenom"] ?? "";
-$email = $_SESSION["email"] ?? "";
-$isConnected = isset($_SESSION["email"]);
 ?>
 
 <!DOCTYPE html>
@@ -91,14 +95,6 @@ $isConnected = isset($_SESSION["email"]);
                 <input type="text" id="prenom" name="prenom" placeholder="Prénom" value="<?php echo htmlspecialchars($prenom); ?>" required>
             </div>
 
-            <?php if (!$isConnected) { ?>
-                <div class="row">
-                    <input type="email" id="email" name="email" placeholder="Email" required>
-                </div>
-            <?php } else { ?>
-                <input type="hidden" name="email" value="<?php echo htmlspecialchars($email); ?>">
-            <?php } ?>
-
             <div class="row">
                 <input type="number" id="adultes" name="adultes" placeholder="Adultes" min="1" required>
                 <input type="number" id="enfants" name="enfants" placeholder="Enfants" min="0" required>
@@ -139,7 +135,6 @@ $isConnected = isset($_SESSION["email"]);
         let valide = true;
         const nom = document.getElementById("nom");
         const prenom = document.getElementById("prenom");
-        const email = document.getElementById("email");
         const adultes = document.getElementById("adultes");
         const enfants = document.getElementById("enfants");
         const date = document.getElementById("date");
@@ -162,18 +157,6 @@ $isConnected = isset($_SESSION["email"]);
         else{
             afficherCorrect(prenom, "Prénom valide");
         }
-
-        if(email){
-            const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if(!regexEmail.test(email.value)){
-                afficherErreur(email, "Email invalide");
-                valide = false;
-            }
-            else{
-                afficherCorrect(email, "Email valide");
-            }
-        }
-
         if(parseInt(adultes.value) < 1){
             afficherErreur(adultes, "Il faut au moins 1 adulte");
             valide = false;

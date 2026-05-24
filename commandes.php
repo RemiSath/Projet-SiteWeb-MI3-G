@@ -37,6 +37,8 @@ function normaliserStatut($statut)
             return "en_livraison";
         case "livree":
             return "livree";
+        case "abandonnee":
+            return "abandonnee";
         default:
             return "payee";
     }
@@ -55,6 +57,8 @@ function labelStatut($statut)
             return "En livraison";
         case "livree":
             return "Livrée";
+        case "abandonnee":
+            return "abandonnee";
         default:
             return "Inconnu";
     }

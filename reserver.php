@@ -63,8 +63,6 @@ $isConnected = isset($_SESSION["email"]);
         <div class="menu">
             <a href="Admin.php">Admin</a>
         </div>
-
-        <input type="text" id="searchInput2" placeholder="Rechercher nos produits ..." autocomplete="off">
     </div>
 </header>
 
@@ -124,7 +122,7 @@ $isConnected = isset($_SESSION["email"]);
 
 <footer class="footer">
     <p>📞 Téléphone : 07 67 01 02 03</p>
-    <p>✉ Email : imposturecontact@gmail.com</p>
+    <p>✉ Email : imposteurcontact@gmail.com</p>
     <p>Horaires : Lundi - Vendredi 10h-21h | Samedi - Dimanche 12h-18h</p>
 </footer>
 </body>

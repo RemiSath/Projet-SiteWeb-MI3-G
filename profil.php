@@ -1,5 +1,6 @@
 <?php
 session_start();
+include "bibliothèques/bloquer.php";
 
 if (!isset($_SESSION["email"])) {
     header("Location: connexion.php");
@@ -33,6 +34,7 @@ if (file_exists($fichierCommandes)) {
 }
 
 $totalTicketsReduction = 0;
+$bonsReductionDisponibles = [];
 
 foreach ($commandesUtilisateur as $commande) {
     $ticket = floatval($commande["ticket_reduction"] ?? 0);
@@ -40,6 +42,17 @@ foreach ($commandesUtilisateur as $commande) {
     $resteTicket = max(0, $ticket - $ticketUtilise);
 
     $totalTicketsReduction += $resteTicket;
+
+    if ($resteTicket > 0) {
+        $bonsReductionDisponibles[] = [
+            "montant" => $resteTicket,
+            "date" => $commande["date"] ?? "",
+            "commentaire" => $commande["commentaire"] ?? "",
+            "source" => ($commande["type"] ?? "") === "bon_reduction_admin"
+                ? "Bon accordé par l’administrateur"
+                : "Bon obtenu après modification de commande"
+        ];
+    }
 }
 ?>
 
@@ -90,9 +103,11 @@ foreach ($commandesUtilisateur as $commande) {
                 <a href="livraison.php">Livraison</a>
             </div>
         </div>
+
         <div class="menu">
             <a href="Admin.php">Admin</a>
         </div>
+
         <input type="text" id="searchInput2" placeholder="Rechercher nos produits ..." autocomplete="off">
     </div>
 </header>
@@ -101,12 +116,15 @@ foreach ($commandesUtilisateur as $commande) {
     <div class="header-profil">
         <h1>Mon Profil</h1>
     </div>
+
     <?php if (isset($_SESSION["message"])) { ?>
         <p class="message"><?php echo htmlspecialchars($_SESSION["message"]); unset($_SESSION["message"]); ?></p>
     <?php } ?>
+
     <?php if (isset($_SESSION["erreur"])) { ?>
         <p class="erreur"><?php echo htmlspecialchars($_SESSION["erreur"]); unset($_SESSION["erreur"]); ?></p>
     <?php } ?>
+
     <div class="dashboard">
         <div class="carte">
             <h2>Mes Informations</h2>
@@ -146,6 +164,7 @@ foreach ($commandesUtilisateur as $commande) {
                 <button type="submit" class="btn-modifier" id="btnEnregistrer" style="display:none;">
                     Enregistrer
                 </button>
+
                 <p id="message"></p>
             </form>
         </div>
@@ -153,17 +172,22 @@ foreach ($commandesUtilisateur as $commande) {
         <div class="carte">
             <?php $i = 1; ?>
             <h2>Anciennes Commandes</h2>
+
             <?php if (empty($commandesUtilisateur)) { ?>
                 <p>Aucune commande trouvée.</p>
             <?php } else { ?>
                 <?php foreach ($commandesUtilisateur as $commande) { ?>
                     <?php
+                    if (($commande["type"] ?? "") === "bon_reduction_admin") {
+                        continue;
+                    }
                     $statutCommande = $commande["statut"] ?? "";
                     $modifiable = in_array($statutCommande, ["a_preparer", "payee", "en_attente"], true);
                     $ticket = floatval($commande["ticket_reduction"] ?? 0);
                     $ticketUtilise = floatval($commande["ticket_reduction_utilise"] ?? 0);
                     $ticketRestant = max(0, $ticket - $ticketUtilise);
                     ?>
+
                     <div class="commande">
                         <p><strong>Commande #<?php echo $i; $i++; ?></strong></p>
                         <p>Statut : <?php echo htmlspecialchars($statutCommande); ?></p>
@@ -194,17 +218,18 @@ foreach ($commandesUtilisateur as $commande) {
                                 <?php echo number_format($ticketRestant, 2, ',', ' '); ?> €
                             </p>
                         <?php } ?>
-
                         <?php if ($modifiable) { ?>
                             <a class="btn-link" href="modifier-commande.php?id=<?php echo htmlspecialchars($commande["id"] ?? ""); ?>">
                                 Modifier cette commande
                             </a>
                         <?php } ?>
+
                         <hr>
                     </div>
                 <?php } ?>
             <?php } ?>
         </div>
+
         <div class="carte fidelite">
             <h2>Compte Fidélité</h2>
             <p class="fidelite-texte">Bons de réduction disponibles :</p>
@@ -212,17 +237,45 @@ foreach ($commandesUtilisateur as $commande) {
                 <?php echo number_format($totalTicketsReduction, 2, ',', ' '); ?> €
             </div>
             <p class="fidelite-texte">
-                Ils seront utilisés automatiquement lors de ta prochaine commande.
+                Tu peux choisir de les utiliser au moment de valider une commande.
             </p>
+            <?php if (!empty($bonsReductionDisponibles)) { ?>
+                <div class="bons-liste">
+                    <?php foreach ($bonsReductionDisponibles as $bon) { ?>
+                        <div class="bon-item">
+                            <p>
+                                <strong>
+                                    <?php echo number_format($bon["montant"], 2, ',', ' '); ?> €
+                                </strong>
+                            </p>
+                            <p>
+                                <?php echo htmlspecialchars($bon["source"]); ?>
+                            </p>
+                            <?php if (!empty($bon["date"])) { ?>
+                                <p>
+                                    Date :
+                                    <?php echo htmlspecialchars($bon["date"]); ?>
+                                </p>
+                            <?php } ?>
+                            <?php if (!empty($bon["commentaire"])) { ?>
+                                <p>
+                                    Commentaire :
+                                    <?php echo htmlspecialchars($bon["commentaire"]); ?>
+                                </p>
+                            <?php } ?>
+                        </div>
+                    <?php } ?>
+                </div>
+            <?php } ?>
         </div>
     </div>
 </div>
 
-    <footer class="footer">
-        <p>📞 Téléphone : 07 67 01 02 03</p>
-        <p>✉ Email : imposteurcontact@gmail.com</p>
-        <p>Horaires : Lundi - Vendredi 10h-21h | Samedi - Dimanche 12h-18h</p>
-    </footer>
+<footer class="footer">
+    <p>📞 Téléphone : 07 67 01 02 03</p>
+    <p>✉ Email : imposteurcontact@gmail.com</p>
+    <p>Horaires : Lundi - Vendredi 10h-21h | Samedi - Dimanche 12h-18h</p>
+</footer>
 
 <script>
 const form = document.getElementById("modifier");
@@ -230,6 +283,7 @@ const btnModifier = document.getElementById("btnModifier");
 const btnEnregistrer = document.getElementById("btnEnregistrer");
 const champs = form.querySelectorAll("input, textarea");
 const message = document.getElementById("message");
+
 btnModifier.addEventListener("click", () => {
     champs.forEach(champ => {
         champ.disabled = false;
@@ -258,6 +312,7 @@ async function profil(event) {
         } else {
             message.style.color = "red";
             btnEnregistrer.disabled = true;
+
             champs.forEach(champ => {
                 champ.addEventListener("input", () => {
                     btnEnregistrer.disabled = false;

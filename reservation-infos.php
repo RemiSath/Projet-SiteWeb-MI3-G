@@ -1,57 +1,86 @@
 <?php
-    session_start();
+session_start();
 
-    function ecritureFichier(){
+$fichier = __DIR__ . "/data/reservation.json";
 
-        $fichier = __DIR__ . "/data/reservation.json";
+if (!is_dir(__DIR__ . "/data")) {
+    mkdir(__DIR__ . "/data", 0777, true);
+}
 
-        if(!is_dir(__DIR__ . "/data")){
-            mkdir(__DIR__ . "/data", 0777, true);
-        }
+$reservations = [];
 
-        if(file_exists($fichier)){
-            $json = file_get_contents($fichier);
-            $utilisateurs = json_decode($json, true) ?? [];
-        }
-        else{
-            $utilisateurs = array();
-        }
+if (file_exists($fichier)) {
+    $json = file_get_contents($fichier);
+    $reservations = json_decode($json, true);
 
-        $date = $_POST["date"];
-
-        if(strtotime($date) < strtotime(date("Y-m-d"))) {
-            $_SESSION["erreur"] = "La date de réservation doit être dans le futur.";
-            header("Location: reserver.php");
-            exit;
-        }
-
-        $utilisateurs[] = array( // Ajoute la personne qui réserve dans un fichier.json
-            "id" => uniqid(),
-            "nom" => $_POST["nom"],
-            "prenom" => $_POST["prenom"],
-            "adultes" => $_POST["adultes"],
-            "enfants" => $_POST["enfants"],
-            "date" => $date,
-            "time" => $_POST["time"],
-            "restaurant" => $_POST["restaurant"],
-            "commentaire" => $_POST["commentaire"],
-        );
-
-        file_put_contents($fichier, json_encode($utilisateurs, JSON_PRETTY_PRINT));
-
-        $_SESSION["nom"] = $_POST["nom"]; // Stocke les informations
-        $_SESSION["prenom"] = $_POST["prenom"];
-        $_SESSION["adultes"] = $_POST["adultes"];
-        $_SESSION["enfants"] = $_POST["enfants"];
-        $_SESSION["date"] = $_POST["date"];
-        $_SESSION["time"] = $_POST["time"];
-        $_SESSION["restaurant"] = $_POST["restaurant"];
-        $_SESSION["commentaire"] = $_POST["commentaire"];
+    if (!is_array($reservations)) {
+        $reservations = [];
     }
+}
 
-    ecritureFichier();
+$nom = trim($_POST["nom"] ?? "");
+$prenom = trim($_POST["prenom"] ?? "");
+$email = strtolower(trim($_SESSION["email"] ?? $_POST["email"] ?? ""));
+$adultes = intval($_POST["adultes"] ?? 1);
+$enfants = intval($_POST["enfants"] ?? 0);
+$date = $_POST["date"] ?? "";
+$time = $_POST["time"] ?? "";
+$restaurant = trim($_POST["restaurant"] ?? "");
+$commentaire = trim($_POST["commentaire"] ?? "");
 
-    $_SESSION["message2"] = "Votre réservation a été enregistrée avec succès.";
+if ($nom === "" || $prenom === "" || $email === "" || $date === "" || $time === "" || $restaurant === "") {
+    $_SESSION["erreur"] = "Veuillez remplir tous les champs obligatoires.";
+    header("Location: reserver.php");
+    exit();
+}
+
+$dateReservation = strtotime($date . " " . $time);
+
+if ($dateReservation <= time()) {
+    $_SESSION["erreur"] = "La date de réservation doit être dans le futur.";
+    header("Location: reserver.php");
+    exit();
+}
+
+if ($adultes < 1) {
+    $_SESSION["erreur"] = "Il faut au moins un adulte pour réserver.";
+    header("Location: reserver.php");
+    exit();
+}
+
+if ($enfants < 0) {
+    $_SESSION["erreur"] = "Le nombre d'enfants ne peut pas être négatif.";
+    header("Location: reserver.php");
+    exit();
+}
+
+$reservations[] = [
+    "id" => uniqid(),
+    "email" => $email,
+    "nom" => $nom,
+    "prenom" => $prenom,
+    "adultes" => $adultes,
+    "enfants" => $enfants,
+    "date" => $date,
+    "time" => $time,
+    "restaurant" => $restaurant,
+    "commentaire" => $commentaire,
+    "date_creation" => date("Y-m-d H:i:s")
+];
+
+file_put_contents(
+    $fichier,
+    json_encode($reservations, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE),
+    LOCK_EX
+);
+
+$_SESSION["nom"] = $nom;
+$_SESSION["prenom"] = $prenom;
+$_SESSION["message2"] = "Votre réservation a été enregistrée avec succès.";
+if (isset($_SESSION["email"])) {
+    header("Location: mes-reservations.php");
+} else {
     header("Location: page-d'accueil.php");
-    exit;
+}
+exit();
 ?>

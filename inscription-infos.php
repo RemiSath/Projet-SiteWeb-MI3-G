@@ -20,7 +20,7 @@
 
         $nom = trim($_POST["nom"] ?? "");
         $prenom = trim($_POST["prenom"] ?? "");
-        $email = trim($_POST["email"] ?? "");
+        $email = strtolower(trim($_POST["email"] ?? ""));
         $motdepasse = $_POST["motdepasse"] ?? "";
         $adresse = trim($_POST["adresse"] ?? "");
         $telephone = trim($_POST["telephone"] ?? "");
@@ -64,7 +64,7 @@
 
         foreach($utilisateurs as $utilisateur){
 
-            if($utilisateur["email"] === $email){
+            if(strtolower(trim($utilisateur["email"])) === strtolower(trim($email))){
                 $_SESSION["erreur"] = "Cet email est déjà utilisé.";
                 header("Location: inscription.php");
                 exit;

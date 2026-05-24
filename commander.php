@@ -102,6 +102,10 @@ foreach ($panier as $item) {
         echo "<div class='erreur'>" . htmlspecialchars($_SESSION["erreur"]) . "</div>";
         unset($_SESSION["erreur"]);
     }
+
+    if (isset($_GET["erreur"]) && $_GET["erreur"] === "email_existe") {
+        echo "<div class='erreur'>Cet email est déjà utilisé.</div>";
+    }
     ?>
 
     <aside class="cart-box">
@@ -308,6 +312,28 @@ foreach ($panier as $item) {
         const regexPostal = /^[0-9]{5}$/;
         const regexTelephone = /^0[1-9](\s?[0-9]{2}){4}$/;
         const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        const formData = new FormData(form);
+
+        try{
+            const response = await fetch("validder-commande.php", {
+                method: "POST",
+                body: formData
+            });
+
+            const data = await response.text();
+
+            if(data === "email"){
+                afficherErreur(email, "Adresse mail déjà utilisée");
+            }
+            else if(data === "bloque"){
+                afficherErreur(motdepasse, "Compte bloqué par l'administrateur");
+            }
+        }
+
+        catch(error){
+            afficherErreur(motdepasse, "ERREUR : Impossible de se connecter");
+        }
 
         if(nom){
             if(nom.value.trim().length < 2){

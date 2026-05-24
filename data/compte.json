@@ -97,5 +97,17 @@
         "infos": "",
         "statut": "Client",
         "bloque": false
+    },
+    {
+        "id": "6a1341dabbe08",
+        "nom": "SATHTHIRIYAN",
+        "prenom": "Rémi",
+        "email": "remisaththiriyan@gmail.com",
+        "motdepasse": "$2y$12$p6Bz3URnnfOJE3sHx1j6hulXA3DcQ5FgsswQ6.DfJm.ToGnBnhESq",
+        "adresse": "24 rue de malcouture argenteuil 95100, 9510 Argenteuil",
+        "telephone": "0761414423",
+        "infos": "",
+        "statut": "Client",
+        "bloque": false
     }
 ]

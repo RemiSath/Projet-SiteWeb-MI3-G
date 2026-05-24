@@ -94,7 +94,6 @@
         <div class="header-profil">
             <h1>Mon Profil</h1>
         </div>
-
         <div class="dashboard">
             <div class="carte">
                 <h2>Mes Informations</h2>
@@ -141,20 +140,33 @@
             <div class="carte">
                 <?php $i = 1; ?>
                 <h2>Anciennes Commandes</h2>
-                <?php if(empty($commandesUtilisateur)): ?> <!-- Affichage d'un message si aucune commande n'est trouvée pour l'utilisateur -->
+                <?php if(empty($commandesUtilisateur)): ?>
                     <p>Aucune commande trouvée.</p>
                 <?php else: ?>
-                    <?php foreach($commandesUtilisateur as $commande): ?> <!-- Affichage des commandes de l'utilisateur -->
+                    <?php foreach($commandesUtilisateur as $commande): ?>
                         <div class="commande">
                             <p><strong>Commande #<?php echo $i; $i++; ?></strong></p>
                             <p>Statut : <?php echo htmlspecialchars($commande["statut"]); ?></p>
-                            <p>Date : <?php echo htmlspecialchars($commande["date_souhaitee"] ?? $commande["date"]); ?></p> <!-- Affichage de la date de la commande -->
+                            <p>Date : <?php echo htmlspecialchars($commande["date_souhaitee"] ?? $commande["date"]); ?></p>
                             <p><strong>Plats :</strong></p>
                             <ul>
                                 <?php foreach($commande["plats"] as $plat): ?>
-                                    <li><?php echo htmlspecialchars($plat["nom"]); ?> x<?php echo $plat["quantite"]; ?> (<?php echo $plat["prix"]; ?> €)</li> <!-- Affichage du nom, de la quantité et du prix de chaque plat de la commande -->
+                                    <li><?php echo htmlspecialchars($plat["nom"]); ?> x<?php echo $plat["quantite"]; ?> (<?php echo $plat["prix"]; ?> €)</li>
                                 <?php endforeach; ?>
                             </ul>
+                            <?php
+                            $statutCommande = $commande["statut"] ?? "";
+                            $modifiable = in_array($statutCommande, ["a_preparer", "payee", "en_attente"], true);
+                            ?>
+                            <p>Total : <?php echo number_format($commande["total_actuel"] ?? 0, 2, ',', ' '); ?> €</p>
+                            <?php if (!empty($commande["ticket_reduction"])): ?>
+                                <p>Ticket de réduction : <?php echo number_format($commande["ticket_reduction"], 2, ',', ' '); ?> €</p>
+                            <?php endif; ?>
+                            <?php if ($modifiable): ?>
+                                <a class="btn-link" href="modifier-commande.php?id=<?php echo htmlspecialchars($commande["id"]); ?>">
+                                    Modifier cette commande
+                                </a>
+                            <?php endif; ?>
                             <hr>
                         </div>
                     <?php endforeach; ?>
@@ -182,7 +194,6 @@
         const btnEnregistrer = document.getElementById("btnEnregistrer");
         const champs = form.querySelectorAll("input, textarea");
         const message = document.getElementById("message");
-
         btnModifier.addEventListener("click", () => {
             champs.forEach(champ => { 
                 champ.disabled = false; 
@@ -191,23 +202,17 @@
             btnModifier.style.display = "none";
             btnEnregistrer.style.display = "inline-block";
         });
-
         form.addEventListener("submit", profil);
         async function profil(event){
             event.preventDefault();
-
             const formData = new FormData(form);
-
             try{
                 const response = await fetch("profil-à-jour.php", { 
                     method: "POST", 
                     body: formData 
                 });
-
                 const data = await response.text();
-
                 message.textContent = data;
-
                 if(data.toLowerCase().includes("succès")){
                     message.style.color = "green";
                     champs.forEach(champ => { 
@@ -216,7 +221,6 @@
                     btnModifier.style.display = "inline-block";
                     btnEnregistrer.style.display = "none";
                 }
-
                 else{
                     message.style.color = "red";
                     btnEnregistrer.disabled = true;
@@ -227,7 +231,6 @@
                     });
                 }
             }
-
             catch(error){
                 message.textContent = "Erreur lors de la mise à jour.";
                 message.style.color = "red";
@@ -236,5 +239,4 @@
         }
     </script>
 </body>
-
 </html>

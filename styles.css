@@ -102,9 +102,17 @@ body {
     font-size: 350%;
 }
 
-a {
+a,
+a:link,
+a:visited {
+    color: black;
     text-decoration: none;
     list-style-type: none;
+}
+
+a:hover {
+    color: black;
+    text-decoration: underline;
 }
 
 .a1 {

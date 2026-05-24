@@ -318,5 +318,6 @@ foreach ($commandes as $commande) {
         }
     }
     </script>
+<script src="cookie.js"></script>
 </body>
 </html>

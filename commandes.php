@@ -589,5 +589,6 @@ document.addEventListener("DOMContentLoaded", () => {
     filtrerCommandes("toutes");
 });
 </script>
+<script src="cookie.js"></script>
 </body>
 </html>

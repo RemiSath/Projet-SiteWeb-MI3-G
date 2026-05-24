@@ -215,7 +215,20 @@ $isConnected = isset($_SESSION["email"]);
             afficherErreur(commentaire, "200 caractères maximum");
             valide = false;
         }
-        if(valide == false){
+        if(valide){
+            event.preventDefault();
+
+            const message = document.createElement("div");
+            message.innerText = "✓ Formulaire valide, envoi en cours...";
+            message.classList.add("correct-js");
+
+            form.prepend(message);
+
+            setTimeout(function(){
+                form.submit();
+            }, 3000);
+        }
+        else{
             event.preventDefault();
         }
     }

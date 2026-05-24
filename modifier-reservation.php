@@ -1,8 +1,9 @@
 <?php
 session_start();
+include "bibliothèques/bloquer.php";
 
 if (!isset($_SESSION["email"])) {
-    $_SESSION["erreur2"] = "Connectez-vous pour modifier vos réservations.";
+    $_SESSION["erreur"] = "Connectez-vous pour modifier vos réservations.";
     header("Location: connexion.php");
     exit();
 }

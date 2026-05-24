@@ -1,7 +1,9 @@
 <?php
 session_start();
+include "bibliothèques/bloquer.php";
 
 if (!isset($_SESSION["email"])) {
+    $_SESSION["erreur"] = "Connectez-vous pour payer la différence.";
     header("Location: connexion.php");
     exit();
 }

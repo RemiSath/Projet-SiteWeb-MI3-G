@@ -1,6 +1,7 @@
 <?php
     session_start();
-
+    include "bibliothèques/bloquer.php";
+    
     if(!isset($_SESSION["email"])){ // Vérifie si l'utilisateur est connecté
         $_SESSION["erreur"] = "Accès réservé aux administrateurs.";
         header("Location: page-d'accueil.php");

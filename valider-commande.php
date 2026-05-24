@@ -1,5 +1,6 @@
 <?php
 session_start();
+include "bibliothèques/bloquer.php";
 
 $panier = $_SESSION["panier"] ?? [];
 

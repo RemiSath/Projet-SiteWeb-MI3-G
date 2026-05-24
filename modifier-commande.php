@@ -1,5 +1,6 @@
 <?php
 session_start();
+include "bibliothèques/bloquer.php";
 
 if (!isset($_SESSION["email"])) {
     header("Location: connexion.php");

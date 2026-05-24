@@ -1,5 +1,6 @@
 <?php
 session_start();
+include "bibliothèques/bloquer.php";
 
 $nom = $_SESSION["nom"] ?? "";
 $prenom = $_SESSION["prenom"] ?? "";

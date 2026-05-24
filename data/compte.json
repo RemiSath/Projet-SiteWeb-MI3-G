@@ -48,6 +48,6 @@
         "telephone": "0761414423",
         "infos": "1",
         "statut": "Client",
-        "bloque": false
+        "bloque": true
     }
 ]

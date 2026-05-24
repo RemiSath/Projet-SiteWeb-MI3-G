@@ -268,7 +268,7 @@ usort($commandes, function ($a, $b) {
     </title>
 
     <link rel="stylesheet" href="styles.css">
-
+    <link id="theme-link" rel="stylesheet" href="css/default.css">
     <link rel="icon" href="Images/Among_Us.png">
 </head>
 
@@ -283,7 +283,7 @@ usort($commandes, function ($a, $b) {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Annie+Use+Your+Telescope&display=swap" rel="stylesheet">
-<nav class="navbar">
+<header class="navbar">
     <a href="page-d'accueil.php" class="accueil">
         IMPOSTEUR
     </a>
@@ -341,8 +341,9 @@ usort($commandes, function ($a, $b) {
                 Admin
             </a>
         </div>
+        <button id="theme-button">Changer le thème</button>
     </div>
-</nav>
+</header>
 
 <div class="sitedescription3">
     <h1>Page des Commandes</h1>

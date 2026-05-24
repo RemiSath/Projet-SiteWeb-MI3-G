@@ -12,6 +12,7 @@
     <title>Connexion</title>
     <link rel="icon" href="Images/Among_Us.png">
     <link rel="stylesheet" href="styles.css">
+    <link id="theme-link" rel="stylesheet" href="css/default.css">
 </head>
 
 <body class="pageconnexion">
@@ -58,7 +59,8 @@
             </div>
             <div class="menu">
                 <a href="Admin.php">Admin</a>
-            </div>    
+            </div>  
+            <button id="theme-button">Changer le thème</button>  
         </div>
     </header>
 
@@ -176,6 +178,8 @@
             });
         }
     </script>
+
+    <script src="cookie.js"></script>
 </body>
 
 </html>

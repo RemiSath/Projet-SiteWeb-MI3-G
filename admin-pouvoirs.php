@@ -69,6 +69,7 @@ foreach ($commandes as $commande) {
     <title>Gestion utilisateur</title>
     <link rel="icon" href="Images/Among_Us.png">
     <link rel="stylesheet" href="styles.css">
+    <link id="theme-link" rel="stylesheet" href="css/default.css">
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
 </head>
 
@@ -116,8 +117,7 @@ foreach ($commandes as $commande) {
         <div class="menu">
             <a href="Admin.php">Admin</a>
         </div>
-
-        <input type="text" id="searchInput2" placeholder="Rechercher nos produits ..." autocomplete="off">
+        <button id="theme-button">Changer le thème</button>
     </div>
 </header>
 

@@ -46,6 +46,7 @@ $peutNoter = !empty($commandesLivrees);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
+    <link id="theme-link" rel="stylesheet" href="css/default.css">
     <link rel="icon" href="Images/Among_Us.png">
     <title>Notation</title>
 </head>
@@ -95,6 +96,7 @@ $peutNoter = !empty($commandesLivrees);
             <div class="menu">
                 <a href="Admin.php">Admin</a>
             </div>
+            <button id="theme-button">Changer le thème</button>
         </div>
     </header>
 
@@ -244,6 +246,6 @@ $peutNoter = !empty($commandesLivrees);
         });
     }
 </script>
-
+<script src="cookie.js"></script>
 </body>
 </html>

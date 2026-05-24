@@ -1,8 +1,6 @@
 const themes = {
     default : "css/default.css",
     dark : "css/dark.css",
-    contrast : "css/contrast.css",
-    largeText : "css/largeText.css"
 };
 
 const validThemes = Object.keys(themes);
@@ -49,8 +47,6 @@ themeButton.addEventListener("click",() => {
     const themeOrder = [
         "default",
         "dark",
-        "contrast",
-        "largeText"
     ];
     const currentIndex = themeOrder.indexOf(currentTheme);
     const nextTheme = themeOrder[(currentIndex + 1) % themeOrder.length];

@@ -158,11 +158,10 @@ $_SESSION["commande_en_attente"] = [
 <header class="navbar">
     <a href="page-d'accueil.php" class="accueil">IMPOSTEUR</a>
 </header>
-
+    
 <div class="container2">
     <h4>Finaliser le paiement</h4>
     <p>Total à payer : <strong><?php echo number_format($total, 2, ',', ' '); ?> €</strong></p>
-
     <form action="https://www.plateforme-smc.fr/cybank/index.php" method="POST">
         <input type="hidden" name="transaction" value="<?php echo htmlspecialchars($transaction); ?>">
         <input type="hidden" name="montant" value="<?php echo htmlspecialchars($montant); ?>">

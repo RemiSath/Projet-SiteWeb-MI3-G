@@ -1,0 +1,212 @@
+body{
+    background:#121212;
+    color:white;
+}
+
+/* NAVBAR */
+.navbar{
+    background:black;
+    border-bottom:1px solid white;
+}
+
+.navbar a{
+    color:white;
+}
+
+/* FOOTER */
+.footer{
+    background:black;
+    color:white;
+}
+
+/* TEXTES */
+h1,h2,h3,h4,h5,h6,
+p,
+span,
+label,
+a{
+    color:white;
+}
+
+/* SECTIONS */
+.sitedescription,
+.sitedescription2,
+.sitedescription3,
+.sitedescription4,
+.sitedescriptionville{
+    color:white;
+}
+
+/* MENUS */
+.menu{
+    background:black;
+    border-color:white;
+}
+
+.infos{
+    background:#1f1f1f;
+    border:1px solid white;
+}
+
+.infos a{
+    color:white;
+}
+
+.infos a:hover{
+    background:#333;
+}
+
+/* CARTES */
+.card,
+.carte,
+.carte2,
+.card3,
+.container2,
+.container3,
+.order-card{
+    background:#1f1f1f;
+    color:white;
+    border-color:white;
+}
+
+/* PRODUITS */
+.product-card{
+    background:#1f1f1f;
+}
+
+.description_produit{
+    color:white;
+}
+
+.allergens{
+    color:#d3d3d3;
+    background:transparent;
+}
+
+.price{
+    color:white;
+}
+
+.product-image{
+    background:#333;
+}
+
+/* BOUTONS */
+button,
+.add-to-cart,
+.submit-btn,
+.btn2,
+.btn4,
+.btn-modifier,
+.btn-modifier2{
+    background:black;
+    color:white;
+    border-color:white;
+}
+
+/* INPUTS */
+input,
+select,
+textarea{
+    background:#222;
+    color:white;
+    border:1px solid #555;
+}
+
+input::placeholder,
+textarea::placeholder{
+    color:#ccc;
+}
+
+/* FORMULAIRES */
+form{
+    background:transparent;
+}
+
+/* OVERLAY */
+.overlay-menu{
+    background:#121212;
+}
+
+.overlay-menu a{
+    color:white;
+}
+
+.close-btn{
+    color:white;
+}
+
+/* DESCRIPTION VILLES */
+.infosville,
+.description{
+    background:#1f1f1f;
+    color:white;
+    border-color:white;
+}
+
+/* BARRE RECHERCHE */
+#topBar{
+    background:#121212;
+}
+
+#topBar input{
+    background:#222;
+    color:white;
+    border:1px solid #555;
+}
+
+/* RESULTATS */
+#results{
+    background:transparent;
+}
+
+/* COMMANDES */
+.item-row{
+    background:#222;
+    border-color:#444;
+    color:white;
+}
+
+/* BADGES */
+.badge-en_preparation{
+    color:black;
+}
+
+/* FIDELITE */
+.fidelite-score{
+    color:white;
+    text-shadow:none;
+}
+
+.fidelite-texte{
+    color:#ccc;
+}
+
+/* LIENS */
+.logo-text,
+.connexion,
+.liens-secondaires a{
+    color:white;
+}
+
+/* LABELS */
+.label1,
+.info-label{
+    color:white;
+}
+
+/* ERREURS */
+.erreur,
+.erreur3{
+    background:#222;
+    color:#ff6b6b;
+}
+
+/* INPUTS VALIDATION */
+.input-erreur{
+    background:#222 !important;
+}
+
+.input-correct{
+    background:#222 !important;
+}

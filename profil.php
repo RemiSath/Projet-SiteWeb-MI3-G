@@ -65,6 +65,7 @@ foreach ($commandesUtilisateur as $commande) {
     <title>Profil</title>
     <link rel="icon" href="Images/Among_Us.png">
     <link rel="stylesheet" href="styles.css">
+    <link id="theme-link" rel="stylesheet" href="css/default.css">
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
 </head>
 
@@ -108,6 +109,7 @@ foreach ($commandesUtilisateur as $commande) {
         <div class="menu">
             <a href="Admin.php">Admin</a>
         </div>
+        <button id="theme-button">Changer le thème</button>
     </div>
 </header>
 
@@ -325,5 +327,6 @@ async function profil(event) {
     }
 }
 </script>
+<script src="cookie.js"></script>
 </body>
 </html>

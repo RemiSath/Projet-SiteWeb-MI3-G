@@ -56,6 +56,7 @@ function reservationFuture($reservation)
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mes réservations</title>
     <link rel="stylesheet" href="styles.css">
+    <link id="theme-link" rel="stylesheet" href="css/default.css">
     <link rel="icon" href="Images/Among_Us.png">
 </head>
 
@@ -104,6 +105,7 @@ function reservationFuture($reservation)
         <div class="menu">
             <a href="Admin.php">Admin</a>
         </div>
+        <button id="theme-button">Changer le thème</button>
     </div>
 </header>
 
@@ -202,5 +204,6 @@ function reservationFuture($reservation)
     <p>Horaires : Lundi - Vendredi 10h-21h | Samedi - Dimanche 12h-18h</p>
 </footer>
 
+<script src="cookie.js"></script>
 </body>
 </html>

@@ -3,7 +3,7 @@
     if(session_status() === PHP_SESSION_NONE){
         session_start();
     }
-    if(!isset($_SESSION["email"])){
+    if(!isset($_SESSION["email"]) || empty($_SESSION["email"])){
         return;
     }
 
@@ -21,8 +21,9 @@
                 session_unset();
                 session_destroy();
                 session_start();
+                $_SESSION = [];
                 $_SESSION["erreurConnexion"] = "Compte bloqué par l'administrateur.";
-                header("Location: connexion.php");
+                header("Location: /connexion.php");
                 exit;
             }
             break;

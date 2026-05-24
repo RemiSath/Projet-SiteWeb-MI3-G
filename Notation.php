@@ -112,10 +112,10 @@ $peutNoter = !empty($commandesLivrees);
             <?php } ?>
 
             <?php if ($peutNoter) { ?>
-                <form action="envoyer-notation.php" method="POST">
+                <form id="formNotation" action="envoyer-notation.php" method="POST">
                     <label>Commande livrée à noter</label>
 
-                    <select name="commande_id" required>
+                    <select id="commande_id" name="commande_id" required>
                         <?php foreach ($commandesLivrees as $commande) { ?>
                             <option value="<?php echo htmlspecialchars($commande["id"] ?? ""); ?>">
                                 Commande #<?php echo htmlspecialchars($commande["id"] ?? ""); ?>
@@ -126,17 +126,17 @@ $peutNoter = !empty($commandesLivrees);
                     </select>
 
                     <div class="row">
-                        <input type="number" name="livraison" placeholder="Livraison" min="0" max="5" required>
+                        <input type="number" id="livraison" name="livraison" placeholder="Livraison" min="0" max="5" required>
                         <p>0 à 5</p>
                     </div>
 
                     <div class="row">
-                        <input type="number" name="qualite" placeholder="Qualité des produits" min="0" max="5" required>
+                        <input type="number" id="qualite" name="qualite" placeholder="Qualité des produits" min="0" max="5" required>
                         <p>0 à 5</p>
                     </div>
 
                     <div class="row">
-                        <textarea name="commentaires" placeholder="Commentaires"></textarea>
+                        <textarea id="commentaires" name="commentaires" placeholder="Commentaires"></textarea>
                     </div>
 
                     <button type="submit">Envoyer</button>
@@ -158,6 +158,92 @@ $peutNoter = !empty($commandesLivrees);
     <p>✉ Email : imposteurcontact@gmail.com</p>
     <p>Horaires : Lundi - Vendredi 10h-21h | Samedi - Dimanche 12h-18h</p>
 </footer>
+
+<script>
+    const form = document.getElementById("formNotation");
+    form.addEventListener("submit", notation);
+
+    function notation(event){
+        supprimerMessages();
+        let valide = true;
+        const commande = document.getElementById("commande_id");
+        const livraison = document.getElementById("livraison");
+        const qualite = document.getElementById("qualite");
+        const commentaires = document.getElementById("commentaires");
+        if(commande.value === ""){
+            afficherErreur(commande, "Choisissez une commande");
+            valide = false;
+        }
+        else{
+            afficherCorrect(commande, "Commande sélectionnée");
+        }
+        if(livraison.value === "" || livraison.value < 0 || livraison.value > 5){
+            afficherErreur(livraison, "Note entre 0 et 5");
+            valide = false;
+        }
+        else{
+            afficherCorrect(livraison, "Note valide");
+        }
+        if(qualite.value === "" || qualite.value < 0 || qualite.value > 5){
+            afficherErreur(qualite, "Note entre 0 et 5");
+            valide = false;
+        }
+        else{
+            afficherCorrect(qualite, "Note valide");
+        }
+        if(commentaires.value.length > 300){
+            afficherErreur(commentaires, "300 caractères maximum");
+            valide = false;
+        }
+        else{
+            afficherCorrect(commentaires, "Commentaire valide");
+        }
+        if(valide){
+            event.preventDefault();
+
+            const message = document.createElement("div");
+            message.innerText = "✓ Formulaire valide, envoi en cours...";
+            message.classList.add("correct-js");
+
+            form.prepend(message);
+
+            setTimeout(function(){
+                form.submit();
+            }, 3000);
+        }
+        else{
+            event.preventDefault();
+        }
+    }
+
+    function afficherErreur(input, message){
+        const erreur = document.createElement("div");
+        erreur.innerText = message;
+        erreur.classList.add("erreur-js");
+        input.parentElement.appendChild(erreur);
+        input.classList.add("input-erreur");
+    }
+
+    function afficherCorrect(input, message){
+        const correct = document.createElement("div");
+        correct.innerText = message;
+        correct.classList.add("correct-js");
+        input.parentElement.appendChild(correct);
+        input.classList.add("input-correct");
+    }
+
+    function supprimerMessages(){
+        const messages = document.querySelectorAll(".erreur-js, .correct-js");
+        messages.forEach(function(message){
+            message.remove();
+        });
+        const inputs = document.querySelectorAll("input, textarea, select");
+        inputs.forEach(function(input){
+            input.classList.remove("input-erreur");
+            input.classList.remove("input-correct");
+        });
+    }
+</script>
 
 </body>
 </html>

@@ -24,6 +24,7 @@ function h($value)
     <meta charset="UTF-8">
     <title>Paris</title>
     <link rel="stylesheet" href="styles.css">
+    <link id="theme-link" rel="stylesheet" href="css/default.css">
     <link rel="icon" href="Images/Among_Us.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -73,6 +74,7 @@ function h($value)
         <a href="commander.php" class="cart">
             🛒 <span class="cart_count"><?php echo h($nbArticles); ?></span>
         </a>
+        <button id="theme-button">Changer le thème</button>
     </div>
 </header>
 
@@ -384,5 +386,6 @@ document.addEventListener("DOMContentLoaded", () => {
     chargerProduits();
 });
 </script>
+<script src="cookie.js"></script>
 </body>
 </html>

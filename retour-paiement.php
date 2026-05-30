@@ -2,21 +2,21 @@
 session_start();
 
 require(__DIR__ . "/getapikey.php");
-function utiliserTicketReduction(&$commandes, $email, $montantAUtiliser)
-{
+
+function utiliserTicketReduction(&$commandes, $email, $montantAUtiliser){
     $email = strtolower(trim($email));
     $resteAUtiliser = floatval($montantAUtiliser);
-    foreach ($commandes as &$commande) {
-        if ($resteAUtiliser <= 0) {
+    foreach($commandes as &$commande){
+        if($resteAUtiliser <= 0){
             break;
         }
-        if (strtolower(trim($commande["email"] ?? "")) !== $email) {
+        if(strtolower(trim($commande["email"] ?? "")) !== $email){
             continue;
         }
         $ticket = floatval($commande["ticket_reduction"] ?? 0);
         $utilise = floatval($commande["ticket_reduction_utilise"] ?? 0);
         $disponible = max(0, $ticket - $utilise);
-        if ($disponible <= 0) {
+        if($disponible <= 0){
             continue;
         }
         $montantPris = min($disponible, $resteAUtiliser);
@@ -25,6 +25,7 @@ function utiliserTicketReduction(&$commandes, $email, $montantAUtiliser)
     }
     unset($commande);
 }
+
 $transaction = $_GET["transaction"] ?? "";
 $montant = $_GET["montant"] ?? "";
 $vendeur = $_GET["vendeur"] ?? "";
@@ -38,29 +39,35 @@ $control_local = md5(
     $vendeur . "#" .
     $statut . "#"
 );
-if ($control !== $control_local) {
+if($control !== $control_local){
     die("Erreur de sécurité : données invalides");
+}
+
+if(!in_array($statut, ["accepted", "denied"], true)){
+    die("Erreur de sécurité : statut de paiement invalide");
 }
 $fichierCommandes = __DIR__ . "/data/commandes.json";
 $commandes = file_exists($fichierCommandes)
     ? json_decode(file_get_contents($fichierCommandes), true)
     : [];
-if (!is_array($commandes)) {
+
+if(!is_array($commandes)){
     $commandes = [];
 }
-if (
-    isset($_SESSION["commande_en_attente"]) &&
-    $_SESSION["commande_en_attente"]["transaction"] === $transaction
-) {
-    if ($statut === "denied") {
+
+if(isset($_SESSION["commande_en_attente"]) && $_SESSION["commande_en_attente"]["transaction"] === $transaction){
+    if($statut === "denied"){
         unset($_SESSION["commande_en_attente"]);
+        if(number_format(floatval($_SESSION["commande_en_attente"]["montant"] ?? 0), 2, '.', '') !== number_format(floatval($montant), 2, '.', '')){
+            die("Erreur de sécurité : montant invalide");
+        }
         $_SESSION["erreur"] = "Paiement refusé. Votre commande a été annulée.";
         header("Location: page-d'accueil.php");
         exit();
     }
     $commande = $_SESSION["commande_en_attente"]["commande"];
     $reductionUtilisee = floatval($commande["reduction_utilisee"] ?? 0);
-    if ($reductionUtilisee > 0) {
+    if($reductionUtilisee > 0){
         utiliserTicketReduction($commandes, $commande["email"] ?? "", $reductionUtilisee);
     }
     $commande["id"] = !empty($commandes)
@@ -88,13 +95,10 @@ if (
     exit();
 }
 $commandeTrouvee = false;
-foreach ($commandes as &$commande) {
-    if (
-        !empty($commande["modification_en_attente"]["transaction"]) &&
-        $commande["modification_en_attente"]["transaction"] === $transaction
-    ) {
+foreach ($commandes as &$commande){
+    if(!empty($commande["modification_en_attente"]["transaction"]) && $commande["modification_en_attente"]["transaction"] === $transaction){
         $commandeTrouvee = true;
-        if ($statut === "denied") {
+        if($statut === "denied"){
             $commande["paiements"][] = [
                 "transaction" => $transaction,
                 "montant" => floatval($montant),
@@ -106,6 +110,9 @@ foreach ($commandes as &$commande) {
             break;
         }
         $modification = $commande["modification_en_attente"];
+        if(number_format(floatval($modification["difference"] ?? 0), 2, '.', '') !== number_format(floatval($montant), 2, '.', '')){
+            die("Erreur de sécurité : montant invalide");
+        }
         $commande["plats"] = $modification["plats"];
         $commande["total_actuel"] = $modification["nouveau_total"];
         $commande["total_paye"] = floatval($commande["total_paye"] ?? 0) + floatval($montant);
@@ -122,15 +129,16 @@ foreach ($commandes as &$commande) {
     }
 }
 unset($commande);
-if ($commandeTrouvee) {
+if($commandeTrouvee){
     file_put_contents(
         $fichierCommandes,
         json_encode($commandes, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE),
         LOCK_EX
     );
-    if ($statut === "denied") {
+    if($statut === "denied"){
         $_SESSION["erreur"] = "Paiement refusé. La modification n'a pas été appliquée.";
-    } else {
+    } 
+    else{
         $_SESSION["message"] = "Commande modifiée avec succès.";
     }
     header("Location: profil.php");

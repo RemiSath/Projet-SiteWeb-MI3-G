@@ -316,7 +316,7 @@ foreach ($panier as $item) {
         const formData = new FormData(form);
 
         try{
-            const response = await fetch("validder-commande.php", {
+            const response = await fetch("valider-commande.php", {
                 method: "POST",
                 body: formData
             });

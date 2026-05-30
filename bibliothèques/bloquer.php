@@ -23,7 +23,7 @@
                 session_start();
                 $_SESSION = [];
                 $_SESSION["erreurConnexion"] = "Compte bloqué par l'administrateur.";
-                header("Location: /connexion.php");
+                header("Location: connexion.php");
                 exit;
             }
             break;

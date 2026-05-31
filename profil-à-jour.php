@@ -1,6 +1,11 @@
 <?php
     session_start();
 
+    if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+        header("Location: profil.php");
+        exit();
+    }
+
     if(!isset($_SESSION["email"])){
         echo "Utilisateur non connecté, veuillez vous connecter.";
         exit;

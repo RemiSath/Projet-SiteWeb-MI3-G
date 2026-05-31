@@ -432,6 +432,19 @@ foreach ($panier as $item) {
             input.classList.remove("input-correct");
         });
     }
+
+    const commentsInput = document.getElementById("comments");
+    const compteur = document.createElement("div");
+    compteur.classList.add("compteur");
+    commentsInput.insertAdjacentElement("afterend", compteur);
+    compteur.innerText = "0/200 caractères";
+    commentsInput.addEventListener("input", function () {
+        if(commentsInput.value.length > 200){
+            commentsInput.value = commentsInput.value.substring(0, 200);
+        }
+        compteur.innerText = commentsInput.value.length + "/200 caractères";
+    });
+
 </script>
 <script src="cookie.js"></script>
 </body>

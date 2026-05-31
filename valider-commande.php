@@ -4,7 +4,7 @@ include "bibliothèques/bloquer.php";
 
 $panier = $_SESSION["panier"] ?? [];
 
-if (empty($panier)) {
+if(empty($panier)){
     header("Location: commander.php");
     exit();
 }
@@ -12,7 +12,7 @@ if (empty($panier)) {
 function totalPanier($panier)
 {
     $total = 0;
-    foreach ($panier as $item) {
+    foreach ($panier as $item){
         $total += floatval($item["prix"]) * intval($item["quantite"]);
     }
     return $total;
@@ -22,8 +22,8 @@ function calculerTicketDisponible($commandes, $email)
 {
     $total = 0;
     $email = strtolower(trim($email));
-    foreach ($commandes as $commande) {
-        if (strtolower(trim($commande["email"] ?? "")) === $email) {
+    foreach ($commandes as $commande){
+        if(strtolower(trim($commande["email"] ?? "")) === $email){
             $ticket = floatval($commande["ticket_reduction"] ?? 0);
             $utilise = floatval($commande["ticket_reduction_utilise"] ?? 0);
             $total += max(0, $ticket - $utilise);
@@ -36,17 +36,17 @@ function utiliserTicketReduction(&$commandes, $email, $montantAUtiliser)
 {
     $email = strtolower(trim($email));
     $resteAUtiliser = floatval($montantAUtiliser);
-    foreach ($commandes as &$commande) {
-        if ($resteAUtiliser <= 0) {
+    foreach ($commandes as &$commande){
+        if($resteAUtiliser <= 0){
             break;
         }
-        if (strtolower(trim($commande["email"] ?? "")) !== $email) {
+        if(strtolower(trim($commande["email"] ?? "")) !== $email){
             continue;
         }
         $ticket = floatval($commande["ticket_reduction"] ?? 0);
         $utilise = floatval($commande["ticket_reduction_utilise"] ?? 0);
         $disponible = max(0, $ticket - $utilise);
-        if ($disponible <= 0) {
+        if($disponible <= 0){
             continue;
         }
         $montantPris = min($disponible, $resteAUtiliser);
@@ -70,14 +70,64 @@ $commentaires = trim($_POST["comments"] ?? "");
 $planification = $_POST["planification"] ?? "immediate";
 $date_souhaitee = trim($_POST["date_souhaitee"] ?? "");
 $heure_souhaitee = trim($_POST["heure_souhaitee"] ?? "");
-if ($planification === "plus_tard" && strtotime($date_souhaitee) <= strtotime(date("Y-m-d"))) {
-    $_SESSION["erreur"] = "La date de commande doit être dans le futur.";
+$erreurs = [];
+
+if(strlen($nomComplet) < 2){
+    $erreurs[] = "Nom invalide.";
+}
+
+if(strlen($adresse) < 4){
+    $erreurs[] = "Adresse invalide.";
+}
+
+if(!preg_match("/^[0-9]{5}$/", $code_postal)){
+    $erreurs[] = "Code postal invalide.";
+}
+
+if(strlen($ville) < 2){
+    $erreurs[] = "Ville invalide.";
+}
+
+if(!preg_match("/^0[1-9](\s?[0-9]{2}){4}$/", $telephone)){
+    $erreurs[] = "Téléphone invalide.";
+}
+
+if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+    $erreurs[] = "Email invalide.";
+}
+
+if(empty($_SESSION["email"]) && strlen($motdepasse) < 6){
+    $erreurs[] = "Mot de passe trop court.";
+}
+
+if(strlen($interphone) > 30){
+    $erreurs[] = "Code interphone trop long.";
+}
+
+if(strlen($commentaires) > 200){
+    $erreurs[] = "Commentaire trop long.";
+}
+
+if($planification !== "immediate" && $planification !== "plus_tard"){
+    $erreurs[] = "Type de planification invalide.";
+}
+
+if($planification === "plus_tard"){
+    if($date_souhaitee === "" || $heure_souhaitee === ""){
+        $erreurs[] = "Date et heure obligatoires.";
+    } elseif(strtotime($date_souhaitee . " " . $heure_souhaitee) <= time()){
+        $erreurs[] = "La date de commande doit être dans le futur.";
+    }
+}
+
+if(!empty($erreurs)){
+    $_SESSION["erreur"] = implode(" ", $erreurs);
     header("Location: commander.php");
     exit();
 }
 
 $date_planifiee = null;
-if ($planification === "plus_tard" && $date_souhaitee !== "" && $heure_souhaitee !== "") {
+if($planification === "plus_tard" && $date_souhaitee !== "" && $heure_souhaitee !== ""){
     $date_planifiee = $date_souhaitee . " " . $heure_souhaitee;
 }
 
@@ -86,22 +136,22 @@ $dirData = __DIR__ . "/data";
 $fichierComptes = $dirData . "/compte.json";
 $fichierCommandes = $dirData . "/commandes.json";
 
-if (empty($_SESSION["email"])) {
-    if ($email === "" || $motdepasse === "") {
+if(empty($_SESSION["email"])){
+    if($email === "" || $motdepasse === ""){
         header("Location: commander.php?erreur=champs_compte");
         exit();
     }
-    if (!is_dir($dirData)) {
+    if(!is_dir($dirData)){
         mkdir($dirData, 0777, true);
     }
     $comptes = file_exists($fichierComptes)
         ? json_decode(file_get_contents($fichierComptes), true)
         : [];
-    if (!is_array($comptes)) {
+    if(!is_array($comptes)){
         $comptes = [];
     }
-    foreach ($comptes as $compte) {
-        if (strtolower($compte["email"] ?? "") === $email) {
+    foreach ($comptes as $compte){
+        if(strtolower($compte["email"] ?? "") === $email){
             header("Location: commander.php?erreur=email_existe");
             exit();
         }
@@ -139,14 +189,14 @@ if (empty($_SESSION["email"])) {
 $commandesExistantes = file_exists($fichierCommandes)
     ? json_decode(file_get_contents($fichierCommandes), true)
     : [];
-if (!is_array($commandesExistantes)) {
+if(!is_array($commandesExistantes)){
     $commandesExistantes = [];
 }
 
 $total = totalPanier($panier);
 $ticketDisponible = calculerTicketDisponible($commandesExistantes, $email);
 $utiliserReduction = isset($_POST["utiliser_reduction"]) && $_POST["utiliser_reduction"] === "1";
-if ($utiliserReduction) {
+if($utiliserReduction){
     $reductionUtilisee = min($total, $ticketDisponible);
 } else {
     $reductionUtilisee = 0;
@@ -180,7 +230,7 @@ $commande = [
     "paiements" => []
 ];
 
-if ($totalAPayer <= 0) {
+if($totalAPayer <= 0){
     utiliserTicketReduction($commandesExistantes, $email, $reductionUtilisee);
     $commande["id"] = !empty($commandesExistantes)
         ? max(array_column($commandesExistantes, "id")) + 1
@@ -293,7 +343,7 @@ $_SESSION["commande_en_attente"] = [
 
     <p>Total de la commande : <strong><?php echo number_format($total, 2, ',', ' '); ?> €</strong></p>
 
-    <?php if ($reductionUtilisee > 0) { ?>
+    <?php if($reductionUtilisee > 0){ ?>
         <p>Bon de réduction utilisé : <strong><?php echo number_format($reductionUtilisee, 2, ',', ' '); ?> €</strong></p>
     <?php } ?>
 

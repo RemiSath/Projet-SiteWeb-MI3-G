@@ -1830,6 +1830,14 @@ input:focus {
 .compteur{
     font-size:16px;
     color: black;
+    text-align: right;
+    margin-top: -10px;
+    margin-bottom: 10px;
+}
+
+.compteur2{
+    font-size:16px;
+    color: black;
 }
 
 .erreur-js{

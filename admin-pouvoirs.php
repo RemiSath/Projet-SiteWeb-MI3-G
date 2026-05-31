@@ -2,53 +2,53 @@
 session_start();
 include "bibliothèques/bloquer.php";
 
-if (!isset($_SESSION["statut"]) || $_SESSION["statut"] !== "Admin") {
+if(!isset($_SESSION["statut"]) || $_SESSION["statut"] !== "Admin"){
     header("Location: connexion.php");
     exit();
 }
 
 $fichierComptes = __DIR__ . "/data/compte.json";
 $fichierCommandes = __DIR__ . "/data/commandes.json";
-if (!is_dir(__DIR__ . "/data")) {
+if(!is_dir(__DIR__ . "/data")){
     mkdir(__DIR__ . "/data", 0777, true);
 }
 
 $utilisateurs = file_exists($fichierComptes)
     ? json_decode(file_get_contents($fichierComptes), true)
     : [];
-if (!is_array($utilisateurs)) {
+if(!is_array($utilisateurs)){
     $utilisateurs = [];
 }
 
 $commandes = file_exists($fichierCommandes)
     ? json_decode(file_get_contents($fichierCommandes), true)
     : [];
-if (!is_array($commandes)) {
+if(!is_array($commandes)){
     $commandes = [];
 }
 
-if (!isset($_GET["id"])) {
+if(!isset($_GET["id"])){
     die("Utilisateur introuvable");
 }
 
 $id = $_GET["id"];
 $utilisateur = null;
-foreach ($utilisateurs as $u) {
-    if (($u["id"] ?? "") === $id) {
+foreach ($utilisateurs as $u){
+    if(($u["id"] ?? "") === $id){
         $utilisateur = $u;
         break;
     }
 }
 
-if (!$utilisateur) {
+if(!$utilisateur){
     die("Utilisateur introuvable");
 }
 
 $emailUtilisateur = strtolower(trim($utilisateur["email"] ?? ""));
 $totalBons = 0;
 
-foreach ($commandes as $commande) {
-    if (strtolower(trim($commande["email"] ?? "")) === $emailUtilisateur) {
+foreach ($commandes as $commande){
+    if(strtolower(trim($commande["email"] ?? "")) === $emailUtilisateur){
         $ticket = floatval($commande["ticket_reduction"] ?? 0);
         $utilise = floatval($commande["ticket_reduction_utilise"] ?? 0);
         $totalBons += max(0, $ticket - $utilise);
@@ -121,14 +121,14 @@ foreach ($commandes as $commande) {
         </h1>
     </div>
 
-    <?php if (isset($_SESSION["message_admin"])) { ?>
+    <?php if(isset($_SESSION["message_admin"])){ ?>
         <p class="message">
             <?php echo htmlspecialchars($_SESSION["message_admin"]); ?>
         </p>
         <?php unset($_SESSION["message_admin"]); ?>
     <?php } ?>
 
-    <?php if (isset($_SESSION["erreur_admin"])) { ?>
+    <?php if(isset($_SESSION["erreur_admin"])){ ?>
         <p class="erreur">
             <?php echo htmlspecialchars($_SESSION["erreur_admin"]); ?>
         </p>

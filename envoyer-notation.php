@@ -1,6 +1,11 @@
 <?php
 session_start();
 
+if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+    header("Location: Notation.php");
+    exit();
+}
+
 if(!isset($_SESSION["email"])){
     $_SESSION["erreur2"] = "Connectez-vous pour noter une commande.";
     header("Location: connexion.php");
@@ -108,6 +113,12 @@ file_put_contents(
     json_encode($commandes, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE),
     LOCK_EX
 );
+
+if (strlen($commentaires) > 300) {
+    $_SESSION["message"] = "Le commentaire est limité à 300 caractères.";
+    header("Location: Notation.php");
+    exit();
+}
 
 $_SESSION["message"] = "Merci pour votre avis !";
 

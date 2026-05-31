@@ -1,6 +1,11 @@
 <?php
 session_start();
 
+if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+    header("Location: livraison.php");
+    exit();
+}
+
 if (!isset($_SESSION["statut"]) || $_SESSION["statut"] !== "Livreur") {
     header("Location: connexion.php");
     exit();
@@ -22,6 +27,11 @@ if (!is_array($commandes)) {
 $commandeId = $_POST["commande_id"] ?? "";
 $action = $_POST["action"] ?? "";
 
+if (!in_array($action, ["livree", "abandonnee"], true)) {
+    header("Location: livraison.php");
+    exit();
+}
+
 $livreurEmail = $_SESSION["email"] ?? "";
 $livreurNom = trim(($_SESSION["prenom"] ?? "") . " " . ($_SESSION["nom"] ?? ""));
 $identifiantLivreur = $livreurEmail !== "" ? $livreurEmail : $livreurNom;
@@ -34,6 +44,9 @@ foreach ($commandes as &$commande) {
         $commandeTrouvee = true;
         $livreurCommande = $commande["livreur_email"] ?? ($commande["livreur"] ?? "");
         if ($livreurCommande !== $identifiantLivreur) {
+            break;
+        }
+        if (($commande["statut"] ?? "") !== "en_livraison") {
             break;
         }
         if ($action === "livree") {

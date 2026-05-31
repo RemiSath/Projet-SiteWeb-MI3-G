@@ -290,11 +290,7 @@ document.addEventListener("DOMContentLoaded", () => {
     async function chargerProduits() {
         const params = new URLSearchParams(filtres);
         try {
-            const response = await fetch("filtrer-produits.php?" + params.toString(), {
-                headers: {
-                    "X-Requested-With": "XMLHttpRequest"
-                }
-            });
+            const response = await fetch("filtrer-produits.php?" + params.toString());
             produitsRecuperes = await response.json();
             afficherProduits(produitsRecuperes);
         } catch (erreur) {
@@ -309,13 +305,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 const formData = new FormData(form);
                 const bouton = form.querySelector(".add-to-cart");
                 const ancienTexte = bouton.textContent;
+                formData.append("requete_fetch", "1");
                 try {
                     const response = await fetch(form.action, {
                         method: "POST",
-                        body: formData,
-                        headers: {
-                            "X-Requested-With": "XMLHttpRequest"
-                        }
+                        body: formData
                     });
                     const data = await response.json();
                     if (data.success) {
@@ -331,7 +325,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         }, 1000);
                     }
                 } catch (erreur) {
-                    console.error("Erreur AJAX panier :", erreur);
+                    console.error("Erreur fetch panier :", erreur);
                 }
             });
         });

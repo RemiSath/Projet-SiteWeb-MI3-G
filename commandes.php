@@ -72,9 +72,7 @@ function classeStatut($statut){
     return "status-" . htmlspecialchars($statut);
 }
 
-$isAjax =
-    isset($_SERVER['HTTP_X_REQUESTED_WITH']) &&
-    strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
+$isFetch = isset($_POST["requete_fetch"]);
 
 $cheminComptes = "data/compte.json";
 $comptes = [];
@@ -186,7 +184,7 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
         $response["message"] =
             "Requête incomplète.";
     }
-    if($isAjax){
+    if($isFetch){
         header(
             "Content-Type: application/json; charset=utf-8"
         );

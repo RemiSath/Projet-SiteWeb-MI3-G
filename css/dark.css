@@ -88,6 +88,23 @@ a{
     border-color:white;
 }
 
+.liste-commandes {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.liste-commandes li {
+    background: black;
+    padding: 10px 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid black;
+}
+
 .page-espace .container2,
 .page-espace .container3,
 .page-espace .cart-box,

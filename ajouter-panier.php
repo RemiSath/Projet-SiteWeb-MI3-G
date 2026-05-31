@@ -32,7 +32,8 @@ foreach ($produits as $produit){
 if($nom !== "" && $prix > 0){
     if(isset($_SESSION["panier"][$nom])){
         $_SESSION["panier"][$nom]["quantite"]++;
-    } else {
+    } 
+    else{
         $_SESSION["panier"][$nom] = [
             "nom" => $nom,
             "prix" => $prix,
@@ -47,7 +48,7 @@ foreach ($_SESSION["panier"] as $item){
     $total += $item["quantite"];
 }
 
-if(isset($_SERVER["HTTP_X_REQUESTED_WITH"]) && $_SERVER["HTTP_X_REQUESTED_WITH"] === "XMLHttpRequest"){
+if(isset($_POST["requete_fetch"])){
     header("Content-Type: application/json");
     echo json_encode([
         "success" => $prix > 0,

@@ -15,8 +15,7 @@ if (!isset($_SESSION["statut"]) || $_SESSION["statut"] !== "Admin") {
 
 $isFetch = isset($_POST["requete_fetch"]);
 
-function repondre($success, $message, $extra = [])
-{
+function repondre($success, $message, $extra = []){
     global $isFetch;
 
     if ($isFetch) {

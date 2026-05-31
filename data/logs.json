@@ -1,0 +1,12 @@
+[
+    {
+        "id": "log_6a1ca3b2c18246.81143811",
+        "type": "email_inconnu",
+        "message": "Tentative de connexion avec un email inconnu.",
+        "email": "clit1@gmail.com",
+        "ip": "::1",
+        "user_agent": "Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/148.0.0.0 Safari\/537.36 Edg\/148.0.0.0",
+        "details": [],
+        "date": "2026-05-31 21:10:10"
+    }
+]

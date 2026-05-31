@@ -2,7 +2,7 @@
 session_start();
 include "bibliothèques/bloquer.php";
 
-if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+if($_SERVER["REQUEST_METHOD"] !== "POST"){
     header("Location: commander.php");
     exit();
 }
@@ -14,8 +14,7 @@ if(empty($panier)){
     exit();
 }
 
-function totalPanier($panier)
-{
+function totalPanier($panier){
     $total = 0;
     foreach ($panier as $item){
         $total += floatval($item["prix"]) * intval($item["quantite"]);
@@ -23,8 +22,7 @@ function totalPanier($panier)
     return $total;
 }
 
-function calculerTicketDisponible($commandes, $email)
-{
+function calculerTicketDisponible($commandes, $email){
     $total = 0;
     $email = strtolower(trim($email));
     foreach ($commandes as $commande){
@@ -37,8 +35,7 @@ function calculerTicketDisponible($commandes, $email)
     return $total;
 }
 
-function utiliserTicketReduction(&$commandes, $email, $montantAUtiliser)
-{
+function utiliserTicketReduction(&$commandes, $email, $montantAUtiliser){
     $email = strtolower(trim($email));
     $resteAUtiliser = floatval($montantAUtiliser);
     foreach ($commandes as &$commande){
@@ -77,7 +74,7 @@ $date_souhaitee = trim($_POST["date_souhaitee"] ?? "");
 $heure_souhaitee = trim($_POST["heure_souhaitee"] ?? "");
 $erreurs = [];
 
-if (!empty($_SESSION["email"])) {
+if(!empty($_SESSION["email"])){
     $email = strtolower(trim($_SESSION["email"]));
     $nomComplet = trim(($_SESSION["prenom"] ?? "") . " " . ($_SESSION["nom"] ?? ""));
     $adresse = trim($_SESSION["adresse"] ?? "");

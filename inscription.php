@@ -15,7 +15,7 @@
     <link id="theme-link" rel="stylesheet" href="css/default.css">
 </head>
 
-<body>
+<body class="page-espace">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playwrite+AT:ital,wght@0,100..400;1,100..400&display=swap"
@@ -65,7 +65,8 @@
     </header>
 
     <div class="container3"> <!-- Conteneur pour le formulaire d'inscription -->
-        <h1>Inscription</h1>
+        <h1 class="h7">Inscription</h1>
+        <img src="Images/crewmate2.png" alt="" class="crewmate-deco">
         <form id="formInscription" action="inscription-infos.php" method="POST">
             <?php
                 if(isset($_SESSION["erreur"])){ // Vérifie si une erreur est stockée dans la session

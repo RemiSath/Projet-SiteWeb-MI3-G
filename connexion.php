@@ -15,7 +15,7 @@
     <link id="theme-link" rel="stylesheet" href="css/default.css">
 </head>
 
-<body class="pageconnexion">
+<body class="pageconnexion page-espace">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playwrite+AT:ital,wght@0,100..400;1,100..400&display=swap"
@@ -66,6 +66,7 @@
 
     <div class="container3"> <!-- Conteneur pour le formulaire de connexion -->
         <h1 class="h7">Connexion</h1>
+        <img src="Images/crewmate1.png" alt="" class="crewmate-deco">
         <?php
             if(isset($_SESSION["erreurConnexion"])){
                 echo "<div class='erreur-js'>" . $_SESSION["erreurConnexion"] . "</div>";

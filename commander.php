@@ -49,7 +49,7 @@ foreach ($panier as $item) {
     <link rel="icon" href="Images/Among_Us.png">
 </head>
 
-<body>
+<body class="page-espace">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bungee&display=swap" rel="stylesheet">
@@ -96,7 +96,7 @@ foreach ($panier as $item) {
 
 <div class="container2">
     <h4>📦 Informations de livraison</h4>
-
+    <img src="Images/crewmate.gif" alt="" class="crewmate-deco">
     <?php
     if (isset($_SESSION["erreur"])) {
         echo "<div class='erreur'>" . htmlspecialchars($_SESSION["erreur"]) . "</div>";

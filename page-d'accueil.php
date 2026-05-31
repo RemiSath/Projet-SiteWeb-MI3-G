@@ -75,7 +75,10 @@
     ?>
 
     <div class="sitedescription">
-        <h1>Bienvenue chez l'<span class="nomsite">IMPOSTEUR</span></h1>
+        <div class="bienvenue-ligne">
+            <h1>Bienvenue chez l'<span class="nomsite">IMPOSTEUR</span></h1>
+            <img src="Images/crewmate.gif" alt="" class="crewmate-deco2">
+        </div>
         <p class="textedescription"><span class="nomsite">IMPOSTEUR</span> est une maison dédiée à l'illusion.
             Ici, rien n’est tout à fait ce qu'il paraît. Chaque création détourne les apparences, brouille les repères
             et joue avec vos sens.
@@ -89,7 +92,7 @@
             Bienvenue dans l’art de la confusion délicieuse.</p>
     </div>
 
-    <div class="contenu">
+    <div class="contenu page-espace">
         <div class="villes">
             <a href="Paris.php" class="a1 a10">Paris</a>
             <a href="Argenteuil.php" class="a1 a11">Argenteuil</a>

@@ -1,3 +1,10 @@
+.page-espace {
+    background-image: url("../Images/among-us-fond.gif");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
 body{
     background:#121212;
     color:white;
@@ -69,6 +76,14 @@ a{
     background:#1f1f1f;
     color:white;
     border-color:white;
+}
+
+.page-espace .container2,
+.page-espace .container3,
+.page-espace .cart-box,
+.page-espace .account-box,
+.page-espace form {
+    background: rgba(17, 17, 17, 0.92);
 }
 
 .product-card{

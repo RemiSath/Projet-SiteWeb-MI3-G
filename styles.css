@@ -22,6 +22,55 @@
     }
 }
 
+.crewmate-deco {
+    display: block;
+    width: 140px;
+    max-width: 40%;
+    height: auto;
+    margin: 20px auto;
+}
+
+.crewmate-deco2 {
+    width: 140px;
+    max-width: 25%;
+    height: auto;
+}
+
+@media (max-width: 700px) {
+    .bienvenue-ligne {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .crewmate-deco2 {
+        max-width: 40%;
+    }
+}
+
+@media (max-width: 600px) {
+    .crewmate-deco {
+        width: 100px;
+    }
+}
+
+.page-espace {
+    background-image: url("Images/among-us-dance.gif");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.page-espace .container2,
+.page-espace .container3 {
+    background: rgba(255, 255, 255, 0.92);
+}
+
+.page-espace .cart-box,
+.page-espace .account-box,
+.page-espace form {
+    background: rgba(255, 255, 255, 0.95);
+}
+
 input[type="password"]::-ms-reveal,
 input[type="password"]::-ms-clear {
     display: none;
@@ -77,6 +126,13 @@ body {
     color: black;
     text-align: left;
     font-size: 200%;
+}
+
+.bienvenue-ligne {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 25px;
 }
 
 .sitedescription .nomsite {

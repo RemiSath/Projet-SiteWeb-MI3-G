@@ -37,6 +37,12 @@ if($livraison < 0 || $livraison > 5 || $qualite < 0 || $qualite > 5){
     exit();
 }
 
+if (strlen($commentaires) > 300) {
+    $_SESSION["message"] = "Le commentaire est limité à 300 caractères.";
+    header("Location: Notation.php");
+    exit();
+}
+
 $commandes = file_exists($fichierCommandes)
     ? json_decode(file_get_contents($fichierCommandes), true)
     : [];
@@ -113,12 +119,6 @@ file_put_contents(
     json_encode($commandes, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE),
     LOCK_EX
 );
-
-if (strlen($commentaires) > 300) {
-    $_SESSION["message"] = "Le commentaire est limité à 300 caractères.";
-    header("Location: Notation.php");
-    exit();
-}
 
 $_SESSION["message"] = "Merci pour votre avis !";
 

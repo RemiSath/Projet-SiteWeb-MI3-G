@@ -151,7 +151,9 @@ $peutNoter = !empty($commandesLivrees);
             <?php } ?>
         </div>
 
-        <div class="vide"></div>
+        <div class="vide">
+            <img src="Images/crewmate.gif" alt="" class="crewmate-notation">
+        </div>
     </div>
 </div>
 

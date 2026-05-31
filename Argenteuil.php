@@ -88,7 +88,11 @@ function h($value)
 </div>
 
 <div class="sitedescriptionville">
-    <h2>Nos Trompe-l’œil Fruités</h2>
+    <div class="titre-crewmates">
+        <img src="Images/crewmate1.png" alt="" class="crewmate-titre">
+        <h2>Nos Trompe-l’œil Fruités - Argenteuil</h2>
+        <img src="Images/crewmate2.png" alt="" class="crewmate-titre">
+    </div>
     <p>
         Des desserts qui ressemblent à de vrais fruits,
         mais qui cachent des mousses,

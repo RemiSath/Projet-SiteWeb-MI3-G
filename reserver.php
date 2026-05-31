@@ -80,7 +80,10 @@ $prenom = $_SESSION["prenom"] ?? "";
 
     <div class="reservation">
         <p class="subtitle">FAIRE UNE RÉSERVATION</p>
-        <h2>Réserver une table</h2>
+        <div class="titre-reservation">
+            <h2>Réserver une table</h2>
+            <img src="Images/crewmate.gif" alt="" class="crewmate-reservation">
+        </div>
 
         <form id="formReservation" action="reservation-infos.php" method="POST">
             <?php

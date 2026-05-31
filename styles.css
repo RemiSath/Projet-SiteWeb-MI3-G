@@ -36,6 +36,44 @@
     height: auto;
 }
 
+.titre-crewmates {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.crewmate-titre {
+    width: 55px;
+    height: auto;
+}
+
+.titre-reservation {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.crewmate-reservation {
+    width: 70px;
+    height: auto;
+}
+
+@media (max-width: 600px) {
+    .crewmate-titre {
+        width: 35px;
+    }
+
+    .titre-reservation {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .crewmate-reservation {
+        width: 50px;
+    }
+}
+
 @media (max-width: 700px) {
     .bienvenue-ligne {
         flex-direction: column;
@@ -69,6 +107,33 @@
 .page-espace .account-box,
 .page-espace form {
     background: rgba(255, 255, 255, 0.95);
+}
+
+.page-espace .sitedescription3,
+.page-espace main.container,
+.page-espace .header-profil {
+    background: rgba(255, 255, 255, 0.95);
+    border: 3px solid black;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.page-espace .sitedescription3 {
+    width: 100%;
+    max-width: none;
+    margin: 0 0 20px 0;
+    border: none;
+    border-bottom: 6px solid black;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.page-espace main.container {
+    padding: 20px;
+}
+
+.page-espace .header-profil {
+    padding: 20px;
 }
 
 input[type="password"]::-ms-reveal,
@@ -637,6 +702,15 @@ a {
 
 .vide{
     flex: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.crewmate-notation {
+    width: 180px;
+    max-width: 70%;
+    height: auto;
 }
 
 .reservation2 h2 {

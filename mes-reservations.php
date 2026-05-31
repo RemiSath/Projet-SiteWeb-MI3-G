@@ -60,7 +60,7 @@ function reservationFuture($reservation)
     <link rel="icon" href="Images/Among_Us.png">
 </head>
 
-<body>
+<body class="page-espace">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playwrite+AT:ital,wght@0,100..400;1,100..400&display=swap" rel="stylesheet">

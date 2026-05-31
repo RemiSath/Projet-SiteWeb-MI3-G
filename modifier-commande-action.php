@@ -1,38 +1,35 @@
 <?php
 session_start();
 
-if (!isset($_SESSION["email"])) {
+if(!isset($_SESSION["email"])){
     header("Location: connexion.php");
     exit();
 }
 
-function totalPlats($plats)
-{
+function totalPlats($plats){
     $total = 0;
-    foreach ($plats as $plat) {
+    foreach ($plats as $plat){
         $total += $plat["prix"] * $plat["quantite"];
     }
     return $total;
 }
 
-function commandeModifiable($statut)
-{
+function commandeModifiable($statut){
     return in_array($statut, ["a_preparer", "payee", "en_attente"], true);
 }
 
-function prixProduit($nom)
-{
+function prixProduit($nom){
     $fichierProduits = __DIR__ . "/data/produits.json";
     $produits = file_exists($fichierProduits)
         ? json_decode(file_get_contents($fichierProduits), true)
         : [];
 
-    if (!is_array($produits)) {
+    if(!is_array($produits)){
         return 0;
     }
 
-    foreach ($produits as $produit) {
-        if (($produit["nom"] ?? "") === $nom) {
+    foreach ($produits as $produit){
+        if(($produit["nom"] ?? "") === $nom){
             return floatval($produit["prix"] ?? 0);
         }
     }
@@ -45,7 +42,7 @@ $commandes = file_exists($fichierCommandes)
     ? json_decode(file_get_contents($fichierCommandes), true)
     : [];
 
-if (!is_array($commandes)) {
+if(!is_array($commandes)){
     $commandes = [];
 }
 
@@ -55,30 +52,27 @@ $nom = trim($_POST["nom"] ?? "");
 $prix = prixProduit($nom);
 $emailSession = strtolower(trim($_SESSION["email"]));
 
-foreach ($commandes as &$commande) {
-    if (
-        intval($commande["id"] ?? 0) === $id &&
-        strtolower(trim($commande["email"] ?? "")) === $emailSession
-    ) {
+foreach ($commandes as &$commande){
+    if(intval($commande["id"] ?? 0) === $id && strtolower(trim($commande["email"] ?? "")) === $emailSession){
         $statut = $commande["statut"] ?? "a_preparer";
-        if (!commandeModifiable($statut)) {
+        if(!commandeModifiable($statut)){
             $_SESSION["erreur"] = "Cette commande est déjà en préparation, elle ne peut plus être modifiée.";
             header("Location: profil.php");
             exit();
         }
         $plats = $commande["plats"] ?? [];
         $ancienTotal = $commande["total_actuel"] ?? totalPlats($plats);
-        if ($action === "ajouter" && $nom !== "" && $prix > 0) {
+        if($action === "ajouter" && $nom !== "" && $prix > 0){
             $trouve = false;
-            foreach ($plats as &$plat) {
-                if ($plat["nom"] === $nom) {
+            foreach ($plats as &$plat){
+                if($plat["nom"] === $nom){
                     $plat["quantite"]++;
                     $trouve = true;
                     break;
                 }
             }
             unset($plat);
-            if (!$trouve) {
+            if(!$trouve){
                 $plats[] = [
                     "nom" => $nom,
                     "prix" => $prix,
@@ -86,12 +80,12 @@ foreach ($commandes as &$commande) {
                 ];
             }
         }
-        if ($action === "retirer" && $nom !== "") {
-            foreach ($plats as $index => &$plat) {
-                if ($plat["nom"] === $nom) {
+        if($action === "retirer" && $nom !== ""){
+            foreach ($plats as $index => &$plat){
+                if($plat["nom"] === $nom){
                     $plat["quantite"]--;
 
-                    if ($plat["quantite"] <= 0) {
+                    if($plat["quantite"] <= 0){
                         unset($plats[$index]);
                     }
                     break;
@@ -100,13 +94,13 @@ foreach ($commandes as &$commande) {
             unset($plat);
             $plats = array_values($plats);
         }
-        if (empty($plats)) {
+        if(empty($plats)){
             $_SESSION["erreur"] = "Une commande ne peut pas être vide.";
             header("Location: modifier-commande.php?id=" . $id);
             exit();
         }
         $nouveauTotal = totalPlats($plats);
-        if ($nouveauTotal > $ancienTotal) {
+        if($nouveauTotal > $ancienTotal){
             $commande["modification_en_attente"] = [
                 "plats" => $plats,
                 "ancien_total" => $ancienTotal,
@@ -125,7 +119,7 @@ foreach ($commandes as &$commande) {
         $commande["plats"] = $plats;
         $commande["total_actuel"] = $nouveauTotal;
         $commande["reste_a_payer"] = 0;
-        if ($nouveauTotal < $ancienTotal) {
+        if($nouveauTotal < $ancienTotal){
             $commande["ticket_reduction"] = ($commande["ticket_reduction"] ?? 0) + ($ancienTotal - $nouveauTotal);
         }
         file_put_contents(

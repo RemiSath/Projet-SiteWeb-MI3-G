@@ -15,14 +15,14 @@ $infos = $_SESSION["infos"] ?? "";
 
 $totalTicketsReduction = 0;
 
-if ($isConnected) {
+if($isConnected){
     $fichierCommandes = __DIR__ . "/data/commandes.json";
-    if (file_exists($fichierCommandes)) {
+    if(file_exists($fichierCommandes)){
         $jsonCommandes = file_get_contents($fichierCommandes);
         $commandes = json_decode($jsonCommandes, true);
-        if (is_array($commandes)) {
-            foreach ($commandes as $commande) {
-                if (strtolower(trim($commande["email"] ?? "")) === strtolower(trim($email))) {
+        if(is_array($commandes)){
+            foreach ($commandes as $commande){
+                if(strtolower(trim($commande["email"] ?? "")) === strtolower(trim($email))){
                     $ticket = floatval($commande["ticket_reduction"] ?? 0);
                     $ticketUtilise = floatval($commande["ticket_reduction_utilise"] ?? 0);
                     $totalTicketsReduction += max(0, $ticket - $ticketUtilise);
@@ -32,7 +32,7 @@ if ($isConnected) {
     }
 }
 
-foreach ($panier as $item) {
+foreach ($panier as $item){
     $total += $item["prix"] * $item["quantite"];
 }
 ?>
@@ -98,12 +98,12 @@ foreach ($panier as $item) {
     <h4>📦 Informations de livraison</h4>
     <img src="Images/crewmate.gif" alt="" class="crewmate-deco">
     <?php
-    if (isset($_SESSION["erreur"])) {
+    if(isset($_SESSION["erreur"])){
         echo "<div class='erreur'>" . htmlspecialchars($_SESSION["erreur"]) . "</div>";
         unset($_SESSION["erreur"]);
     }
 
-    if (isset($_GET["erreur"]) && $_GET["erreur"] === "email_existe") {
+    if(isset($_GET["erreur"]) && $_GET["erreur"] === "email_existe"){
         echo "<div class='erreur'>Cet email est déjà  utilisé.</div>";
     }
     ?>
@@ -111,7 +111,7 @@ foreach ($panier as $item) {
     <aside class="cart-box">
         <h5>🛒 Votre panier</h5>
 
-        <?php if (empty($panier)) { ?>
+        <?php if(empty($panier)){ ?>
             <div class="cart-empty">
                 <p>Votre panier est vide.</p>
                 <p>Vous pouvez remplir votre panier en visitant :</p>
@@ -123,7 +123,7 @@ foreach ($panier as $item) {
             </div>
         <?php } else { ?>
             <ul class="cart-items">
-                <?php foreach ($panier as $item) {
+                <?php foreach ($panier as $item){
                     $sousTotal = $item["prix"] * $item["quantite"];
                 ?>
                     <li>
@@ -163,7 +163,7 @@ foreach ($panier as $item) {
         <?php } ?>
     </aside>
 
-    <?php if (!$isConnected) { ?>
+    <?php if(!$isConnected){ ?>
         <div class="account-box">
             <p>Déjà client ?</p>
             <a href="connexion.php" class="connexion">Se connecter</a>
@@ -177,7 +177,7 @@ foreach ($panier as $item) {
     <form id="formCommande" method="post" action="valider-commande.php">
         <h5>Adresse</h5>
 
-        <?php if ($isConnected) { ?>
+        <?php if($isConnected){ ?>
             <label>Nom complet</label>
             <input type="text" value="<?php echo htmlspecialchars($prenom . ' ' . $nom); ?>" readonly>
 
@@ -256,7 +256,7 @@ foreach ($panier as $item) {
             </div>
         </div>
 
-        <?php if ($isConnected && $totalTicketsReduction > 0) { ?>
+        <?php if($isConnected && $totalTicketsReduction > 0){ ?>
             <h5>Bon de réduction</h5>
 
             <div class="option">

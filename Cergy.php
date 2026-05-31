@@ -2,13 +2,13 @@
 session_start();
 include "bibliothèques/bloquer.php";
 
-if (!isset($_SESSION["panier"])) {
+if(!isset($_SESSION["panier"])){
     $_SESSION["panier"] = [];
 }
 
 $nbArticles = 0;
 
-foreach ($_SESSION["panier"] as $item) {
+foreach ($_SESSION["panier"] as $item){
     $nbArticles += $item["quantite"];
 }
 
@@ -197,13 +197,13 @@ const productGrid = document.getElementById("productGrid");
 const noProductsMessage = document.getElementById("noProductsMessage");
 const sortSelect = document.getElementById("sortSelect");
 
-if (burger) {
+if(burger){
     burger.addEventListener("click", () => {
         overlay.classList.add("open");
     });
 }
 
-if (closeBtn) {
+if(closeBtn){
     closeBtn.addEventListener("click", () => {
         overlay.classList.remove("open");
     });
@@ -223,7 +223,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let produitsRecuperes = [];
 
-    function h(value) {
+    function h(value){
         return String(value)
             .replaceAll("&", "&amp;")
             .replaceAll("<", "&lt;")
@@ -232,29 +232,29 @@ document.addEventListener("DOMContentLoaded", () => {
             .replaceAll("'", "&#039;");
     }
 
-    function formatPrix(prix) {
+    function formatPrix(prix){
         return Number(prix).toFixed(2).replace(".", ",") + " €";
     }
 
-    function trierProduits(produits) {
+    function trierProduits(produits){
         const tri = sortSelect ? sortSelect.value : "aucun";
         const copie = [...produits];
-        if (tri === "prix_asc") {
+        if(tri === "prix_asc"){
             copie.sort((a, b) => Number(a.prix) - Number(b.prix));
         }
-        if (tri === "prix_desc") {
+        if(tri === "prix_desc"){
             copie.sort((a, b) => Number(b.prix) - Number(a.prix));
         }
-        if (tri === "plus_commandes") {
+        if(tri === "plus_commandes"){
             copie.sort((a, b) => Number(b.commandes || 0) - Number(a.commandes || 0));
         }
         return copie;
     }
 
-    function afficherProduits(produits) {
+    function afficherProduits(produits){
         const produitsTries = trierProduits(produits);
         productGrid.innerHTML = "";
-        if (produitsTries.length === 0) {
+        if(produitsTries.length === 0){
             noProductsMessage.style.display = "block";
             return;
         }
@@ -287,7 +287,7 @@ document.addEventListener("DOMContentLoaded", () => {
         activerAjoutPanier();
     }
 
-    async function chargerProduits() {
+    async function chargerProduits(){
         const params = new URLSearchParams(filtres);
         try {
             const response = await fetch("filtrer-produits.php?" + params.toString(), {
@@ -297,12 +297,12 @@ document.addEventListener("DOMContentLoaded", () => {
             });
             produitsRecuperes = await response.json();
             afficherProduits(produitsRecuperes);
-        } catch (erreur) {
+        } catch (erreur){
             console.error("Erreur chargement produits :", erreur);
         }
     }
 
-    function activerAjoutPanier() {
+    function activerAjoutPanier(){
         document.querySelectorAll(".add-cart-form").forEach(form => {
             form.addEventListener("submit", async (e) => {
                 e.preventDefault();
@@ -318,9 +318,9 @@ document.addEventListener("DOMContentLoaded", () => {
                         }
                     });
                     const data = await response.json();
-                    if (data.success) {
+                    if(data.success){
                         const compteur = document.querySelector(".cart_count");
-                        if (compteur) {
+                        if(compteur){
                             compteur.textContent = data.total;
                         }
                         bouton.textContent = "Ajouté ✔";
@@ -330,7 +330,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             bouton.disabled = false;
                         }, 1000);
                     }
-                } catch (erreur) {
+                } catch (erreur){
                     console.error("Erreur AJAX panier :", erreur);
                 }
             });
@@ -349,18 +349,18 @@ document.addEventListener("DOMContentLoaded", () => {
             chargerProduits();
         });
     });
-    if (searchInput) {
+    if(searchInput){
         searchInput.addEventListener("input", () => {
             filtres.recherche = searchInput.value.trim().toLowerCase();
             chargerProduits();
         });
     }
-    if (sortSelect) {
+    if(sortSelect){
         sortSelect.addEventListener("change", () => {
             afficherProduits(produitsRecuperes);
         });
     }
-    if (resetBtn) {
+    if(resetBtn){
         resetBtn.addEventListener("click", () => {
             filtres = {
                 menu: "tous",
@@ -372,10 +372,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 gout: "tous",
                 recherche: ""
             };
-            if (searchInput) {
+            if(searchInput){
                 searchInput.value = "";
             }
-            if (sortSelect) {
+            if(sortSelect){
                 sortSelect.value = "aucun";
             }
             document.querySelectorAll(".filter-btn[data-filter]").forEach(btn => {

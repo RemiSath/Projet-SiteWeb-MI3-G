@@ -2,7 +2,7 @@
 session_start();
 include "bibliothèques/bloquer.php";
 
-if (!isset($_SESSION["email"])) {
+if(!isset($_SESSION["email"])){
     header("Location: connexion.php");
     exit;
 }
@@ -20,14 +20,14 @@ $data = [
 $fichierCommandes = __DIR__ . "/data/commandes.json";
 $commandesUtilisateur = [];
 
-if (file_exists($fichierCommandes)) {
+if(file_exists($fichierCommandes)){
     $jsonCommandes = file_get_contents($fichierCommandes);
     $commandes = json_decode($jsonCommandes, true) ?? [];
 
     $sessionEmail = $data["email"];
 
-    foreach ($commandes as $commande) {
-        if (!empty($commande["email"]) && strtolower(trim($commande["email"])) === $sessionEmail) {
+    foreach ($commandes as $commande){
+        if(!empty($commande["email"]) && strtolower(trim($commande["email"])) === $sessionEmail){
             $commandesUtilisateur[] = $commande;
         }
     }
@@ -36,14 +36,14 @@ if (file_exists($fichierCommandes)) {
 $totalTicketsReduction = 0;
 $bonsReductionDisponibles = [];
 
-foreach ($commandesUtilisateur as $commande) {
+foreach ($commandesUtilisateur as $commande){
     $ticket = floatval($commande["ticket_reduction"] ?? 0);
     $ticketUtilise = floatval($commande["ticket_reduction_utilise"] ?? 0);
     $resteTicket = max(0, $ticket - $ticketUtilise);
 
     $totalTicketsReduction += $resteTicket;
 
-    if ($resteTicket > 0) {
+    if($resteTicket > 0){
         $bonsReductionDisponibles[] = [
             "montant" => $resteTicket,
             "date" => $commande["date"] ?? "",
@@ -118,11 +118,11 @@ foreach ($commandesUtilisateur as $commande) {
         <h1>Mon Profil</h1>
     </div>
 
-    <?php if (isset($_SESSION["message"])) { ?>
+    <?php if(isset($_SESSION["message"])){ ?>
         <p class="message"><?php echo htmlspecialchars($_SESSION["message"]); unset($_SESSION["message"]); ?></p>
     <?php } ?>
 
-    <?php if (isset($_SESSION["erreur"])) { ?>
+    <?php if(isset($_SESSION["erreur"])){ ?>
         <p class="erreur"><?php echo htmlspecialchars($_SESSION["erreur"]); unset($_SESSION["erreur"]); ?></p>
     <?php } ?>
 
@@ -175,12 +175,12 @@ foreach ($commandesUtilisateur as $commande) {
             <?php $i = 1; ?>
             <h2>Anciennes Commandes</h2>
 
-            <?php if (empty($commandesUtilisateur)) { ?>
+            <?php if(empty($commandesUtilisateur)){ ?>
                 <p>Aucune commande trouvée.</p>
             <?php } else { ?>
-                <?php foreach ($commandesUtilisateur as $commande) { ?>
+                <?php foreach ($commandesUtilisateur as $commande){ ?>
                     <?php
-                    if (($commande["type"] ?? "") === "bon_reduction_admin") {
+                    if(($commande["type"] ?? "") === "bon_reduction_admin"){
                         continue;
                     }
                     $statutCommande = $commande["statut"] ?? "";
@@ -196,7 +196,7 @@ foreach ($commandesUtilisateur as $commande) {
                         <p>Date : <?php echo htmlspecialchars($commande["date_souhaitee"] ?? $commande["date"] ?? ""); ?></p>
                         <p><strong>Plats :</strong></p>
                         <ul>
-                            <?php foreach (($commande["plats"] ?? []) as $plat) { ?>
+                            <?php foreach (($commande["plats"] ?? []) as $plat){ ?>
                                 <li>
                                     <?php echo htmlspecialchars($plat["nom"] ?? "Produit"); ?>
                                     x<?php echo htmlspecialchars($plat["quantite"] ?? 1); ?>
@@ -208,19 +208,19 @@ foreach ($commandesUtilisateur as $commande) {
                             Total :
                             <?php echo number_format(floatval($commande["total_actuel"] ?? 0), 2, ',', ' '); ?> €
                         </p>
-                        <?php if (!empty($commande["reduction_utilisee"])) { ?>
+                        <?php if(!empty($commande["reduction_utilisee"])){ ?>
                             <p>
                                 Réduction utilisée :
                                 <?php echo number_format(floatval($commande["reduction_utilisee"]), 2, ',', ' '); ?> €
                             </p>
                         <?php } ?>
-                        <?php if ($ticketRestant > 0) { ?>
+                        <?php if($ticketRestant > 0){ ?>
                             <p>
                                 Bon de réduction restant :
                                 <?php echo number_format($ticketRestant, 2, ',', ' '); ?> €
                             </p>
                         <?php } ?>
-                        <?php if ($modifiable) { ?>
+                        <?php if($modifiable){ ?>
                             <a class="btn-link" href="modifier-commande.php?id=<?php echo htmlspecialchars($commande["id"] ?? ""); ?>">
                                 Modifier cette commande
                             </a>
@@ -241,9 +241,9 @@ foreach ($commandesUtilisateur as $commande) {
             <p class="fidelite-texte">
                 Tu peux choisir de les utiliser au moment de valider une commande.
             </p>
-            <?php if (!empty($bonsReductionDisponibles)) { ?>
+            <?php if(!empty($bonsReductionDisponibles)){ ?>
                 <div class="bons-liste">
-                    <?php foreach ($bonsReductionDisponibles as $bon) { ?>
+                    <?php foreach ($bonsReductionDisponibles as $bon){ ?>
                         <div class="bon-item">
                             <p>
                                 <strong>
@@ -253,13 +253,13 @@ foreach ($commandesUtilisateur as $commande) {
                             <p>
                                 <?php echo htmlspecialchars($bon["source"]); ?>
                             </p>
-                            <?php if (!empty($bon["date"])) { ?>
+                            <?php if(!empty($bon["date"])){ ?>
                                 <p>
                                     Date :
                                     <?php echo htmlspecialchars($bon["date"]); ?>
                                 </p>
                             <?php } ?>
-                            <?php if (!empty($bon["commentaire"])) { ?>
+                            <?php if(!empty($bon["commentaire"])){ ?>
                                 <p>
                                     Commentaire :
                                     <?php echo htmlspecialchars($bon["commentaire"]); ?>
@@ -294,7 +294,7 @@ btnModifier.addEventListener("click", () => {
     btnEnregistrer.style.display = "inline-block";
 });
 form.addEventListener("submit", profil);
-async function profil(event) {
+async function profil(event){
     event.preventDefault();
     const formData = new FormData(form);
     try {
@@ -304,7 +304,7 @@ async function profil(event) {
         });
         const data = await response.text();
         message.textContent = data;
-        if (data.toLowerCase().includes("succès")) {
+        if(data.toLowerCase().includes("succès")){
             message.style.color = "green";
             champs.forEach(champ => {
                 champ.disabled = true;
@@ -321,7 +321,7 @@ async function profil(event) {
                 });
             });
         }
-    } catch (error) {
+    } catch (error){
         message.textContent = "Erreur lors de la mise à jour.";
         message.style.color = "red";
         btnEnregistrer.disabled = true;
@@ -331,7 +331,7 @@ async function profil(event) {
 const infosInput = document.getElementById("infos");
 const compteur = document.getElementById("compteur-infos");
 compteur.innerText = infosInput.value.length + "/200 caractères";
-infosInput.addEventListener("input", function () {
+infosInput.addEventListener("input", function (){
     if(infosInput.value.length > 200){
         infosInput.value = infosInput.value.substring(0, 200);
     }

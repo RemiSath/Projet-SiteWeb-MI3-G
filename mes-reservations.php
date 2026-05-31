@@ -2,7 +2,7 @@
 session_start();
 include "bibliothèques/bloquer.php";
 
-if (!isset($_SESSION["email"])) {
+if(!isset($_SESSION["email"])){
     $_SESSION["erreur"] = "Connectez-vous pour voir vos réservations.";
     header("Location: page-d'accueil.php");
     exit();
@@ -14,35 +14,33 @@ $fichier = __DIR__ . "/data/reservation.json";
 $reservations = [];
 $mesReservations = [];
 
-if (file_exists($fichier)) {
+if(file_exists($fichier)){
     $json = file_get_contents($fichier);
     $reservations = json_decode($json, true);
 
-    if (!is_array($reservations)) {
+    if(!is_array($reservations)){
         $reservations = [];
     }
 }
 
-foreach ($reservations as $reservation) {
-    if (strtolower(trim($reservation["email"] ?? "")) === $emailClient) {
+foreach ($reservations as $reservation){
+    if(strtolower(trim($reservation["email"] ?? "")) === $emailClient){
         $mesReservations[] = $reservation;
     }
 }
 
-usort($mesReservations, function ($a, $b) {
+usort($mesReservations, function ($a, $b){
     $dateA = ($a["date"] ?? "") . " " . ($a["time"] ?? "");
     $dateB = ($b["date"] ?? "") . " " . ($b["time"] ?? "");
 
     return strtotime($dateA) <=> strtotime($dateB);
 });
 
-function h($value)
-{
+function h($value){
     return htmlspecialchars((string)$value, ENT_QUOTES, "UTF-8");
 }
 
-function reservationFuture($reservation)
-{
+function reservationFuture($reservation){
     $dateReservation = ($reservation["date"] ?? "") . " " . ($reservation["time"] ?? "00:00");
     return strtotime($dateReservation) > time();
 }
@@ -114,14 +112,14 @@ function reservationFuture($reservation)
 </div>
 
 <main class="container">
-    <?php if (isset($_SESSION["message2"])) { ?>
+    <?php if(isset($_SESSION["message2"])){ ?>
         <div class="message">
             <?php echo h($_SESSION["message2"]); ?>
         </div>
         <?php unset($_SESSION["message2"]); ?>
     <?php } ?>
 
-    <?php if (isset($_SESSION["erreur"])) { ?>
+    <?php if(isset($_SESSION["erreur"])){ ?>
         <div class="erreur">
             <?php echo h($_SESSION["erreur"]); ?>
         </div>
@@ -129,10 +127,10 @@ function reservationFuture($reservation)
     <?php } ?>
 
     <div class="grid2">
-        <?php if (empty($mesReservations)) { ?>
+        <?php if(empty($mesReservations)){ ?>
             <p>Aucune réservation trouvée.</p>
         <?php } else { ?>
-            <?php foreach ($mesReservations as $reservation) { ?>
+            <?php foreach ($mesReservations as $reservation){ ?>
                 <?php $modifiable = reservationFuture($reservation); ?>
 
                 <div class="order-card">
@@ -184,7 +182,7 @@ function reservationFuture($reservation)
                             </div>
                         </details>
 
-                        <?php if ($modifiable) { ?>
+                        <?php if($modifiable){ ?>
                             <a class="btn-link" href="modifier-reservation.php?id=<?php echo h($reservation["id"] ?? ""); ?>">
                                 Modifier cette réservation
                             </a>

@@ -2,6 +2,11 @@
 session_start();
 include "bibliothèques/bloquer.php";
 
+if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+    header("Location: commander.php");
+    exit();
+}
+
 $panier = $_SESSION["panier"] ?? [];
 
 if(empty($panier)){

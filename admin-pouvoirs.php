@@ -252,13 +252,11 @@ foreach ($commandes as $commande) {
         const formData = new FormData();
         formData.append("action", event.target.value);
         formData.append("id", "<?php echo $id; ?>");
+        formData.append("requete_fetch", "1");
         try{
             const response = await fetch("admin-actions.php", {
                 method: "POST",
-                body: formData,
-                headers: {
-                    "X-Requested-With": "XMLHttpRequest"
-                }
+                body: formData
             });
             const resultat = await response.json();
             if(!resultat.success){

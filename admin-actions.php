@@ -6,15 +6,12 @@ if (!isset($_SESSION["statut"]) || $_SESSION["statut"] !== "Admin") {
     exit();
 }
 
-$isAjax =
-    isset($_SERVER["HTTP_X_REQUESTED_WITH"]) &&
-    strtolower($_SERVER["HTTP_X_REQUESTED_WITH"]) === "xmlhttprequest";
+$isFetch = isset($_POST["requete_fetch"]);
 
 function repondre($success, $message, $extra = [])
 {
-    global $isAjax;
-
-    if ($isAjax) {
+    global $isFetch;
+    if ($isFetch) {
         header("Content-Type: application/json; charset=utf-8");
         echo json_encode(array_merge([
             "success" => $success,
@@ -22,7 +19,6 @@ function repondre($success, $message, $extra = [])
         ], $extra));
         exit();
     }
-
     if ($success) {
         $_SESSION["message_admin"] = $message;
     } else {
@@ -162,7 +158,6 @@ if ($action === "remise") {
         json_encode($commandes, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE),
         LOCK_EX
     );
-
     $message = "Bon de réduction accordé avec succès.";
 }
 

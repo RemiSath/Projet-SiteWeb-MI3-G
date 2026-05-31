@@ -2,7 +2,7 @@
 session_start();
 
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
-    header("Location: page-d'acceuil.php");
+    header("Location: page-d'accueil.php");
     exit();
 }
 

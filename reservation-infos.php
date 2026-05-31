@@ -1,6 +1,11 @@
 <?php
 session_start();
 
+if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+    header("Location: reserver.php");
+    exit();
+}
+
 $fichier = __DIR__ . "/data/reservation.json";
 
 if(!is_dir(__DIR__ . "/data")){

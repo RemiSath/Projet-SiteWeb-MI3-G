@@ -1,6 +1,11 @@
 <?php
     session_start();
 
+    if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+        header("Location: commander.php");
+        exit();
+    }
+
     if(!isset($_SESSION["panier"])){
         $_SESSION["panier"] = [];
     }

@@ -161,7 +161,8 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
                             $commandes,
                             JSON_PRETTY_PRINT |
                             JSON_UNESCAPED_UNICODE
-                        )
+                        ),
+                        LOCK_EX
                     );
                     $response = [
                         "success" => true,

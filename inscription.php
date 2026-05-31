@@ -234,7 +234,6 @@
         const compteur = document.createElement("div");
         compteur.classList.add("compteur");
         infosInput.parentElement.appendChild(compteur);
-        
         infosInput.addEventListener("input", infos);
         async function infos() {
             if(infosInput.value.length > 200){

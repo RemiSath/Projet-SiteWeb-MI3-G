@@ -156,7 +156,8 @@ foreach ($commandesUtilisateur as $commande) {
                 </div>
                 <div class="info-ligne">
                     <span class="info-label">Informations complémentaires</span>
-                    <textarea name="infos" class="info-input" disabled><?php echo htmlspecialchars($data["infos"]); ?></textarea>
+                    <textarea id="infos" name="infos" class="info-input" disabled><?php echo htmlspecialchars($data["infos"]); ?></textarea>
+                    <div id="compteur-infos" class="compteur"></div>
                 </div>
                 <button type="button" class="btn-modifier" id="btnModifier">
                     <img src="Images/stylo.png" alt="Modifier" class="crayon-icon">
@@ -326,6 +327,16 @@ async function profil(event) {
         btnEnregistrer.disabled = true;
     }
 }
+
+const infosInput = document.getElementById("infos");
+const compteur = document.getElementById("compteur-infos");
+compteur.innerText = infosInput.value.length + "/200 caractères";
+infosInput.addEventListener("input", function () {
+    if(infosInput.value.length > 200){
+        infosInput.value = infosInput.value.substring(0, 200);
+    }
+    compteur.innerText = infosInput.value.length + "/200 caractères";
+});
 </script>
 <script src="cookie.js"></script>
 </body>

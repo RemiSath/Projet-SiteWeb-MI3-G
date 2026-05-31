@@ -95,7 +95,8 @@
 
     $resultat = file_put_contents(
         $fichier,
-        json_encode($utilisateurs, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)
+        json_encode($utilisateurs, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE),
+        LOCK_EX
     );
 
     if($resultat === false){

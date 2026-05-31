@@ -13,6 +13,18 @@
         "bloque": false
     },
     {
+        "id": "6a1ca2efa1657",
+        "nom": "Admin2",
+        "prenom": "Admin2",
+        "email": "admin2@gmail.com",
+        "motdepasse": "$2y$12$9.CXe0hoZUN1S.5VZj2uT.m2XBHCraIqn4ISsVWQNi9mTvMfXvXf6",
+        "adresse": "0 rue d'admin2",
+        "telephone": "06 67 57 47 37",
+        "infos": "",
+        "statut": "Admin",
+        "bloque": false
+    },
+    {
         "mdp restaurateur": "restaurateur",
         "id": "69d1739789ec0",
         "nom": "Restaurateur",

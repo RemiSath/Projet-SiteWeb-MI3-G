@@ -1,6 +1,11 @@
 <?php
     session_start();
 
+    if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+        header("Location: inscription.php");
+        exit;
+    }
+
     function ecritureFichier(){
 
         $fichier = __DIR__ . "/data/compte.json";
@@ -84,7 +89,11 @@
             "bloque" => false,
         );
 
-        file_put_contents($fichier, json_encode($utilisateurs, JSON_PRETTY_PRINT));
+        file_put_contents(
+            $fichier,
+            json_encode($utilisateurs, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE),
+            LOCK_EX
+        );
 
         $_SESSION["nom"] = $nom;
         $_SESSION["prenom"] = $prenom;

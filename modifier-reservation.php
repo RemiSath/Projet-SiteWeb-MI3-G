@@ -94,6 +94,26 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit();
     }
 
+    $restaurantsAutorises = ["Paris", "Argenteuil", "Cergy"];
+
+    if (!in_array($restaurant, $restaurantsAutorises, true)) {
+        $_SESSION["erreur"] = "Restaurant invalide.";
+        header("Location: modifier-reservation.php?id=" . urlencode($id));
+        exit();
+    }
+
+    if ($adultes > 20 || $enfants > 20) {
+        $_SESSION["erreur"] = "Nombre de personnes trop élevé.";
+        header("Location: modifier-reservation.php?id=" . urlencode($id));
+        exit();
+    }
+
+    if (strlen($commentaire) > 200) {
+        $_SESSION["erreur"] = "Commentaire trop long.";
+        header("Location: modifier-reservation.php?id=" . urlencode($id));
+        exit();
+    }
+
     $reservations[$indexReservation]["nom"] = $nom;
     $reservations[$indexReservation]["prenom"] = $prenom;
     $reservations[$indexReservation]["adultes"] = $adultes;

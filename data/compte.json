@@ -39,6 +39,7 @@
         "bloque": false
     },
     {
+        "mdp restaurateur": "client1",
         "id": "6a13234d18680",
         "nom": "Client",
         "prenom": "Client1",
@@ -51,6 +52,7 @@
         "bloque": false
     },
     {
+        "mdp restaurateur": "client2",
         "id": "6a13236f1c483",
         "nom": "Client",
         "prenom": "Client2",
@@ -63,6 +65,7 @@
         "bloque": false
     },
     {
+        "mdp restaurateur": "client3",
         "id": "6a1323846281a",
         "nom": "Client",
         "prenom": "Client3",
@@ -75,6 +78,7 @@
         "bloque": false
     },
     {
+        "mdp restaurateur": "client4",
         "id": "6a1323995bd0e",
         "nom": "Client",
         "prenom": "Client4",
@@ -87,6 +91,7 @@
         "bloque": false
     },
     {
+        "mdp restaurateur": "client5",
         "id": "6a1323add3216",
         "nom": "Client",
         "prenom": "Client5",

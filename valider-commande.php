@@ -72,6 +72,13 @@ $date_souhaitee = trim($_POST["date_souhaitee"] ?? "");
 $heure_souhaitee = trim($_POST["heure_souhaitee"] ?? "");
 $erreurs = [];
 
+if (!empty($_SESSION["email"])) {
+    $email = strtolower(trim($_SESSION["email"]));
+    $nomComplet = trim(($_SESSION["prenom"] ?? "") . " " . ($_SESSION["nom"] ?? ""));
+    $adresse = trim($_SESSION["adresse"] ?? "");
+    $telephone = trim($_SESSION["telephone"] ?? "");
+}
+
 if(strlen($nomComplet) < 2){
     $erreurs[] = "Nom invalide.";
 }

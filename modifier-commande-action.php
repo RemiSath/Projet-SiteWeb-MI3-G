@@ -1,6 +1,11 @@
 <?php
 session_start();
 
+if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+    header("Location: profil.php");
+    exit();
+}
+
 if(!isset($_SESSION["email"])){
     header("Location: connexion.php");
     exit();
@@ -51,6 +56,12 @@ $action = $_POST["action"] ?? "";
 $nom = trim($_POST["nom"] ?? "");
 $prix = prixProduit($nom);
 $emailSession = strtolower(trim($_SESSION["email"]));
+
+if (!in_array($action, ["ajouter", "retirer"], true)) {
+    $_SESSION["erreur"] = "Action invalide.";
+    header("Location: profil.php");
+    exit();
+}
 
 foreach ($commandes as &$commande){
     if(intval($commande["id"] ?? 0) === $id && strtolower(trim($commande["email"] ?? "")) === $emailSession){

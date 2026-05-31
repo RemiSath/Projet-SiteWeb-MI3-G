@@ -51,7 +51,7 @@ require(__DIR__ . "/getapikey.php");
 
 $montant = number_format($difference, 2, '.', '');
 $vendeur = "MI-3_G";
-$retour = "http://localhost:8080/retour-paiement.php";
+$retour = "http://localhost/projet/retour-paiement.php";
 
 $api_key = getAPIKey($vendeur);
 

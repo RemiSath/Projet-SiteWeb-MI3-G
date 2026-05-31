@@ -10,7 +10,6 @@ if (!isset($_SESSION["email"])) {
 
 $emailClient = strtolower(trim($_SESSION["email"]));
 $fichierCommandes = __DIR__ . "/data/commandes.json";
-
 $commandes = [];
 $commandesLivrees = [];
 
@@ -41,7 +40,6 @@ $peutNoter = !empty($commandesLivrees);
 
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -50,7 +48,6 @@ $peutNoter = !empty($commandesLivrees);
     <link rel="icon" href="Images/Among_Us.png">
     <title>Notation</title>
 </head>
-
 <body>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -62,7 +59,6 @@ $peutNoter = !empty($commandesLivrees);
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Annie+Use+Your+Telescope&display=swap" rel="stylesheet">
-
     <header class="navbar">
         <a href="page-d'accueil.php" class="accueil">IMPOSTEUR</a>
         <div class="navliens">
@@ -99,11 +95,9 @@ $peutNoter = !empty($commandesLivrees);
             <button id="theme-button">Changer le thème</button>
         </div>
     </header>
-
 <div class="sitedescription4">
     <h1>Notez-nous</h1>
     <p class="textedescription4">Votre avis compte pour nous !</p>
-
     <div class="container-notation">
         <div class="reservation2">
             <?php if (isset($_SESSION["message"])) { ?>
@@ -112,11 +106,9 @@ $peutNoter = !empty($commandesLivrees);
                 </div>
                 <?php unset($_SESSION["message"]); ?>
             <?php } ?>
-
             <?php if ($peutNoter) { ?>
                 <form id="formNotation" action="envoyer-notation.php" method="POST">
                     <label>Commande livrée à noter</label>
-
                     <select id="commande_id" name="commande_id" required>
                         <?php foreach ($commandesLivrees as $commande) { ?>
                             <option value="<?php echo htmlspecialchars($commande["id"] ?? ""); ?>">
@@ -126,21 +118,17 @@ $peutNoter = !empty($commandesLivrees);
                             </option>
                         <?php } ?>
                     </select>
-
                     <div class="row">
                         <input type="number" id="livraison" name="livraison" placeholder="Livraison" min="0" max="5" required>
                         <p>0 à 5</p>
                     </div>
-
                     <div class="row">
                         <input type="number" id="qualite" name="qualite" placeholder="Qualité des produits" min="0" max="5" required>
                         <p>0 à 5</p>
                     </div>
-
                     <div class="row">
                         <textarea id="commentaires" name="commentaires" placeholder="Commentaires"></textarea>
                     </div>
-
                     <button type="submit">Envoyer</button>
                 </form>
             <?php } else { ?>
@@ -150,7 +138,6 @@ $peutNoter = !empty($commandesLivrees);
                 </div>
             <?php } ?>
         </div>
-
         <div class="vide">
             <img src="Images/crewmate.gif" alt="" class="crewmate-notation">
         </div>
@@ -165,8 +152,9 @@ $peutNoter = !empty($commandesLivrees);
 
 <script>
     const form = document.getElementById("formNotation");
-    form.addEventListener("submit", notation);
-
+    if(form){
+        form.addEventListener("submit", notation);
+    }
     function notation(event){
         supprimerMessages();
         let valide = true;

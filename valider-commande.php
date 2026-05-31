@@ -12,11 +12,9 @@ if (empty($panier)) {
 function totalPanier($panier)
 {
     $total = 0;
-
     foreach ($panier as $item) {
         $total += floatval($item["prix"]) * intval($item["quantite"]);
     }
-
     return $total;
 }
 
@@ -24,7 +22,6 @@ function calculerTicketDisponible($commandes, $email)
 {
     $total = 0;
     $email = strtolower(trim($email));
-
     foreach ($commandes as $commande) {
         if (strtolower(trim($commande["email"] ?? "")) === $email) {
             $ticket = floatval($commande["ticket_reduction"] ?? 0);
@@ -32,7 +29,6 @@ function calculerTicketDisponible($commandes, $email)
             $total += max(0, $ticket - $utilise);
         }
     }
-
     return $total;
 }
 
@@ -40,24 +36,19 @@ function utiliserTicketReduction(&$commandes, $email, $montantAUtiliser)
 {
     $email = strtolower(trim($email));
     $resteAUtiliser = floatval($montantAUtiliser);
-
     foreach ($commandes as &$commande) {
         if ($resteAUtiliser <= 0) {
             break;
         }
-
         if (strtolower(trim($commande["email"] ?? "")) !== $email) {
             continue;
         }
-
         $ticket = floatval($commande["ticket_reduction"] ?? 0);
         $utilise = floatval($commande["ticket_reduction_utilise"] ?? 0);
         $disponible = max(0, $ticket - $utilise);
-
         if ($disponible <= 0) {
             continue;
         }
-
         $montantPris = min($disponible, $resteAUtiliser);
         $commande["ticket_reduction_utilise"] = $utilise + $montantPris;
         $resteAUtiliser -= $montantPris;
@@ -73,15 +64,12 @@ $ville = trim($_POST["city"] ?? "");
 $telephone = trim($_POST["phone"] ?? "");
 $email = strtolower(trim($_POST["email"] ?? $_SESSION["email"] ?? ""));
 $motdepasse = $_POST["motdepasse"] ?? "";
-
 $interphone = trim($_POST["interphone"] ?? "");
 $etage = trim($_POST["floor"] ?? "");
 $commentaires = trim($_POST["comments"] ?? "");
-
 $planification = $_POST["planification"] ?? "immediate";
 $date_souhaitee = trim($_POST["date_souhaitee"] ?? "");
 $heure_souhaitee = trim($_POST["heure_souhaitee"] ?? "");
-
 if ($planification === "plus_tard" && strtotime($date_souhaitee) <= strtotime(date("Y-m-d"))) {
     $_SESSION["erreur"] = "La date de commande doit être dans le futur.";
     header("Location: commander.php");
@@ -89,13 +77,11 @@ if ($planification === "plus_tard" && strtotime($date_souhaitee) <= strtotime(da
 }
 
 $date_planifiee = null;
-
 if ($planification === "plus_tard" && $date_souhaitee !== "" && $heure_souhaitee !== "") {
     $date_planifiee = $date_souhaitee . " " . $heure_souhaitee;
 }
 
 $adresse_complete = $adresse . ", " . $code_postal . " " . $ville;
-
 $dirData = __DIR__ . "/data";
 $fichierComptes = $dirData . "/compte.json";
 $fichierCommandes = $dirData . "/commandes.json";
@@ -105,30 +91,24 @@ if (empty($_SESSION["email"])) {
         header("Location: commander.php?erreur=champs_compte");
         exit();
     }
-
     if (!is_dir($dirData)) {
         mkdir($dirData, 0777, true);
     }
-
     $comptes = file_exists($fichierComptes)
         ? json_decode(file_get_contents($fichierComptes), true)
         : [];
-
     if (!is_array($comptes)) {
         $comptes = [];
     }
-
     foreach ($comptes as $compte) {
         if (strtolower($compte["email"] ?? "") === $email) {
             header("Location: commander.php?erreur=email_existe");
             exit();
         }
     }
-
     $partiesNom = preg_split('/\s+/', trim($nomComplet), 2);
     $prenom = $partiesNom[0] ?? "";
     $nom = $partiesNom[1] ?? "";
-
     $nouveauCompte = [
         "id" => uniqid(),
         "nom" => $nom,
@@ -141,15 +121,12 @@ if (empty($_SESSION["email"])) {
         "statut" => "Client",
         "bloque" => false
     ];
-
     $comptes[] = $nouveauCompte;
-
     file_put_contents(
         $fichierComptes,
         json_encode($comptes, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE),
         LOCK_EX
     );
-
     $_SESSION["email"] = $email;
     $_SESSION["nom"] = $nom;
     $_SESSION["prenom"] = $prenom;
@@ -162,16 +139,13 @@ if (empty($_SESSION["email"])) {
 $commandesExistantes = file_exists($fichierCommandes)
     ? json_decode(file_get_contents($fichierCommandes), true)
     : [];
-
 if (!is_array($commandesExistantes)) {
     $commandesExistantes = [];
 }
 
 $total = totalPanier($panier);
 $ticketDisponible = calculerTicketDisponible($commandesExistantes, $email);
-
 $utiliserReduction = isset($_POST["utiliser_reduction"]) && $_POST["utiliser_reduction"] === "1";
-
 if ($utiliserReduction) {
     $reductionUtilisee = min($total, $ticketDisponible);
 } else {
@@ -208,14 +182,11 @@ $commande = [
 
 if ($totalAPayer <= 0) {
     utiliserTicketReduction($commandesExistantes, $email, $reductionUtilisee);
-
     $commande["id"] = !empty($commandesExistantes)
         ? max(array_column($commandesExistantes, "id")) + 1
         : 1;
-
     $commande["total_paye"] = 0;
     $commande["reste_a_payer"] = 0;
-
     $commande["paiements"][] = [
         "transaction" => "ticket_" . uniqid(),
         "montant" => 0,
@@ -224,17 +195,13 @@ if ($totalAPayer <= 0) {
         "reduction_utilisee" => $reductionUtilisee,
         "date" => date("Y-m-d H:i:s")
     ];
-
     $commandesExistantes[] = $commande;
-
     file_put_contents(
         $fichierCommandes,
         json_encode($commandesExistantes, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE),
         LOCK_EX
     );
-
     unset($_SESSION["panier"]);
-
     header("Location: Notation.php");
     exit();
 }
@@ -242,12 +209,9 @@ if ($totalAPayer <= 0) {
 $transaction = uniqid();
 $montant = number_format($totalAPayer, 2, '.', '');
 $vendeur = "MI-3_G";
-$retour = "http://localhost:8080/retour-paiement.php";
-
+$retour = "http://localhost/projet/retour-paiement.php";
 require(__DIR__ . "/getapikey.php");
-
 $api_key = getAPIKey($vendeur);
-
 $control = md5(
     $api_key . "#" .
     $transaction . "#" .

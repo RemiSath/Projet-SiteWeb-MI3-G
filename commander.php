@@ -104,7 +104,7 @@ foreach ($panier as $item) {
     }
 
     if (isset($_GET["erreur"]) && $_GET["erreur"] === "email_existe") {
-        echo "<div class='erreur'>Cet email est déjà utilisé.</div>";
+        echo "<div class='erreur'>Cet email est déjà  utilisé.</div>";
     }
     ?>
 
@@ -285,7 +285,7 @@ foreach ($panier as $item) {
 
     form.addEventListener("submit", commande);
 
-    async function commande(event){
+    function commande(event){
         supprimerMessages();
         const panierVide = document.querySelector(".cart-empty");
 
@@ -312,29 +312,6 @@ foreach ($panier as $item) {
         const regexPostal = /^[0-9]{5}$/;
         const regexTelephone = /^0[1-9](\s?[0-9]{2}){4}$/;
         const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-        const formData = new FormData(form);
-
-        try{
-            const response = await fetch("valider-commande.php", {
-                method: "POST",
-                body: formData
-            });
-
-            const data = await response.text();
-
-            if(data === "email"){
-                afficherErreur(email, "Adresse mail déjà utilisée");
-            }
-            else if(data === "bloque"){
-                afficherErreur(motdepasse, "Compte bloqué par l'administrateur");
-            }
-        }
-
-        catch(error){
-            afficherErreur(motdepasse, "ERREUR : Impossible de se connecter");
-        }
-
         if(nom){
             if(nom.value.trim().length < 2){
                 afficherErreur(nom, "Nom invalide");
@@ -459,3 +436,4 @@ foreach ($panier as $item) {
 <script src="cookie.js"></script>
 </body>
 </html>
+

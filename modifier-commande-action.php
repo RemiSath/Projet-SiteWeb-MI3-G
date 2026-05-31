@@ -20,6 +20,26 @@ function commandeModifiable($statut)
     return in_array($statut, ["a_preparer", "payee", "en_attente"], true);
 }
 
+function prixProduit($nom)
+{
+    $fichierProduits = __DIR__ . "/data/produits.json";
+    $produits = file_exists($fichierProduits)
+        ? json_decode(file_get_contents($fichierProduits), true)
+        : [];
+
+    if (!is_array($produits)) {
+        return 0;
+    }
+
+    foreach ($produits as $produit) {
+        if (($produit["nom"] ?? "") === $nom) {
+            return floatval($produit["prix"] ?? 0);
+        }
+    }
+
+    return 0;
+}
+
 $fichierCommandes = __DIR__ . "/data/commandes.json";
 $commandes = file_exists($fichierCommandes)
     ? json_decode(file_get_contents($fichierCommandes), true)
@@ -32,7 +52,7 @@ if (!is_array($commandes)) {
 $id = intval($_POST["commande_id"] ?? 0);
 $action = $_POST["action"] ?? "";
 $nom = trim($_POST["nom"] ?? "");
-$prix = floatval($_POST["prix"] ?? 0);
+$prix = prixProduit($nom);
 $emailSession = strtolower(trim($_SESSION["email"]));
 
 foreach ($commandes as &$commande) {

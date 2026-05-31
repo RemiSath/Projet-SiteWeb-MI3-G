@@ -9,7 +9,6 @@ if (!isset($_SESSION["statut"]) || $_SESSION["statut"] !== "Admin") {
 
 $fichierComptes = __DIR__ . "/data/compte.json";
 $fichierCommandes = __DIR__ . "/data/commandes.json";
-
 if (!is_dir(__DIR__ . "/data")) {
     mkdir(__DIR__ . "/data", 0777, true);
 }
@@ -17,7 +16,6 @@ if (!is_dir(__DIR__ . "/data")) {
 $utilisateurs = file_exists($fichierComptes)
     ? json_decode(file_get_contents($fichierComptes), true)
     : [];
-
 if (!is_array($utilisateurs)) {
     $utilisateurs = [];
 }
@@ -25,7 +23,6 @@ if (!is_array($utilisateurs)) {
 $commandes = file_exists($fichierCommandes)
     ? json_decode(file_get_contents($fichierCommandes), true)
     : [];
-
 if (!is_array($commandes)) {
     $commandes = [];
 }
@@ -36,7 +33,6 @@ if (!isset($_GET["id"])) {
 
 $id = $_GET["id"];
 $utilisateur = null;
-
 foreach ($utilisateurs as $u) {
     if (($u["id"] ?? "") === $id) {
         $utilisateur = $u;
@@ -81,7 +77,6 @@ foreach ($commandes as $commande) {
 
 <header class="navbar">
     <a href="page-d'accueil.php" class="accueil">IMPOSTEUR</a>
-
     <div class="navliens">
         <div class="menu">
             <a>Réservation</a>
@@ -91,11 +86,9 @@ foreach ($commandes as $commande) {
                 <a href="commander.php">Commander</a>
             </div>
         </div>
-
         <div class="menu">
             <a href="Notation.php">Notation</a>
         </div>
-
         <div class="menu">
             <a>Compte</a>
             <div class="infos">
@@ -105,7 +98,6 @@ foreach ($commandes as $commande) {
                 <a href="deconnexion.php">Deconnexion</a>
             </div>
         </div>
-
         <div class="menu">
             <a>Services</a>
             <div class="infos">
@@ -113,7 +105,6 @@ foreach ($commandes as $commande) {
                 <a href="livraison.php">Livraison</a>
             </div>
         </div>
-
         <div class="menu">
             <a href="Admin.php">Admin</a>
         </div>
@@ -155,56 +146,48 @@ foreach ($commandes as $commande) {
                         <?php echo htmlspecialchars($utilisateur["statut"] ?? ""); ?>
                     </div>
                 </div>
-
                 <div class="info-ligne2">
                     <span class="info-label">Compte</span>
                     <div class="info-valeur2" id="statut-compte">
                         <?php echo !empty($utilisateur["bloque"]) ? "Bloqué" : "Actif"; ?>
                     </div>
                 </div>
-
                 <div class="info-ligne2">
                     <span class="info-label">Nom</span>
                     <div class="info-valeur2">
                         <?php echo htmlspecialchars($utilisateur["nom"] ?? ""); ?>
                     </div>
                 </div>
-
                 <div class="info-ligne2">
                     <span class="info-label">Prénom</span>
                     <div class="info-valeur2">
                         <?php echo htmlspecialchars($utilisateur["prenom"] ?? ""); ?>
                     </div>
                 </div>
-
                 <div class="info-ligne2">
                     <span class="info-label">E-mail</span>
                     <div class="info-valeur2">
                         <?php echo htmlspecialchars($utilisateur["email"] ?? ""); ?>
                     </div>
                 </div>
-
                 <div class="info-ligne2">
                     <span class="info-label">Téléphone</span>
                     <div class="info-valeur2">
                         <?php echo htmlspecialchars($utilisateur["telephone"] ?? ""); ?>
                     </div>
                 </div>
-
                 <div class="info-ligne2">
                     <span class="info-label">Adresse</span>
                     <div class="info-valeur2">
                         <?php echo htmlspecialchars($utilisateur["adresse"] ?? ""); ?>
                     </div>
                 </div>
-
                 <div class="info-ligne2">
                     <span class="info-label">Informations complémentaires</span>
                     <div class="info-valeur2">
                         <?php echo htmlspecialchars($utilisateur["infos"] ?? ""); ?>
                     </div>
                 </div>
-
                 <div class="info-ligne2">
                     <span class="info-label">Bons de réduction disponibles</span>
                     <div class="info-valeur2">
@@ -215,47 +198,35 @@ foreach ($commandes as $commande) {
 
             <div class="actions-admin">
                 <h2>Actions administrateur</h2>
-
                 <form method="post" action="admin-actions.php" id="formAdmin">
                     <input type="hidden" name="id" value="<?php echo htmlspecialchars($id); ?>">
-
                     <button type="submit" name="action" value="bloquer" class="btn-modifier2">
                         Bloquer
                     </button>
-
                     <button type="submit" name="action" value="debloquer" class="btn-modifier2">
                         Débloquer
                     </button>
-
                     <button type="submit" name="action" value="premium" class="btn-modifier2">
                         Premium
                     </button>
-
                     <button type="submit" name="action" value="vip" class="btn-modifier2">
                         VIP
                     </button>
-
                     <button type="submit" name="action" value="client" class="btn-modifier2">
                         Client
                     </button>
                 </form>
-
                 <h2>Accorder un bon</h2>
-
                 <form method="post" action="admin-actions.php">
                     <input type="hidden" name="id" value="<?php echo htmlspecialchars($id); ?>">
-
                     <label>Montant du bon (€)</label>
                     <input type="number" name="montant_reduction" min="0.01" step="0.01" required>
-
                     <label>Commentaire</label>
                     <textarea name="commentaire_reduction" rows="3" placeholder="Ex : geste commercial"></textarea>
-
                     <button type="submit" name="action" value="remise" class="btn-modifier2">
                         Accorder le bon
                     </button>
                 </form>
-
                 <a href="Admin.php" class="btn-link">Retour admin</a>
             </div>
         </div>
@@ -272,52 +243,44 @@ foreach ($commandes as $commande) {
     const form = document.getElementById("formAdmin");
     const statutClient = document.getElementById("statut-client");
     const statutCompte = document.getElementById("statut-compte");
-
     form.addEventListener("click", actions);
-
     async function actions(event){
-
         if(event.target.tagName !== "BUTTON"){
             return;
         }
-
         event.preventDefault();
-
         const formData = new FormData();
         formData.append("action", event.target.value);
         formData.append("id", "<?php echo $id; ?>");
-
         try{
-
             const response = await fetch("admin-actions.php", {
                 method: "POST",
-                body: formData
+                body: formData,
+                headers: {
+                    "X-Requested-With": "XMLHttpRequest"
+                }
             });
-
-            const resultat = await response.text();
-
-            if(event.target.value === "bloquer"){
+            const resultat = await response.json();
+            if(!resultat.success){
+                alert(resultat.message);
+                return;
+            }
+            if(resultat.bloque){
                 statutCompte.innerText = "Bloqué";
             }
-            else if(event.target.value === "debloquer"){
+            else{
                 statutCompte.innerText = "Actif";
             }
-            else if(event.target.value === "premium"){
-                statutClient.innerText = "Premium";
-            }
-            else if(event.target.value === "vip"){
-                statutClient.innerText = "VIP";
-            }
-            else if(event.target.value === "client"){
-                statutClient.innerText = "Client";
+            if(resultat.statut){
+                statutClient.innerText = resultat.statut;
             }
         }
-
         catch(error){
-            console.log("Erreur serveur");
+            alert("Erreur serveur");
         }
     }
-    </script>
+</script>
 <script src="cookie.js"></script>
 </body>
 </html>
+

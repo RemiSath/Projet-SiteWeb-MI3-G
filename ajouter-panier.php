@@ -6,9 +6,25 @@ if (!isset($_SESSION["panier"])) {
 }
 
 $nom = trim($_POST["nom"] ?? "");
-$prix = floatval($_POST["prix"] ?? 0);
+$prix = 0;
 
-if ($nom !== "") {
+$fichierProduits = __DIR__ . "/data/produits.json";
+$produits = file_exists($fichierProduits)
+    ? json_decode(file_get_contents($fichierProduits), true)
+    : [];
+
+if (!is_array($produits)) {
+    $produits = [];
+}
+
+foreach ($produits as $produit) {
+    if (($produit["nom"] ?? "") === $nom) {
+        $prix = floatval($produit["prix"] ?? 0);
+        break;
+    }
+}
+
+if ($nom !== "" && $prix > 0) {
     if (isset($_SESSION["panier"][$nom])) {
         $_SESSION["panier"][$nom]["quantite"]++;
     } else {
@@ -32,7 +48,7 @@ if (
 ) {
     header("Content-Type: application/json");
     echo json_encode([
-        "success" => true,
+        "success" => $prix > 0,
         "total" => $total
     ]);
     exit();

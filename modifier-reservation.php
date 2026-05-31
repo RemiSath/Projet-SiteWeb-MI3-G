@@ -2,7 +2,7 @@
 session_start();
 include "bibliothèques/bloquer.php";
 
-if (!isset($_SESSION["email"])) {
+if(!isset($_SESSION["email"])){
     $_SESSION["erreur"] = "Connectez-vous pour modifier vos réservations.";
     header("Location: connexion.php");
     exit();
@@ -13,11 +13,11 @@ $fichier = __DIR__ . "/data/reservation.json";
 
 $reservations = [];
 
-if (file_exists($fichier)) {
+if(file_exists($fichier)){
     $json = file_get_contents($fichier);
     $reservations = json_decode($json, true);
 
-    if (!is_array($reservations)) {
+    if(!is_array($reservations)){
         $reservations = [];
     }
 }
@@ -26,41 +26,36 @@ $id = $_GET["id"] ?? $_POST["id"] ?? "";
 $reservation = null;
 $indexReservation = null;
 
-foreach ($reservations as $index => $r) {
-    if (
-        ($r["id"] ?? "") === $id &&
-        strtolower(trim($r["email"] ?? "")) === $emailClient
-    ) {
+foreach ($reservations as $index => $r){
+    if(($r["id"] ?? "") === $id && strtolower(trim($r["email"] ?? "")) === $emailClient){
         $reservation = $r;
         $indexReservation = $index;
         break;
     }
 }
 
-if (!$reservation) {
+if(!$reservation){
     $_SESSION["erreur"] = "Réservation introuvable.";
     header("Location: mes-reservations.php");
     exit();
 }
 
-function h($value)
-{
+function h($value){
     return htmlspecialchars((string)$value, ENT_QUOTES, "UTF-8");
 }
 
-function reservationFuture($reservation)
-{
+function reservationFuture($reservation){
     $dateReservation = ($reservation["date"] ?? "") . " " . ($reservation["time"] ?? "00:00");
     return strtotime($dateReservation) > time();
 }
 
-if (!reservationFuture($reservation)) {
+if(!reservationFuture($reservation)){
     $_SESSION["erreur"] = "Cette réservation est passée et ne peut plus être modifiée.";
     header("Location: mes-reservations.php");
     exit();
 }
 
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
+if($_SERVER["REQUEST_METHOD"] === "POST"){
     $nom = trim($_POST["nom"] ?? "");
     $prenom = trim($_POST["prenom"] ?? "");
     $adultes = intval($_POST["adultes"] ?? 1);
@@ -70,25 +65,25 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $restaurant = trim($_POST["restaurant"] ?? "");
     $commentaire = trim($_POST["commentaire"] ?? "");
 
-    if ($nom === "" || $prenom === "" || $date === "" || $time === "" || $restaurant === "") {
+    if($nom === "" || $prenom === "" || $date === "" || $time === "" || $restaurant === ""){
         $_SESSION["erreur"] = "Veuillez remplir tous les champs obligatoires.";
         header("Location: modifier-reservation.php?id=" . urlencode($id));
         exit();
     }
 
-    if (strtotime($date . " " . $time) <= time()) {
+    if(strtotime($date . " " . $time) <= time()){
         $_SESSION["erreur"] = "La date de réservation doit être dans le futur.";
         header("Location: modifier-reservation.php?id=" . urlencode($id));
         exit();
     }
 
-    if ($adultes < 1) {
+    if($adultes < 1){
         $_SESSION["erreur"] = "Il faut au moins un adulte pour réserver.";
         header("Location: modifier-reservation.php?id=" . urlencode($id));
         exit();
     }
 
-    if ($enfants < 0) {
+    if($enfants < 0){
         $_SESSION["erreur"] = "Le nombre d'enfants ne peut pas être négatif.";
         header("Location: modifier-reservation.php?id=" . urlencode($id));
         exit();
@@ -96,19 +91,19 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     $restaurantsAutorises = ["Paris", "Argenteuil", "Cergy"];
 
-    if (!in_array($restaurant, $restaurantsAutorises, true)) {
+    if(!in_array($restaurant, $restaurantsAutorises, true)){
         $_SESSION["erreur"] = "Restaurant invalide.";
         header("Location: modifier-reservation.php?id=" . urlencode($id));
         exit();
     }
 
-    if ($adultes > 20 || $enfants > 20) {
+    if($adultes > 20 || $enfants > 20){
         $_SESSION["erreur"] = "Nombre de personnes trop élevé.";
         header("Location: modifier-reservation.php?id=" . urlencode($id));
         exit();
     }
 
-    if (strlen($commentaire) > 200) {
+    if(strlen($commentaire) > 200){
         $_SESSION["erreur"] = "Commentaire trop long.";
         header("Location: modifier-reservation.php?id=" . urlencode($id));
         exit();
@@ -206,7 +201,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <p class="subtitle">MODIFIER UNE RÉSERVATION</p>
         <h2>Modifier ma réservation</h2>
 
-        <?php if (isset($_SESSION["erreur"])) { ?>
+        <?php if(isset($_SESSION["erreur"])){ ?>
             <div class="erreur">
                 <?php echo h($_SESSION["erreur"]); ?>
             </div>

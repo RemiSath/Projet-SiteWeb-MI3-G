@@ -2,6 +2,7 @@
 session_start();
 
 require(__DIR__ . "/getapikey.php");
+require_once __DIR__ . "/bibliothèques/logs.php";
 
 function utiliserTicketReduction(&$commandes, $email, $montantAUtiliser)
 {
@@ -56,11 +57,33 @@ $control_local = md5(
 );
 
 if ($control !== $control_local) {
-    die("Erreur de sécurité : données invalides");
+    enregistrerLogIncident(
+        "paiement_control_invalide",
+        "Retour paiement avec controle invalide.",
+        $_SESSION["email"] ?? "",
+        [
+            "transaction" => $transaction,
+            "montant" => $montant,
+            "statut" => $statut
+        ]
+    );
+
+    die("Erreur de securite : donnees invalides");
 }
 
 if (!in_array($statut, ["accepted", "denied"], true)) {
-    die("Erreur de sécurité : statut de paiement invalide");
+    enregistrerLogIncident(
+        "paiement_statut_invalide",
+        "Retour paiement avec statut inconnu.",
+        $_SESSION["email"] ?? "",
+        [
+            "transaction" => $transaction,
+            "montant" => $montant,
+            "statut" => $statut
+        ]
+    );
+
+    die("Erreur de securite : statut de paiement invalide");
 }
 
 $fichierCommandes = __DIR__ . "/data/commandes.json";
@@ -79,18 +102,39 @@ if (
     $montantAttendu = $_SESSION["commande_en_attente"]["montant"] ?? 0;
 
     if (!montantIdentique($montantAttendu, $montant)) {
-        die("Erreur de sécurité : montant invalide");
+        enregistrerLogIncident(
+            "paiement_montant_invalide",
+            "Montant du paiement initial different du montant attendu.",
+            $_SESSION["commande_en_attente"]["commande"]["email"] ?? "",
+            [
+                "transaction" => $transaction,
+                "attendu" => $montantAttendu,
+                "recu" => $montant
+            ]
+        );
+
+        die("Erreur de securite : montant invalide");
     }
 
     if ($statut === "denied") {
+        enregistrerLogIncident(
+            "paiement_refuse",
+            "Paiement initial refuse.",
+            $_SESSION["commande_en_attente"]["commande"]["email"] ?? "",
+            [
+                "transaction" => $transaction,
+                "montant" => $montant
+            ]
+        );
+
         unset($_SESSION["commande_en_attente"]);
-        $_SESSION["erreur"] = "Paiement refusé. Votre commande a été annulée.";
+        $_SESSION["erreur"] = "Paiement refuse. Votre commande a ete annulee.";
         header("Location: page-d'accueil.php");
         exit();
     }
 
     if ($statut !== "accepted") {
-        die("Erreur de sécurité : paiement non accepté");
+        die("Erreur de securite : paiement non accepte");
     }
 
     $commande = $_SESSION["commande_en_attente"]["commande"];
@@ -103,8 +147,10 @@ if (
     $commande["id"] = !empty($commandes)
         ? max(array_column($commandes, "id")) + 1
         : 1;
+
     $commande["total_paye"] = floatval($montant);
     $commande["reste_a_payer"] = 0;
+
     $commande["paiements"][] = [
         "transaction" => $transaction,
         "montant" => floatval($montant),
@@ -139,6 +185,16 @@ foreach ($commandes as &$commande) {
         $commandeTrouvee = true;
 
         if ($statut === "denied") {
+            enregistrerLogIncident(
+                "paiement_difference_refuse",
+                "Paiement de difference refuse.",
+                $commande["email"] ?? "",
+                [
+                    "transaction" => $transaction,
+                    "montant" => $montant
+                ]
+            );
+
             $commande["paiements"][] = [
                 "transaction" => $transaction,
                 "montant" => floatval($montant),
@@ -146,24 +202,37 @@ foreach ($commandes as &$commande) {
                 "type" => "difference",
                 "date" => date("Y-m-d H:i:s")
             ];
+
             unset($commande["modification_en_attente"]);
             break;
         }
 
         if ($statut !== "accepted") {
-            die("Erreur de sécurité : paiement non accepté");
+            die("Erreur de securite : paiement non accepte");
         }
 
         $modification = $commande["modification_en_attente"];
 
         if (!montantIdentique($modification["difference"] ?? 0, $montant)) {
-            die("Erreur de sécurité : montant invalide");
+            enregistrerLogIncident(
+                "paiement_difference_montant_invalide",
+                "Montant de difference different du montant attendu.",
+                $commande["email"] ?? "",
+                [
+                    "transaction" => $transaction,
+                    "attendu" => $modification["difference"] ?? 0,
+                    "recu" => $montant
+                ]
+            );
+
+            die("Erreur de securite : montant invalide");
         }
 
         $commande["plats"] = $modification["plats"];
         $commande["total_actuel"] = $modification["nouveau_total"];
         $commande["total_paye"] = floatval($commande["total_paye"] ?? 0) + floatval($montant);
         $commande["reste_a_payer"] = 0;
+
         $commande["paiements"][] = [
             "transaction" => $transaction,
             "montant" => floatval($montant),
@@ -187,14 +256,25 @@ if ($commandeTrouvee) {
     );
 
     if ($statut === "denied") {
-        $_SESSION["erreur"] = "Paiement refusé. La modification n'a pas été appliquée.";
+        $_SESSION["erreur"] = "Paiement refuse. La modification n'a pas ete appliquee.";
     } else {
-        $_SESSION["message"] = "Commande modifiée avec succès.";
+        $_SESSION["message"] = "Commande modifiee avec succes.";
     }
 
     header("Location: profil.php");
     exit();
 }
+
+enregistrerLogIncident(
+    "paiement_transaction_introuvable",
+    "Retour paiement sans commande correspondante.",
+    $_SESSION["email"] ?? "",
+    [
+        "transaction" => $transaction,
+        "montant" => $montant,
+        "statut" => $statut
+    ]
+);
 
 header("Location: profil.php");
 exit();

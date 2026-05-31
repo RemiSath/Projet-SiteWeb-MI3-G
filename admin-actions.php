@@ -1,16 +1,25 @@
 <?php
 session_start();
+require_once __DIR__ . "/bibliothèques/logs.php";
 
-if(!isset($_SESSION["statut"]) || $_SESSION["statut"] !== "Admin"){
+if (!isset($_SESSION["statut"]) || $_SESSION["statut"] !== "Admin") {
+    enregistrerLogIncident(
+        "acces_admin_refuse",
+        "Tentative d'acces a une action administrateur sans droit admin.",
+        $_SESSION["email"] ?? ""
+    );
+
     header("Location: connexion.php");
     exit();
 }
 
 $isFetch = isset($_POST["requete_fetch"]);
 
-function repondre($success, $message, $extra = []){
+function repondre($success, $message, $extra = [])
+{
     global $isFetch;
-    if($isFetch){
+
+    if ($isFetch) {
         header("Content-Type: application/json; charset=utf-8");
         echo json_encode(array_merge([
             "success" => $success,
@@ -18,7 +27,8 @@ function repondre($success, $message, $extra = []){
         ], $extra));
         exit();
     }
-    if($success){
+
+    if ($success) {
         $_SESSION["message_admin"] = $message;
     } else {
         $_SESSION["erreur_admin"] = $message;
@@ -28,7 +38,7 @@ function repondre($success, $message, $extra = []){
 $fichierComptes = __DIR__ . "/data/compte.json";
 $fichierCommandes = __DIR__ . "/data/commandes.json";
 
-if(!is_dir(__DIR__ . "/data")){
+if (!is_dir(__DIR__ . "/data")) {
     mkdir(__DIR__ . "/data", 0777, true);
 }
 
@@ -36,7 +46,7 @@ $utilisateurs = file_exists($fichierComptes)
     ? json_decode(file_get_contents($fichierComptes), true)
     : [];
 
-if(!is_array($utilisateurs)){
+if (!is_array($utilisateurs)) {
     $utilisateurs = [];
 }
 
@@ -44,11 +54,11 @@ $commandes = file_exists($fichierCommandes)
     ? json_decode(file_get_contents($fichierCommandes), true)
     : [];
 
-if(!is_array($commandes)){
+if (!is_array($commandes)) {
     $commandes = [];
 }
 
-if($_SERVER["REQUEST_METHOD"] !== "POST"){
+if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     header("Location: Admin.php");
     exit();
 }
@@ -57,73 +67,103 @@ $id = $_POST["id"] ?? "";
 $action = $_POST["action"] ?? "";
 $actionsAutorisees = ["bloquer", "debloquer", "premium", "vip", "client", "remise"];
 
-if(!in_array($action, $actionsAutorisees, true)){
-    repondre(false, "Action non autorisée.");
+if (!in_array($action, $actionsAutorisees, true)) {
+    enregistrerLogIncident(
+        "action_admin_invalide",
+        "Action administrateur non autorisee.",
+        $_SESSION["email"] ?? "",
+        ["action" => $action]
+    );
+
+    repondre(false, "Action non autorisee.");
     header("Location: admin-pouvoirs.php?id=" . urlencode($id));
     exit();
 }
 
 $index = null;
 
-foreach ($utilisateurs as $key => $utilisateur){
-    if(($utilisateur["id"] ?? "") === $id){
+foreach ($utilisateurs as $key => $utilisateur) {
+    if (($utilisateur["id"] ?? "") === $id) {
         $index = $key;
         break;
     }
 }
 
-if($index === null){
+if ($index === null) {
     repondre(false, "Utilisateur introuvable.");
     header("Location: Admin.php");
     exit();
 }
 
-if(
+if (
     strtolower(trim($utilisateurs[$index]["email"] ?? "")) === strtolower(trim($_SESSION["email"] ?? "")) ||
     ($utilisateurs[$index]["statut"] ?? "") === "Admin"
-){
+) {
+    enregistrerLogIncident(
+        "action_admin_interdite",
+        "Tentative d'action admin sur son propre compte ou sur un autre admin.",
+        $_SESSION["email"] ?? "",
+        ["cible" => $utilisateurs[$index]["email"] ?? ""]
+    );
+
     repondre(false, "Action interdite sur ce compte.");
     header("Location: admin-pouvoirs.php?id=" . urlencode($id));
     exit();
 }
 
-if($action === "bloquer"){
+if ($action === "bloquer") {
     $utilisateurs[$index]["bloque"] = true;
-    $message = "Compte bloqué.";
+
+    enregistrerLogIncident(
+        "blocage_compte",
+        "Compte bloque par un administrateur.",
+        $utilisateurs[$index]["email"] ?? "",
+        ["admin" => $_SESSION["email"] ?? ""]
+    );
+
+    $message = "Compte bloque.";
 }
 
-if($action === "debloquer"){
+if ($action === "debloquer") {
     $utilisateurs[$index]["bloque"] = false;
-    $message = "Compte débloqué.";
+
+    enregistrerLogIncident(
+        "deblocage_compte",
+        "Compte debloque par un administrateur.",
+        $utilisateurs[$index]["email"] ?? "",
+        ["admin" => $_SESSION["email"] ?? ""]
+    );
+
+    $message = "Compte debloque.";
 }
 
-if($action === "premium"){
+if ($action === "premium") {
     $utilisateurs[$index]["statut"] = "Premium";
-    $message = "Statut Premium appliqué.";
+    $message = "Statut Premium applique.";
 }
 
-if($action === "vip"){
+if ($action === "vip") {
     $utilisateurs[$index]["statut"] = "VIP";
-    $message = "Statut VIP appliqué.";
+    $message = "Statut VIP applique.";
 }
 
-if($action === "client"){
+if ($action === "client") {
     $utilisateurs[$index]["statut"] = "Client";
-    $message = "Statut Client appliqué.";
+    $message = "Statut Client applique.";
 }
 
-if($action === "remise"){
+if ($action === "remise") {
     $montant = floatval($_POST["montant_reduction"] ?? 0);
     $commentaire = trim($_POST["commentaire_reduction"] ?? "");
 
-    if($montant < 0.01 || $montant > 200){
-        repondre(false, "Le montant du bon doit être compris entre 0,01 € et 200 €.");
+    if ($montant < 0.01 || $montant > 200) {
+        repondre(false, "Le montant du bon doit etre compris entre 0,01 euro et 200 euros.");
         header("Location: admin-pouvoirs.php?id=" . urlencode($id));
         exit();
     }
 
-    if(strlen($commentaire) > 200){
-        repondre(false, "Le commentaire du bon est limité à 200 caractères.");
+    if (strlen($commentaire) > 200) {
+        repondre(false, "Le commentaire du bon est limite a 200 caracteres.");
         header("Location: admin-pouvoirs.php?id=" . urlencode($id));
         exit();
     }
@@ -157,7 +197,18 @@ if($action === "remise"){
         json_encode($commandes, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE),
         LOCK_EX
     );
-    $message = "Bon de réduction accordé avec succès.";
+
+    enregistrerLogIncident(
+        "bon_reduction_admin",
+        "Bon de reduction accorde par un administrateur.",
+        $utilisateurs[$index]["email"] ?? "",
+        [
+            "admin" => $_SESSION["email"] ?? "",
+            "montant" => $montant
+        ]
+    );
+
+    $message = "Bon de reduction accorde avec succes.";
 }
 
 file_put_contents(
@@ -166,7 +217,7 @@ file_put_contents(
     LOCK_EX
 );
 
-repondre(true, $message ?? "Action effectuée.", [
+repondre(true, $message ?? "Action effectuee.", [
     "statut" => $utilisateurs[$index]["statut"] ?? "",
     "bloque" => !empty($utilisateurs[$index]["bloque"])
 ]);

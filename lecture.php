@@ -1,5 +1,9 @@
 <?php
     session_start();
+    if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+        header("Location: connexion.php");
+        exit;
+    }
 
     $fichier = __DIR__ . "/data/compte.json";
 
@@ -14,8 +18,13 @@
     $json = file_get_contents($fichier);
     $array = json_decode($json, true) ?? [];
 
-    $email = trim($_POST["email"]);
-    $password = $_POST["password"];
+    $email = strtolower(trim($_POST["email"] ?? ""));
+    $password = $_POST["password"] ?? "";
+
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL) || $password === "") {
+        echo "email";
+        exit;
+    }
 
     $utilisateurTrouve = false;
 
